@@ -9,6 +9,7 @@ while in the venv environment,
     -------------------------------------------------------------------------
     pip install flask
     pip install python-dotenv (to allow using an env file instead of setting the environment variables every time through the terminal)
+    pip install flask-wtf (for handling forms)
     RUNNING - creating global variables so that flask knows how to execute the application
     ---------------------------------------------------------------------------------------
     export FLASK_APP=threatmanager.py (not needed if python-dotenv was installed and .flaskenv created with correct variables)
