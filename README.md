@@ -16,3 +16,6 @@ while in the venv environment,
     ---------------------------------------------------------------------------------------
     export FLASK_APP=threatmanager.py (not needed if python-dotenv was installed and .flaskenv created with correct variables)
     flask run
+    flask db init (if migrations repo has not been created yet. usually only once, in the beginning of the project)
+    flask db migrate (to generate migration scripts. these scripts are used to update the db schema according to the application code)
+    flask db upgrade (to apply the changes in the migration script to the db schema)
