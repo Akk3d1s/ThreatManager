@@ -11,6 +11,7 @@ while in the venv environment,
     pip install python-dotenv (to allow using an env file instead of setting the environment variables every time through the terminal)
     pip install flask-wtf (for handling forms)
     pip install flask-sqlalchemy (ORM for databases such as sql-lite, mysql etc)
+    pip install flask-migrate (handy tool for handling robust changes to our database in the future)
     RUNNING - creating global variables so that flask knows how to execute the application
     ---------------------------------------------------------------------------------------
     export FLASK_APP=threatmanager.py (not needed if python-dotenv was installed and .flaskenv created with correct variables)
