@@ -13,6 +13,7 @@ while in the venv environment,
     pip install flask-sqlalchemy (ORM for databases such as sql-lite, mysql etc)
     pip install flask-migrate (handy tool for handling robust changes to our database in the future)
     pip install flask-login
+    pip install email-validator
 
 ## running
 export FLASK_APP=threatmanager.py (not needed if python-dotenv was installed and .flaskenv created with correct variables)
