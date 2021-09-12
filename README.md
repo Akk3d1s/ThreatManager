@@ -14,6 +14,14 @@ while in the venv environment,
     pip install flask-migrate (handy tool for handling robust changes to our database in the future)
     pip install flask-login
     pip install email-validator
+    pip install flask-mail
+    pip install pyjwt
+    pip install safety (check for security vulnerabilities in the dependencies
+    pip install pylint
+    pip install pyflakes
+    pip install flake8
+    pip install pyotp (https://www.section.io/engineering-education/implementing-totp-2fa-using-flask/)
+
 
 ## running
 export FLASK_APP=threatmanager.py (not needed if python-dotenv was installed and .flaskenv created with correct variables)
