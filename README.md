@@ -21,6 +21,8 @@ while in the venv environment,
     pip install pyflakes
     pip install flake8
     pip install pyotp (https://www.section.io/engineering-education/implementing-totp-2fa-using-flask/)
+    pip install pytest
+    pip install pytest-cov (coverage reports through "pytest -v --cov=app --cov-report=html"))
 
 
 ## running
