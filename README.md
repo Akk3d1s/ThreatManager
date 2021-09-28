@@ -21,9 +21,7 @@ while in the venv environment:
 - pip install pyotp (https://www.section.io/engineering-education/implementing-totp-2fa-using-flask/)
 - pip install pytest
 - pip install pytest-cov (coverage reports through "pytest -v --cov=app --cov-report=html"))
-- export FLASK_APP=threatmanager.py (not needed if python-dotenv was installed and .flaskenv created with correct variables)
 - flask db init (if migrations repo has not been created yet. usually only once, in the beginning of the project)
-
 
 ## Running
 ### Serve the app
