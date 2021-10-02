@@ -1,0 +1,92 @@
+"""altertable_threat
+
+Revision ID: fd07d3122ed8
+Revises: 3547414a9813
+Create Date: 2021-10-01 21:39:43.974748
+
+"""
+from alembic import op
+import sqlalchemy as sa
+
+
+# revision identifiers, used by Alembic.
+revision = 'fd07d3122ed8'
+down_revision = '3547414a9813'
+branch_labels = None
+depends_on = None
+
+
+def upgrade():
+    # op.alter_column('threat', 'body', None, False, False, 'description')
+    op.add_column('threat', sa.Column('description', sa.String(length=126), nullable=True))
+    op.add_column('threat', sa.Column('title', sa.String(length=64), nullable=True))
+    op.add_column('threat', sa.Column('steps', sa.String(length=126), nullable=True))
+    op.add_column('threat', sa.Column('status_id', sa.Integer(), nullable=False))
+    op.add_column('threat', sa.Column('attachment_id', sa.Integer(), nullable=False))
+    op.create_foreign_key(['fk_threat_threat_status'], 'threat', 'threat_status', ['status_id'], ['id'])
+    op.create_foreign_key(['fk_threat_threat_attachment'], 'threat', 'threat_attachment', ['attachment_id'], ['id'])
+    
+
+def downgrade():
+    op.drop_column('threat', 'attachment_id')
+    op.drop_column('threat', 'status_id')
+    op.drop_column('threat', 'steps')
+    op.drop_column('threat', 'title')
+    op.drop_column('threat', 'situation')
+    # op.alter_column('threat', 'description', None, False, False, 'body')
+
+
+"""createtable_user_role
+
+Revision ID: 8b1c7f3d8ead
+Revises: fd07d3122ed8
+Create Date: 2021-10-01 23:22:25.729636
+
+"""
+from alembic import op
+import sqlalchemy as sa
+
+
+# revision identifiers, used by Alembic.
+revision = '8b1c7f3d8ead'
+down_revision = 'fd07d3122ed8'
+branch_labels = None
+depends_on = None
+
+
+def upgrade():
+    op.create_table('user_role',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('role', sa.String(length=64), nullable=True),
+    sa.PrimaryKeyConstraint('id')
+    )
+
+
+def downgrade():
+    op.drop_table('user_role')
+
+"""altertable_user
+
+Revision ID: a715eeb2a25b
+Revises: 8b1c7f3d8ead
+Create Date: 2021-10-01 23:35:52.493428
+
+"""
+from alembic import op
+import sqlalchemy as sa
+
+
+# revision identifiers, used by Alembic.
+revision = 'a715eeb2a25b'
+down_revision = '8b1c7f3d8ead'
+branch_labels = None
+depends_on = None
+
+
+def upgrade():
+    op.add_column('user', sa.Column('role_id', sa.Integer(), nullable=True))
+    op.create_foreign_key(None, 'user', 'user_role', 'role_id', 'id')
+
+
+def downgrade():
+    op.drop_column('user', 'user_role')

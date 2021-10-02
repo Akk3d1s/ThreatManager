@@ -1,8 +1,7 @@
-{% extends "base.html" %}
-
-{% block content %}
-    <h1>Hi, {{ current_user.username }}!</h1>
-    {% for threat in threats %}
-    <div><p>{{ threat.author.username }} says: <b>{{ threat.body }}</b></p></div>
-    {% endfor %}
-{% endblock %}
+{% extends "base.html" %} {% block content %}
+<h1>Hi, {{ current_user.firstname }}!</h1>
+{% for threat in threats %}
+<div>
+    <p>{{ threat.author.username }} says: <b>{{ threat.body }}</b></p>
+</div>
+{% endfor %} {% endblock %}
