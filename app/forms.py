@@ -27,3 +27,8 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Please use a different email address.')
+
+class ThreatReportForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    description = StringField('Description', validators=[DataRequired()])
+    recreation_steps = StringField('Steps', validators=[DataRequired()])
