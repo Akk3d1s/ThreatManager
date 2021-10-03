@@ -69,3 +69,9 @@ def report():
         return redirect(url_for('index'))
     return render_template('report.html', title='Report', form=form)
 
+@app.route('/start/<int:threat_id>', methods=['GET', 'POST'])
+def start(threat_id=None):
+    threat = Threat.query.filter_by(id=threat_id).first()
+    threat.status_id = 2
+    db.session.commit()
+    return redirect(url_for('index'))
