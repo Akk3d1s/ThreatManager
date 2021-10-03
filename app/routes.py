@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, url_for, request
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, ThreatReportForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Threat
+from app.models import User, Threat, ThreatStatus, ThreatCategory
 from werkzeug.urls import url_parse
 
 @app.route('/')
@@ -16,7 +16,9 @@ def index():
         return render_template("citizen.html", title='Home Page', threats=threats)
     # police roles
     else:
-        threats = db.session.query(User, Threat).filter(User.id == Threat.user_id).all()
+        threats = db.session.query(User, Threat, ThreatStatus, ThreatCategory).filter(User.id==Threat.user_id).filter(Threat.status_id==ThreatStatus.id).filter(Threat.category_id==ThreatCategory.id).all()
+        # threats = db.session.query(User, Threat).filter(User.id == Threat.user_id).filter(User.id == current_user.id).all()
+
         return render_template("editor.html", title='Home Page', threats=threats)
 
 @app.route('/login', methods=['GET', 'POST'])
