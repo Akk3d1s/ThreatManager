@@ -67,8 +67,14 @@
                     <div class="caseResolvedStatus">{{threat.ThreatStatus.status}}</div>
                     <div id="buttonBlock">
                         <div style="justify-content: center;color:black;margin: 10px;">Approval Application:</div> 
+                        {% if threat.ThreatStatus.id == 1 %}
+                        <div type="button" class="btn btn-outline-info">Emergency level</div>
+                        <div type="button" class="btn btn-outline-danger approvalApplicationButton">Start case</div>
+                        {% elif threat.ThreatStatus.id == 2 %}
+                        {% else %}
                         <div type="button" class="btn btn-outline-info">Emergency level</div>
                         <div type="button" class="btn btn-outline-primary approvalApplicationButton">End case</div>
+                        {% endif %}
                     </div>
                 </div>  
             </button>

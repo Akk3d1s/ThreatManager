@@ -13,6 +13,8 @@ db.session.add(role)
 
 status = ThreatStatus(status='Pending')
 db.session.add(status)
+status = ThreatStatus(status='Approving')
+db.session.add(status)
 status = ThreatStatus(status='Resolving')
 db.session.add(status)
 status = ThreatStatus(status='Resolved')
