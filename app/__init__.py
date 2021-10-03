@@ -11,8 +11,12 @@ migrate = Migrate(app, db)
 login = LoginManager(app)
 login.login_view = 'login'
 
-from app import routes, models
+from app import models, controllers
 
 ## not imported elsewhere
 from app.models.role import Role
 from app.models.threat import Threat
+from app.controllers.index import *
+from app.controllers.login import *
+from app.controllers.logout import *
+from app.controllers.register import *
