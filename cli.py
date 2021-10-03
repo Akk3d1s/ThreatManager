@@ -5,7 +5,8 @@
 import os
 import subprocess
 import shutil
-from app.models import Role, Roles
+
+from app.models.role import Roles, Role
 
 
 def execute_command(command):

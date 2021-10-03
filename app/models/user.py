@@ -1,16 +1,8 @@
 from datetime import datetime
 from app import db, login
-from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-from enum import Enum
+from werkzeug.security import generate_password_hash, check_password_hash
 
-class Roles(Enum):
-    PUBLIC = 'PUBLIC'
-    READ = 'READ'
-    EDITOR = 'EDITOR'
-    APPROVER = 'APPROVER'
-    DEVELOPER = 'DEVELOPER'
-    ADMIN = 'ADMIN'
 
 @login.user_loader
 def load_user(id):
@@ -37,26 +29,3 @@ class User(UserMixin, db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
-
-class Threat(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    body = db.Column(db.String(140))
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
-    def __repr__(self):
-        return '<Threat {}>'.format(self.body)
-
-class Role(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    role = db.Column(db.String(20), default=Roles.PUBLIC)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-
-    def save(self):
-        db.session.add(self)
-        db.session.commit()
-
-    def __repr__(self):
-        role = Role(role='PUBLIC')
-        role.save()
-        return '<Role {}>'.format(self.role)
