@@ -15,16 +15,16 @@ def execute_command(command):
     except Exception:
         print("psh: command not found: {}".format(command))
 
-def psh_recreate_db():
+def psh_init():
     """Recreate new database with migration scripts"""
-    psh_delete_db()
+    psh_delete()
     f = open("app.db", "x")
     execute_command('flask db init')
     execute_command('flask db migrate')
     execute_command('flask db upgrade')
     psh_seed()
 
-def psh_delete_db():
+def psh_delete():
     """delete database"""
     if os.path.exists("app.db"):
         os.remove("app.db")
@@ -47,8 +47,9 @@ def psh_seed():
 def psh_help():
     print("""psh: shell implementation in Python.
           Supports all basic shell commands in addition to custom commands such as: 
-          - add
-          - list""")
+          - init
+          - delete
+          - seed""")
 
 def main():
     while True:
@@ -58,11 +59,11 @@ def main():
         elif inp[0] == "seed":
             psh_seed()
             break
-        elif inp[0] == "delete-db":
-            psh_delete_db()
+        elif inp[0] == "delete":
+            psh_delete()
             break
-        elif inp[0] == "recreate-db":
-            psh_recreate_db()
+        elif inp[0] == "init":
+            psh_init()
             break
         elif inp[0] == "help":
             psh_help()
