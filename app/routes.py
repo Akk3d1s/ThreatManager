@@ -9,12 +9,15 @@ from werkzeug.urls import url_parse
 @app.route('/index')
 @login_required
 def index():
+    # citizen role
     if current_user.role_id == 10:
         # threats = current_user.threats
         threats = db.session.query(User, Threat).filter(User.id == Threat.user_id).filter(User.id == current_user.id).all()
+        return render_template("citizen.html", title='Home Page', threats=threats)
+    # police roles
     else:
         threats = db.session.query(User, Threat).filter(User.id == Threat.user_id).all()
-    return render_template("index.html", title='Home Page', threats=threats)
+        return render_template("editor.html", title='Home Page', threats=threats)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

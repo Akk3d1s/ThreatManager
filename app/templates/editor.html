@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/editor.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+    <title>Editor</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Editor role</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarScroll">
+                <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">All Cases</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                            <li><a class="dropdown-item" href="#">New Cases</a></li>
+                            <li><a class="dropdown-item" href="#">Current Cases</a></li>
+                            <li><a class="dropdown-item" href="#">Cases History</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+            <div class="accountInfo">
+                <i class="fas fa-user-circle"></i> {{ current_user.firstname }} {{ current_user.surename}}
+            </div>
+            <button class="btn btn-outline-success" type="submit">Logout</button>
+        </div>
+    </nav>
+    <!-- {% extends "base.html" %} {% block content %} -->
+    <!-- <h1>Hi, Editor {{ current_user.firstname }}!</h1> -->
+    <div class="casesInfoHeader">
+        <div style="display: flex;">
+            <div class="caseReportButton">
+                <a href="{{ url_for('report') }}">Report New Threat<i class="fas fa-plus-circle"></i></a>
+            </div>
+            <div class="caseDownloadButton">Download Case Logs as Table <i class="fas fa-download"></i></div>
+        </div>
+        <div class="casesInfoContainer">
+            <div>New Cases: 3 Current Cases:2 Resolved Cases: 14</div>
+        </div>
+    </div>
+    {% for threat in threats %}
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                        <div id="historyBlockHeader">
+                            <div class="caseTopic">{{threat.Threat.title}}</div>
+                            <div class="emergencyLevel"><div class="normal">{{threat.Threat.category}}</div></div>
+                            <div class="caseResolvedStatus">{{threat.Threat.status}}</div>
+                            <div id="buttonBlock">
+                                <!-- <div style="justify-content: center;color:black;margin: 10px;">Approval Application:</div> 
+                                <div type="button" class="btn btn-outline-info">Emergency level</div>
+                                <div type="button" class="btn btn-outline-danger approvalApplicationButton">Continue case</div> -->
+                            </div>
+                        </div>  
+                    </button>
+        </h2>
+        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+            <div class="accordion-body">
+                <div id="emailBlock">
+                    <div id="emailBlockHeader">
+                        <div style="display:flex; justify-content: space-between; width: 50vw;">
+                            <div class="commentFromCitizen">
+                                From: {{threat.User.email}}
+                            </div>
+                            <div>
+                                Date: {{threat.Threat.timestamp}}<br>
+                            </div>
+                        </div>
+                        <button type="button">Download Attachments</button>
+                    </div>
+                    <div class="logTopic">Description of the issue:</div>
+                    <div class="caseInfoLogger">
+                        <div style="width: 3vw">
+                        </div>
+                        <div style="width: 97vw">
+                            {{threat.Threat.description}}
+                        </div>
+                    </div>
+                    <div class="logTopic">Steps reproducing the issue:</div>
+                    <div class="caseInfoLogger">
+                        <div style="width: 3vw">
+                        </div>
+                        <div style="width: 97vw">
+                            {{threat.Threat.recreation_steps}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div>
+        <p>{{ threat.Threat.title }} reporter: {{threat.User.firstname}} <b><br>{{ threat.description }}<br>{{threat.recreation_steps}}</b></p>
+    </div> -->
+    {% endfor %} {% endblock %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN" crossorigin="anonymous"></script>
+</body>
+
+</html>
