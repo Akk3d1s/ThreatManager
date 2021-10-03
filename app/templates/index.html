@@ -28,7 +28,7 @@
     </div>
     {% for threat in threats %}
     <div>
-        <p>{{ threat.id }} reporter: {{threat.user_id}} <b>{{ threat.title }}<br>{{ threat.description }}<br>{{threat.recreation_steps}}</b></p>
+        <p>{{ threat.Threat.title }} reporter: {{threat.User.firstname}} <b><br>{{ threat.description }}<br>{{threat.recreation_steps}}</b></p>
     </div>
     {% endfor %} {% endblock %}
 </body>
