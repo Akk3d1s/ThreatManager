@@ -12,3 +12,7 @@ login = LoginManager(app)
 login.login_view = 'login'
 
 from app import routes, models
+
+## not imported elsewhere
+from app.models.role import Role
+from app.models.threat import Threat
