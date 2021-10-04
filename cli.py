@@ -5,7 +5,13 @@
 import os
 import subprocess
 import shutil
-from app.models import Role, Roles
+
+from app.models.user_role import UserRole, UserRoles
+from app.models.threat_status import ThreatStatus, ThreatStatuses
+from app.models.threat_category import ThreatCategory, ThreatCategories
+from app.models.threat_attachment import ThreatAttachment
+from app.models.threat_attachment_extension import ThreatAttachmentExtension
+
 
 
 def execute_command(command):
@@ -15,16 +21,16 @@ def execute_command(command):
     except Exception:
         print("psh: command not found: {}".format(command))
 
-def psh_recreate_db():
+def psh_init():
     """Recreate new database with migration scripts"""
-    psh_delete_db()
+    psh_delete()
     f = open("app.db", "x")
     execute_command('flask db init')
     execute_command('flask db migrate')
     execute_command('flask db upgrade')
     psh_seed()
 
-def psh_delete_db():
+def psh_delete():
     """delete database"""
     if os.path.exists("app.db"):
         os.remove("app.db")
@@ -39,16 +45,29 @@ def psh_delete_db():
 
 def psh_seed():
     """seed data into tables"""
-    roles = [str(Roles.PUBLIC), str(Roles.READ), str(Roles.EDITOR), str(Roles.APPROVER), str(Roles.DEVELOPER), str(Roles.ADMIN)]
+    roles = [str(UserRoles.PUBLIC), str(UserRoles.READ), str(UserRoles.EDITOR), str(UserRoles.APPROVER), str(UserRoles.DEVELOPER), str(UserRoles.ADMIN)]
     for r in roles:
-        role = Role(role=r.replace('Roles.', ''))
+        role = UserRole(role=r.replace('UserRoles.', ''))
         role.save()
+    statuses = [str(ThreatStatuses.PENDING), str(ThreatStatuses.APPROVING), str(ThreatStatuses.RESOLVING), str(ThreatStatuses.RESOLVED)]
+    for s in statuses:
+        status = ThreatStatus(status=s.replace('ThreatStatuses.', ''))
+        status.save()
+    categories = [str(ThreatCategories.LOW), str(ThreatCategories.MEDIUM), str(ThreatCategories.HIGH), str(ThreatCategories.CRITICAL)]
+    for c in categories:
+        category = ThreatCategory(category=c.replace('ThreatCategories.', ''))
+        category.save()
+    # attachment = ThreatAttachment()
+    # attachment.save()
+
+    
 
 def psh_help():
     print("""psh: shell implementation in Python.
           Supports all basic shell commands in addition to custom commands such as: 
-          - add
-          - list""")
+          - init
+          - delete
+          - seed""")
 
 def main():
     while True:
@@ -58,11 +77,11 @@ def main():
         elif inp[0] == "seed":
             psh_seed()
             break
-        elif inp[0] == "delete-db":
-            psh_delete_db()
+        elif inp[0] == "delete":
+            psh_delete()
             break
-        elif inp[0] == "recreate-db":
-            psh_recreate_db()
+        elif inp[0] == "init":
+            psh_init()
             break
         elif inp[0] == "help":
             psh_help()

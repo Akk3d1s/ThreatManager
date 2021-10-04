@@ -31,3 +31,6 @@ while in the venv environment:
 - flask db migrate (to generate migration scripts. these scripts are used to update the db schema according to the application code)
 - flask db upgrade (to apply the changes in the migration script to the db schema)
 - flask db downgrade (this will undo the last migration)
+
+### Fresh rebuild
+Use the CLI: "python cli.py" and then "init"
