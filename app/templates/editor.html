@@ -40,7 +40,9 @@
             <div class="accountInfo">
                 <i class="fas fa-user-circle"></i> {{ current_user.firstname }} {{ current_user.surename}}
             </div>
-            <button class="btn btn-outline-success" type="submit">Logout</button>
+            <a href="{{ url_for('logout') }}">
+                <button class="btn btn-outline-success" type="submit">Logout</button>
+            </a>
         </div>
     </nav>
     <!-- {% extends "base.html" %} {% block content %} -->
@@ -109,7 +111,7 @@
                             <div style="width: 3vw">
                             </div>
                             <div style="width: 97vw">
-                                {{threat.Threat.recreation_steps}}
+                                {{threat.Threat.reproduce_steps}}
                             </div>
                         </div>
                     </div>
@@ -125,7 +127,7 @@
         </div>
     </div>
     <!-- <div>
-        <p>{{ threat.Threat.title }} reporter: {{threat.User.firstname}} <b><br>{{ threat.description }}<br>{{threat.recreation_steps}}</b></p>
+        <p>{{ threat.Threat.title }} reporter: {{threat.User.firstname}} <b><br>{{ threat.description }}<br>{{threat.reproduce_steps}}</b></p>
     </div> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
     {% endfor %} {% endblock %}

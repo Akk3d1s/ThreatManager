@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
-from app.models import User
+from app.models.user import User
 
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired()])
@@ -31,4 +31,4 @@ class RegistrationForm(FlaskForm):
 class ThreatReportForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     description = StringField('Description', validators=[DataRequired()])
-    recreation_steps = StringField('Steps', validators=[DataRequired()])
+    reproduce_steps = StringField('Steps', validators=[DataRequired()])
