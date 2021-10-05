@@ -32,3 +32,6 @@ class ThreatReportForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     description = StringField('Description', validators=[DataRequired()])
     reproduce_steps = StringField('Steps', validators=[DataRequired()])
+
+class ThreatCommentForm(FlaskForm):
+    comment = StringField('Comment', validators=[DataRequired()])

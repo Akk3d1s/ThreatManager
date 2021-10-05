@@ -88,8 +88,33 @@ def upgrade():
     )
     # op.create_index(op.f('ix_threat_attachment_timestamp'), 'threat_attachment', ['timestamp'], unique=False)
 
+    op.create_table('comment',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('comment', sa.String(length=140), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('user_id', sa.Integer(), nullable=True), 
+    sa.Column('threat_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
+    sa.ForeignKeyConstraint(['threat_id'], ['threat.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+
+    op.create_table('comment_attachment',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('address', sa.String(length=140), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=True),
+    sa.Column('comment_id', sa.Integer(), nullable=True),
+    sa.Column('extension_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['comment_id'], ['comment.id'], ),
+    sa.ForeignKeyConstraint(['extension_id'], ['extension.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    # op.create_index(op.f('ix_comment_attachment_timestamp'), 'comment_attachment', ['timestamp'], unique=False)
+
 
 def downgrade():
+    op.drop_table('comment_attachment')
+    op.drop_table('comment')
     op.drop_table('threat_attachment')
     op.drop_table('attachment_extension')
     op.drop_index(op.f('ix_threat_timestamp'), table_name='threat')
