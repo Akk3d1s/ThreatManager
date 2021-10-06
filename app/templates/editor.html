@@ -82,11 +82,13 @@
                         <a href="{{ url_for('newcase', threat_id=threat.Threat.id) }}">
                             <div type="button" class="btn btn-outline-danger approvalApplicationButton">Start case{{threat.Threat.id}}</div>
                         </a>
-                        {% elif threat.ThreatStatus.id == 2 %}
-                        {% else %}
+                        {% elif threat.ThreatStatus.id == 3 %}
                         <div style="justify-content: center;color:black;margin: 10px;">Approval Application:</div> 
                         <div type="button" class="btn btn-outline-info">Emergency level</div>
-                        <div type="button" class="btn btn-outline-primary approvalApplicationButton">End case</div>
+                        <a href="{{ url_for('endcase', threat_id=threat.Threat.id) }}">
+                            <div type="button" class="btn btn-outline-primary approvalApplicationButton">End case</div>
+                        </a>
+                        {% else %}
                         {% endif %}
                     </div>
                 </div>  
@@ -98,10 +100,13 @@
                         <div id="emailBlockHeader">
                             <div style="display:flex; justify-content: space-between; width: 50vw;">
                                 <div class="commentFromCitizen">
-                                    From: {{threat.User.email}}
+                                    From: {{threat.User.firstname}} {{threat.User.surename}} ({{threat.UserRole.role.lower()}})
                                 </div>
                                 <div>
-                                    Date: {{threat.Threat.timestamp}}<br>
+                                    {{threat.Threat.timestamp.strftime("Date: %m/%d/%Y")}}<br>
+                                </div>
+                                <div>
+                                    {{threat.Threat.timestamp.strftime("Time: %H:%M:%S")}}<br>
                                 </div>
                             </div>
                             <button type="button">Download Attachments</button>
@@ -128,10 +133,13 @@
                         <div id="emailBlockHeader">
                             <div style="display:flex; justify-content: space-between; width: 50vw;">
                                 <div class="commentFromApprover">
-                                    From: {{comment.User.email}}
+                                    From: {{comment.User.firstname}} {{comment.User.surename}} ({{comment.UserRole.role.lower()}})
                                 </div>
                                 <div>
-                                    Date: {{comment.Comment.created_at}}<br>
+                                    {{comment.Comment.created_at.strftime("Date: %m/%d/%Y")}}<br>
+                                </div>
+                                <div>
+                                    {{comment.Comment.created_at.strftime("Time: %H:%M:%S")}}<br>
                                 </div>
                             </div>
                             <button type="button">Download Attachments</button>

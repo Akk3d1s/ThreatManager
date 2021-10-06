@@ -21,5 +21,6 @@ from app.controllers.login import *
 from app.controllers.logout import *
 from app.controllers.register import *
 from app.controllers.report import *
-from app.controllers.application import *
+from app.controllers.application_case import *
+from app.controllers.application_role import *
 from app.controllers.comment import *
