@@ -42,7 +42,14 @@ def psh_delete():
     else:
         print("migrations does not exist")
 
-
+def psh_testing():
+	"""offers some automated security testing"""
+	tests = str(input(print("What do you want to test? |security| code quality"))) 
+	if tests == "security":
+		execute_command('safety check --full-report')
+	else:
+		print("Command not found")
+		
 def psh_seed():
     """seed data into tables"""
     roles = [str(UserRoles.PUBLIC), str(UserRoles.READ), str(UserRoles.EDITOR), str(UserRoles.APPROVER), str(UserRoles.DEVELOPER), str(UserRoles.ADMIN)]
@@ -67,7 +74,8 @@ def psh_help():
           Supports all basic shell commands in addition to custom commands such as: 
           - init
           - delete
-          - seed""")
+          - seed
+		  - testing""")
 
 def main():
     while True:
@@ -82,6 +90,9 @@ def main():
             break
         elif inp[0] == "init":
             psh_init()
+            break
+        elif inp[0] == "testing":
+            psh_testing()
             break
         elif inp[0] == "help":
             psh_help()
