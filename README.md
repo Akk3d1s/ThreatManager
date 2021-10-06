@@ -2,6 +2,33 @@
 
 
 ## Installation
+
+__Windows__
+1) Navigate to ThreatManager: e.g. cd/ThreatManager
+2) To create a virtual environment (recommended): Python -m venv venv
+3) To activate the installed environment: venv\scripts\activate
+4) While in the Venv environment copy and paste the below:
+pip install flask
+pip install python-dotenv
+pip install flask-wtf 
+pip install flask-sqlalchemy 
+pip install flask-migrate 
+pip install flask-login
+pip install email-validator
+pip install flask-mail
+pip install pyjwt
+pip install safety 
+pip install pylint
+pip install pyflakes
+pip install flake8
+pip install pyotp 
+pip install pytest
+pip install pytest-cov 
+flask db init
+6) python cli.py
+7) flask run
+
+__Linux and MacOS__
 "python3 -m venv venv" (this will run the venv package and create a virtual environment called venv. We do this to not affect our global version of python)
 to activate newly installed virtual environment type "source venv/bin/activate"
 while in the venv environment:
