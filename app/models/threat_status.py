@@ -4,9 +4,11 @@ from enum import Enum
 
 class ThreatStatuses(Enum):
     PENDING = 'PENDING'
-    APPROVING = 'APPROVING'
+    APPROVINGNEWCASE = 'APPROVINGNEWCASE'
     RESOLVING = 'RESOLVING'
+    APPROVINGENDCASE = 'APPROVINGENDCASE'
     RESOLVED = 'RESOLVED'
+    REJECTED = 'REJECTED'
 
 class ThreatStatus(db.Model):
     __tablename__ = 'threat_status'

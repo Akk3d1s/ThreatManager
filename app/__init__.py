@@ -21,4 +21,4 @@ from app.controllers.login import *
 from app.controllers.logout import *
 from app.controllers.register import *
 from app.controllers.report import *
-from app.controllers.startcase import *
+from app.controllers.application import *
