@@ -24,11 +24,17 @@
                         <a class="nav-link active" aria-current="page" href="#">Home</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">All Cases</a>
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Role Application</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                            <li><a class="dropdown-item" href="#">New Cases</a></li>
-                            <li><a class="dropdown-item" href="#">Current Cases</a></li>
-                            <li><a class="dropdown-item" href="#">Cases History</a></li>
+                            {% for userRole in userRoles %}
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('roleApplication', role_id=userRole.id)}}">{{ userRole.role.lower()}}</a>
+                            </li>
+                            {% endfor %}
+                            <!-- <li><a class="dropdown-item" href="#">Editor</a></li>
+                            <li><a class="dropdown-item" href="#">Approver</a></li>
+                            <li><a class="dropdown-item" href="#">Developer</a></li>
+                            <li><a class="dropdown-item" href="#">Admin</a></li> -->
                         </ul>
                     </li>
                 </ul>
@@ -68,9 +74,9 @@
                     <div class="emergencyLevel"><div class="normal">{{threat.ThreatCategory.category}}</div></div>
                     <div class="caseResolvedStatus">
                         {% if threat.ThreatStatus.status == "APPROVINGNEWCASE" %}
-                            NEW CASE
+                            New Case Application
                         {% elif threat.ThreatStatus.status == "APPROVINGENDCASE" %}
-                            END CASE
+                            End Case Application
                         {% endif %}
                     </div>
                 </div>  
@@ -82,10 +88,13 @@
                         <div id="emailBlockHeader">
                             <div style="display:flex; justify-content: space-between; width: 50vw;">
                                 <div class="commentFromCitizen">
-                                    From: {{threat.User.email}}
+                                    From: {{threat.User.firstname}} {{threat.User.surename}} ({{threat.UserRole.role.lower()}})
                                 </div>
                                 <div>
-                                    Date: {{threat.Threat.timestamp}}<br>
+                                    {{threat.Threat.timestamp.strftime("Date: %m/%d/%Y")}}<br>
+                                </div>
+                                <div>
+                                    {{threat.Threat.timestamp.strftime("Time: %H:%M:%S")}}<br>
                                 </div>
                             </div>
                             <button type="button">Download Attachments</button>
@@ -107,35 +116,48 @@
                             </div>
                         </div>
                     </div>
+                    {% for comment in comments %} {% if comment.Comment.threat_id == threat.Threat.id %}
+                    <div id="emailBlock">
+                        <div id="emailBlockHeader">
+                            <div style="display:flex; justify-content: space-between; width: 50vw;">
+                                <div class="commentFromApprover">
+                                    From: {{comment.User.firstname}} {{comment.User.surename}} ({{comment.UserRole.role.lower()}})
+                                </div>
+                                <div>
+                                    {{comment.Comment.created_at.strftime("Date: %m/%d/%Y")}}<br>
+                                </div>
+                                <div>
+                                    {{comment.Comment.created_at.strftime("Time: %H:%M:%S")}}<br>
+                                </div>
+                            </div>
+                            <button type="button">Download Attachments</button>
+                        </div>
+                        {{comment.Comment.comment}}
+                    </div>
+                    {% endif %} {% endfor %}
                 </div>
                 <div style="float: right">
                     . {% if threat.ThreatStatus.status == "APPROVINGNEWCASE" %}
                     <a href="{{ url_for('approveNewcase', threat_id=threat.Threat.id) }}">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Approve New Case</button>
-                        </div>
+                        <div type="button" class="btn btn-success approvalApplicationButton">Approve</div>
+
                     </a>
                     <a href="{{ url_for('rejectNewcase', threat_id=threat.Threat.id) }}">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Reject</button>
-                        </div>
+                        <div type="button" class="btn btn-danger approvalApplicationButton">Reject</div>
                     </a>
                     <button type="button" class="btn btn-secondary">Contact consulting agencies</button> {% elif threat.ThreatStatus.status == "APPROVINGENDCASE" %}
                     <a href="{{ url_for('approveEndcase', threat_id=threat.Threat.id) }}">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Approve End Case</button>
-                        </div>
+                        <div type="button" class="btn btn-success approvalApplicationButton">Approve</div>
                     </a>
                     <a href="{{ url_for('rejectEndcase', threat_id=threat.Threat.id) }}">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Reject</button>
-                        </div>
+                        <div type="button" class="btn btn-danger approvalApplicationButton">Reject</div>
                     </a>
                     <button type="button" class="btn btn-secondary">Contact consulting agencies</button> {% endif %}
                 </div>
                 <div class="chat">
-                    <form class="d-flex">
-                        <input class="form-control me-2" type="text" placeholder="Editor Reply" aria-label="Reply">
+                    <form class="d-flex" action="{{ url_for('comment', threat_id=threat.Threat.id )}}" method="post">
+                        {{ form.hidden_tag()}}
+                        <textarea name="comment" class="form-control me-2" type="text" placeholder="Editor Reply" aria-label="Reply"></textarea>
                         <button class="btn btn-outline-success" type="submit">Reply</button>
                         <button class="btn btn-outline-success" type="submit"><i class="fas fa-paperclip"></i></button>
                     </form>

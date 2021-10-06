@@ -1,7 +1,6 @@
-from flask import render_template, flash, redirect, url_for, request
+from flask import redirect, url_for
 from app import app, db
 from app.models.threat import Threat
-from flask_login import current_user
 
 
 @app.route('/newcase/<int:threat_id>', methods=['GET', 'POST'])

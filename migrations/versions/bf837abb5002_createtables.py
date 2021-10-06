@@ -111,8 +111,18 @@ def upgrade():
     )
     # op.create_index(op.f('ix_comment_attachment_timestamp'), 'comment_attachment', ['timestamp'], unique=False)
 
+    op.create_table('role_application',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('user_id', sa.Integer(), nullable=True),
+    sa.Column('role_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
+    sa.ForeignKeyConstraint(['role_id'], ['user_role.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
 
 def downgrade():
+    op.drop_table('role_application')
     op.drop_table('comment_attachment')
     op.drop_table('comment')
     op.drop_table('threat_attachment')
