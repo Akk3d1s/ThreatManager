@@ -25,3 +25,8 @@ class User(UserMixin, db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+

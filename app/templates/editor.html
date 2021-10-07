@@ -24,11 +24,17 @@
                         <a class="nav-link active" aria-current="page" href="#">Home</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">All Cases</a>
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Role Application</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                            <li><a class="dropdown-item" href="#">New Cases</a></li>
-                            <li><a class="dropdown-item" href="#">Current Cases</a></li>
-                            <li><a class="dropdown-item" href="#">Cases History</a></li>
+                            {% for userRole in userRoles %}
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('roleApplication', role_id=userRole.id)}}">{{ userRole.role.lower()}}</a>
+                            </li>
+                            {% endfor %}
+                            <!-- <li><a class="dropdown-item" href="#">Editor</a></li>
+                            <li><a class="dropdown-item" href="#">Approver</a></li>
+                            <li><a class="dropdown-item" href="#">Developer</a></li>
+                            <li><a class="dropdown-item" href="#">Admin</a></li> -->
                         </ul>
                     </li>
                 </ul>
