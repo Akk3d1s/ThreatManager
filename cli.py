@@ -6,6 +6,7 @@ import os
 import subprocess
 import shutil
 
+from app.models.user import User
 from app.models.user_role import UserRole, UserRoles
 from app.models.threat_status import ThreatStatus, ThreatStatuses
 from app.models.threat_category import ThreatCategory, ThreatCategories
@@ -64,6 +65,9 @@ def psh_seed():
     for c in categories:
         category = ThreatCategory(category=c.replace('ThreatCategories.', ''))
         category.save()
+    admin = User(firstname="Police", surename="Admin", email="admin@police.com", role_id=6)
+    admin.set_password("admin")
+    admin.save()
     # attachment = ThreatAttachment()
     # attachment.save()
 
