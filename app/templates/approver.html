@@ -10,7 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/editor.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
-    <title>Editor</title>
+    <title>Approver</title>
 </head>
 
 <body>
@@ -24,7 +24,8 @@
                         <a class="nav-link active" aria-current="page" href="#">Home</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Role Application</a>
+                        <a class="nav-link dropdown-toggle" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Role Application</a>
+
                         <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
                             {% for userRole in userRoles %}
                             <li>
@@ -32,11 +33,15 @@
                             </li>
                             {% endfor %}
                             <!-- <li><a class="dropdown-item" href="#">Editor</a></li>
-                            <li><a class="dropdown-item" href="#">Approver</a></li>
-                            <li><a class="dropdown-item" href="#">Developer</a></li>
-                            <li><a class="dropdown-item" href="#">Admin</a></li> -->
+                                <li><a class="dropdown-item" href="#">Approver</a></li>
+                                <li><a class="dropdown-item" href="#">Developer</a></li>
+                                <li><a class="dropdown-item" href="#">Admin</a></li> -->
                         </ul>
                     </li>
+                    {% if threats|length == 0 %}
+                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
+                    {% endif %}
+
                 </ul>
                 <form class="d-flex">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -165,9 +170,6 @@
             </div>
         </div>
     </div>
-    <!-- <div>
-        <p>{{ threat.Threat.title }} reporter: {{threat.User.firstname}} <b><br>{{ threat.description }}<br>{{threat.reproduce_steps}}</b></p>
-    </div> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
     {% endfor %} {% endblock %}
 </body>
