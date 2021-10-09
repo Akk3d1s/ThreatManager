@@ -1,3 +1,5 @@
+import re
+
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
@@ -27,6 +29,38 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Please use a different email address.')
+
+    def validate_password(self, password):
+        """
+            Verify the strength of 'password'
+            A password is considered strong if:
+                8 characters length or more
+                1 digit or more
+                1 symbol or more
+                1 uppercase letter or more
+                1 lowercase letter or more
+        """
+
+        # calculating the length
+        length_error = len(password.data) < 8
+
+        # searching for digits
+        digit_error = re.search(r"\d", password.data) is None
+
+        # searching for uppercase
+        uppercase_error = re.search(r"[A-Z]", password.data) is None
+
+        # searching for lowercase
+        lowercase_error = re.search(r"[a-z]", password.data) is None
+
+        # searching for symbols
+        symbol_error = re.search(r"\W", password.data) is None
+
+        # overall result
+        password_ok = not (length_error or digit_error or uppercase_error or lowercase_error or symbol_error)
+
+        if not password_ok:
+            raise ValidationError('Password should be at least 8 characters in length and contain at least 1 digit, 1 symbol, 1 uppercase letter and 1 lowercase letter')
 
 class ThreatReportForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
