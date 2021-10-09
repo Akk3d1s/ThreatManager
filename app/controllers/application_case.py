@@ -10,10 +10,11 @@ def newcase(threat_id=None):
     db.session.commit()
     return redirect(url_for('index'))
 
-@app.route('/newcase_approve/<int:threat_id>', methods=['GET', 'POST'])
-def approveNewcase(threat_id=None):
+@app.route('/newcase_approve/<int:threat_id>/<int:category_id>', methods=['GET', 'POST'])
+def approveNewcase(threat_id, category_id):
     threat = Threat.query.filter_by(id=threat_id).first()
     threat.status_id = 3
+    threat.category_id = category_id
     db.session.commit()
     return redirect(url_for('index'))
 

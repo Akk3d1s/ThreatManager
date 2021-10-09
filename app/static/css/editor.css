@@ -26,7 +26,9 @@
 }
 
 .emergencyLevel {
-    width: 12vw
+    display: flex;
+    width: 12vw;
+    justify-content: center;
 }
 
 .caseOngoingStatus {
@@ -34,12 +36,60 @@
     /* width: 12vw */
 }
 
-.normal {
-    background-color: rgb(244, 212, 69);
+.LOW {
+    background-color: rgb(232, 244, 69);
     border-radius: 8px;
     padding: 4px;
     width: max-content;
     color: white;
+}
+
+.MEDIUM {
+    background-color: rgb(244, 192, 69);
+    border-radius: 8px;
+    padding: 4px;
+    width: max-content;
+    color: white;
+}
+
+.HIGH {
+    background-color: rgb(244, 133, 69);
+    border-radius: 8px;
+    padding: 4px;
+    width: max-content;
+    color: white;
+}
+
+.CRITICAL {
+    background-color: rgb(244, 69, 69);
+    border-radius: 8px;
+    padding: 4px;
+    width: max-content;
+    color: white;
+}
+
+.status1 {
+    color: rgb(97, 92, 28);
+}
+
+.status2 {
+    color: rgb(189, 180, 54);
+}
+
+.status3 {
+    color: rgb(194, 53, 53);
+}
+
+.status4 {
+    color: rgb(69, 124, 244);
+}
+
+.status5 {
+    color: rgb(43, 143, 48);
+}
+
+.status6 {
+    color: rgb(50, 53, 50);
 }
 
 .serious {
@@ -52,6 +102,9 @@
 
 .caseResolvedStatus {
     color: green;
+    width: 12vw;
+    display: flex;
+    justify-content: center;
 }
 
 #buttonBlock {
@@ -171,4 +224,23 @@
     width: 20vw;
     justify-content: center;
     font-size: 20px;
+}
+
+.approverButtonsContainer {
+    margin: 10px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.approverButtonsContainer div {
+    margin-right: 10px;
+}
+
+.dropdown-menu-self {
+    display: flex;
+}
+
+.hide {
+    display: none;
 }

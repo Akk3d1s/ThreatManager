@@ -40,7 +40,8 @@ def index():
         userRoles = db.session.query(UserRole).all()
         threats = db.session.query(User, UserRole, Threat, ThreatStatus, ThreatCategory).filter(User.role_id==UserRole.id).filter(User.id==Threat.user_id).filter(Threat.status_id==ThreatStatus.id).filter(Threat.category_id==ThreatCategory.id).filter(or_(Threat.status_id==2, Threat.status_id==4)).all()
         comments = db.session.query(User, UserRole, Comment).filter(User.role_id==UserRole.id).filter(User.id==Comment.user_id).all()
-        return render_template("approver.html", title="Home Page", userRoles=userRoles, threats=threats, comments=comments,  form=form)
+        threatCategories = db.session.query(ThreatCategory).all()
+        return render_template("approver.html", title="Home Page", userRoles=userRoles, threats=threats, comments=comments, threatCategories=threatCategories, form=form)
     else:
         roleApplications = db.session.query(User, UserRole, RoleApplication).filter(User.id==RoleApplication.user_id).filter(UserRole.id==RoleApplication.role_id).all()
         return render_template("admin.html", title="Home Page", roleApplications=roleApplications)
