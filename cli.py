@@ -43,11 +43,15 @@ def psh_delete():
     else:
         print("migrations does not exist")
 
-def psh_testing():
+def psh_security():
 	"""offers some automated security testing"""
-	tests = str(input(print("What do you want to test? |security| code quality"))) 
-	if tests == "security":
+	secure = str(input(print("Which vulnerabilities do you want to test? |packages| code"))) 
+	if secure == "packages":
+		"""checks for known vulnerabilities in installed packages"""
 		execute_command('safety check --full-report')
+	elif secure == "code":
+		"""finds and processes files in subdirectories"""
+		execute_command('bandit -r app')
 	else:
 		print("Command not found")
 		
@@ -79,7 +83,7 @@ def psh_help():
           - init
           - delete
           - seed
-		  - testing""")
+		  - security""")
 
 def main():
     while True:
@@ -95,8 +99,8 @@ def main():
         elif inp[0] == "init":
             psh_init()
             break
-        elif inp[0] == "testing":
-            psh_testing()
+        elif inp[0] == "security":
+            psh_security()
             break
         elif inp[0] == "help":
             psh_help()
