@@ -12,8 +12,8 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Sign In')
 
 class RegistrationForm(FlaskForm):
-    firstname = StringField('Firstname', validators=[DataRequired()])
-    surename = StringField('Surename', validators=[DataRequired()])
+    first_name = StringField('First name', validators=[DataRequired()])
+    surname = StringField('Surname', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField(
@@ -39,6 +39,7 @@ class RegistrationForm(FlaskForm):
                 1 symbol or more
                 1 uppercase letter or more
                 1 lowercase letter or more
+            Original Source: https://stackoverflow.com/questions/16709638/checking-the-strength-of-a-password-how-to-check-conditions#32542964
         """
 
         # calculating the length

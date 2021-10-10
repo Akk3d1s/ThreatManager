@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 0834c4e41344
+Revision ID: 4b1b4810cfbc
 Revises: 
-Create Date: 2021-10-09 04:22:11.092662
+Create Date: 2021-10-10 09:44:49.328526
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '0834c4e41344'
+revision = '4b1b4810cfbc'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -38,17 +38,18 @@ def upgrade():
     )
     op.create_table('user',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('firstname', sa.String(length=64), nullable=True),
-    sa.Column('surename', sa.String(length=64), nullable=True),
+    sa.Column('first_name', sa.String(length=64), nullable=True),
+    sa.Column('surname', sa.String(length=64), nullable=True),
     sa.Column('email', sa.String(length=120), nullable=True),
     sa.Column('password', sa.String(length=128), nullable=True),
     sa.Column('role_id', sa.Integer(), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('last_login', sa.DateTime(), nullable=True),
+    sa.Column('is_active', sa.Boolean(), nullable=True),
     sa.ForeignKeyConstraint(['role_id'], ['user_role.id'], ),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('email')
     )
-    op.create_index(op.f('ix_user_email'), 'user', ['email'], unique=True)
-    op.create_index(op.f('ix_user_firstname'), 'user', ['firstname'], unique=False)
-    op.create_index(op.f('ix_user_surename'), 'user', ['surename'], unique=False)
     op.create_table('role_application',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=True),
@@ -94,9 +95,6 @@ def downgrade():
     op.drop_index(op.f('ix_threat_timestamp'), table_name='threat')
     op.drop_table('threat')
     op.drop_table('role_application')
-    op.drop_index(op.f('ix_user_surename'), table_name='user')
-    op.drop_index(op.f('ix_user_firstname'), table_name='user')
-    op.drop_index(op.f('ix_user_email'), table_name='user')
     op.drop_table('user')
     op.drop_table('user_role')
     op.drop_table('threat_status')
