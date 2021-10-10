@@ -10,8 +10,8 @@ __Windows__
 4) While in the Venv environment: pip install -r requirements.txt
 5) flask db init
 6) python cli.py
-7) flask run
-
+7) init
+8) flask run
 
 
 __Linux and MacOS__
