@@ -1,5 +1,5 @@
-from flask import render_template, flash, redirect, url_for, request
-from app import app, db
+from flask import render_template, flash, redirect, url_for, request, Markup
+from app import app, url_safe_timed_serializer
 from app.forms import LoginForm
 from flask_login import current_user, login_user
 from app.models.user import User
@@ -20,8 +20,11 @@ def login():
             flash('Invalid email or password')
             return redirect(url_for('login'))
         elif not user.is_active:
-            # @todo - should have the ability to resend email
-            flash('Please confirm account. A confirmation email was sent.')
+            token = url_safe_timed_serializer.dumps(user.email)
+            flash(Markup('Please confirm account. Click <a href="/resend_confirmation/' + token + '">here</a> to '
+                                                                                                  'resend '
+                                                                                                  'confirmation '
+                                                                                                  'email.'))
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')

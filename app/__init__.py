@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_mail import Mail
+from itsdangerous import URLSafeTimedSerializer
 
 app = Flask(__name__, template_folder='views')
 app.config.from_object(Config)
@@ -12,6 +13,9 @@ migrate = Migrate(app, db)
 login = LoginManager(app)
 login.login_view = 'login'
 mail = Mail(app)
+url_safe_timed_serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+max_confirmation_waiting_time = 86400  # 24 hours
+max_confirmation_resend_waiting_time = 628800  # 8 hours
 
 from app import models, controllers
 
