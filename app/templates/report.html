@@ -53,18 +53,9 @@
                 <textarea name="reproduce_steps" class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="Steps to reproduce the issue"></textarea>
             </div>
 
-            <h4>Please upload at least one screenshot of the issue</h4>
+            <h4>Please upload at least one screenshot of the issue (txt, pdf, png, jpg, jpeg, gif)</h4>
             <div class="mb-3">
-                <input id="file" name="file" type="file" class="form-control" aria-label="file example" onchange="
-                    // let input = document.getElementById('file');
-                    // let output = document.getElementById('fileList');
-                    // let children = '';
-                    // for (let i = 0; i > input.files.length; ++i) {
-                    //     children += '<li>' + input.files.item(i).name + '</li>';
-                    // }
-                    // output.innerHTML = '<ul>' + 'cls' + children + '</ul>'
-                    javascript:updateList()
-                " multiple="multiple" required>
+                <input id="file" name="file" type="file" class="form-control" aria-label="file example" onchange="javascript:updateList()" multiple="multiple" required>
                 <div class="invalid-feedback">Please upload at least one screenshot</div>
             </div>
             <div id="fileList"></div>

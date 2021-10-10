@@ -16,13 +16,17 @@ def report():
     #     return redirect(url_for('index'))
     form = ThreatReportForm()
     if form.validate_on_submit() and 'file' in request.files:
+        # loop for uploaded files' extensions, if not valid return
         for file in request.files.getlist('file'):
             filename = secure_filename(file.filename)
             if allowed_file(filename) == False:
-                return 
+                print("false extension")
+                flash("invalid file type")
+                return render_template('report.html', title='Report', form=form)
         threat = Threat(title=form.title.data, description=form.description.data, reproduce_steps=form.reproduce_steps.data, user_id=current_user.id, status_id=1, category_id=1)
         db.session.add(threat)
         db.session.commit()
+        # loop for saving the
         for file in request.files.getlist('file'):
             filename = "t"+str(threat.id)+"_"+secure_filename(file.filename)
             # if file and allowed_file(filename):
