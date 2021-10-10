@@ -2,6 +2,19 @@
 
 
 ## Installation
+
+__Windows__
+1) Navigate to ThreatManager: e.g. cd/ThreatManager
+2) To create a virtual environment (recommended): Python -m venv venv
+3) To activate the installed environment: venv\scripts\activate
+4) While in the Venv environment: pip install -r requirements.txt
+5) flask db init
+6) python cli.py
+7) init
+8) flask run
+
+
+__Linux and MacOS__
 "python3 -m venv venv" (this will run the venv package and create a virtual environment called venv. We do this to not affect our global version of python)
 to activate newly installed virtual environment type "source venv/bin/activate"
 while in the venv environment:
@@ -22,6 +35,8 @@ while in the venv environment:
 - pip install pytest
 - pip install pytest-cov (coverage reports through "pytest -v --cov=app --cov-report=html"))
 - flask db init (if migrations repo has not been created yet. usually only once, in the beginning of the project)
+
+
 
 ## Running
 ### Serve the app

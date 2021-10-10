@@ -10,15 +10,18 @@ def load_user(id):
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    firstname = db.Column(db.String(64), index=True)
-    surename = db.Column(db.String(64), index=True)
-    email = db.Column(db.String(120), index=True, unique=True)
+    first_name = db.Column(db.String(64))
+    surname = db.Column(db.String(64))
+    email = db.Column(db.String(120), unique=True)
     password = db.Column(db.String(128))
     role_id = db.Column(db.Integer, db.ForeignKey('user_role.id'))
     threats = db.relationship('Threat', backref='author', lazy='dynamic')
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    last_login = db.Column(db.DateTime)
+    is_active = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
-        return '<User {}>'.format(self.firstname+' '+self.surename)
+        return '<User {}>'.format(self.first_name + ' ' + self.surname)
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
