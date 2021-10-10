@@ -170,6 +170,19 @@
     margin-right: 4px;
 }
 
+.commentFromContainer {
+    width: 20vw;
+}
+
+.commentFromYou {
+    background: rgb(253, 243, 104);
+    color: black;
+    border-radius: 10px;
+    padding-left: 2px;
+    padding-right: 2px;
+    width: max-content;
+}
+
 .commentFromCitizen {
     background: rgb(198, 198, 198);
     color: black;
@@ -243,4 +256,8 @@
 
 .hide {
     display: none;
+}
+
+#reportFormContainer {
+    padding: 40px;
 }

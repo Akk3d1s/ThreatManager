@@ -1,7 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, MultipleFileField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from app.models.user import User
+from app import ALLOWED_EXTENSIONS
+from flask_wtf.file import FileField, FileAllowed, FileRequired
 
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired()])
@@ -32,6 +34,9 @@ class ThreatReportForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     description = StringField('Description', validators=[DataRequired()])
     reproduce_steps = StringField('Steps', validators=[DataRequired()])
+    # files = MultipleFileField('Files', validators=[FileRequired(), FileAllowed(files, 'Image only!')])
+    file = FileField('File')
+
 
 class ThreatCommentForm(FlaskForm):
     comment = StringField('Comment', validators=[DataRequired()])

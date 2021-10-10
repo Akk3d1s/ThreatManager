@@ -121,7 +121,19 @@ def upgrade():
     sa.PrimaryKeyConstraint('id')
     )
 
+    op.create_table('file',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('file', sa.String(length=64), nullable=True),
+    sa.Column('threat_id', sa.Integer(), nullable=True),
+    sa.Column('comment_id', sa.Integer(), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.ForeignKeyConstraint(['threat_id'], ['threat.id'], ),
+    sa.ForeignKeyConstraint(['comment_id'], ['comment.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+
 def downgrade():
+    op.drop_table('file')
     op.drop_table('role_application')
     op.drop_table('comment_attachment')
     op.drop_table('comment')
