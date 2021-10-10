@@ -28,7 +28,7 @@ def report():
         db.session.commit()
         # loop for saving the
         for file in request.files.getlist('file'):
-            filename = "t"+str(threat.id)+"_"+secure_filename(file.filename)
+            filename = "threat"+str(threat.id)+"_"+secure_filename(file.filename)
             # if file and allowed_file(filename):
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             file = File(file=filename, threat_id=threat.id)
