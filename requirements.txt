@@ -14,3 +14,4 @@ flake8==3.9.2
 pyotp==2.6.0 
 pytest==6.2.5
 pytest-cov==3.0.0
+bandit==1.7.0
