@@ -23,6 +23,7 @@ def report():
                 print("false extension")
                 flash("invalid file type")
                 return render_template('report.html', title='Report', form=form)
+        # if files valid, added threat data to the database
         threat = Threat(title=form.title.data, description=form.description.data, reproduce_steps=form.reproduce_steps.data, user_id=current_user.id, status_id=1, category_id=1)
         db.session.add(threat)
         db.session.commit()

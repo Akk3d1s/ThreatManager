@@ -8,7 +8,7 @@ from flask_mail import Mail
 from itsdangerous import URLSafeTimedSerializer
 
 UPLOAD_FOLDER = join(dirname(realpath(__file__)), 'static/uploads')
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__, template_folder='views')
 app.config.from_object(Config)

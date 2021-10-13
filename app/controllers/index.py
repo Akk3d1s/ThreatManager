@@ -28,7 +28,7 @@ def index():
     # police roles
     elif current_user.role_id == 2:
         threats = db.session.query(User, Threat, ThreatStatus, ThreatCategory).filter(User.id==Threat.user_id).filter(Threat.status_id==ThreatStatus.id).filter(Threat.category_id==ThreatCategory.id).all()
-        return render_template("view.html", title="Home Page", threats=threats)
+        return render_template("citizen.html", title="Home Page", threats=threats)
     elif current_user.role_id == 3:
         form = ThreatCommentForm()
         userRoles = db.session.query(UserRole).all()
