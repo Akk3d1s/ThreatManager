@@ -37,3 +37,4 @@ from app.controllers.application_role import *
 from app.controllers.comment import *
 from app.controllers.threat_list import *
 from app.controllers.api_credential import *
+from app.controllers.download import *

@@ -96,7 +96,11 @@
                                     {{threat.Threat.timestamp.strftime("Time: %H:%M:%S")}}<br>
                                 </div>
                             </div>
-                            <button type="button">Download Attachments</button>
+                            <button type="button">
+                                <a href="{{ url_for(downloadThreatFile) }}">
+                                    Download Attachments
+                                </a>
+                            </button>
                         </div>
                         <div class="logTopic">Description of the issue:</div>
                         <div class="caseInfoLogger">

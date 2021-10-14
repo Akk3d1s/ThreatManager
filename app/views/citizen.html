@@ -28,7 +28,7 @@
         </div>
     </div>
     <div class="accordion" id="accordionPanelsStayOpenExample">
-        {% for threat in threats %}
+        {% for threat in threats|reverse %}
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingArr{{threat.Threat.id}}">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseArr{{threat.Threat.id}}" aria-expanded="false" aria-controls="collapseArr{{threat.Threat.id}}">
@@ -74,7 +74,9 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            <button type="button">Download Attachments</button>
+                            <a href="{{ url_for('downloadThreatFile', threat_id=threat.Threat.id) }}">
+                            Download Attachments
+                            </a>
                         </div>
                         <div class="logTopic">Description of the issue:</div>
                         <div class="caseInfoLogger">
