@@ -261,3 +261,14 @@
 #reportFormContainer {
     padding: 40px;
 }
+
+#dashboardButtonContainer {
+    width: 100vw;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+}
+
+#dashboardButtonContainer div {
+    margin: 20px;
+}

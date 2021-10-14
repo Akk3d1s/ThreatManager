@@ -32,7 +32,8 @@
         <h1>
             <p class="text-center">Threat Report</p>
         </h1>
-        <img src="dutchpolice.png" class="rounded mx-auto d-block" alt="Dutch Police logo">
+        <img src="{{url_for('static', filename='dutchpolice.png')}}" class="rounded mx-auto d-block" alt="Dutch Police logo">
+
     </p>
     <div id="reportFormContainer">
         <form class="was-validated" action="{{ url_for('report')}}" method="post" enctype="multipart/form-data">

@@ -69,7 +69,7 @@ def psh_seed():
     for c in categories:
         category = ThreatCategory(category=c.replace('ThreatCategories.', ''))
         category.save()
-    admin = User(first_name="Police", surname="Admin", email="admin@police.com", role_id=6)
+    admin = User(first_name="Police", surname="Admin", email="admin@police.com", role_id=6, is_active=1)
     admin.set_password("admin")
     admin.save()
     # attachment = ThreatAttachment()
