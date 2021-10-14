@@ -272,3 +272,19 @@
 #dashboardButtonContainer div {
     margin: 20px;
 }
+
+input[type="file"] {
+    display: none;
+}
+
+.customFileUpload {
+    display: inline-block;
+    width: 70px;
+    text-align: center;
+    align-items: center;
+}
+
+#fileList2 {
+    min-height: 30px;
+    display: flex;
+}

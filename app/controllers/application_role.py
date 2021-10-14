@@ -30,10 +30,10 @@ def approveRoleApplication(role_application_id=None):
     user.role_id = roleApplication.role_id
     RoleApplication.query.filter(RoleApplication.id==role_application_id).delete()
     db.session.commit()
-    return redirect(url_for('index'))
+    return redirect(url_for('roleApplicationList'))
 
 @app.route('/role_application_reject/<int:role_application_id>', methods=['GET', 'POST'])
 @login_required
 def rejectRoleApplication(role_application_id=None):
     RoleApplication.query.filter(RoleApplication.id==role_application_id).delete()
-    return redirect(url_for('index'))
+    return redirect(url_for('roleApplicationList'))

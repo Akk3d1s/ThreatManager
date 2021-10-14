@@ -97,7 +97,7 @@
                                 </div>
                             </div>
                             <button type="button">
-                                <a href="{{ url_for(downloadThreatFile) }}">
+                                <a href="{{ url_for('downloadThreatFile', threat_id=threat.Threat.id) }}">
                                     Download Attachments
                                 </a>
                             </button>

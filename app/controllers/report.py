@@ -77,7 +77,7 @@ def report():
                 db.session.add(file)
                 db.session.commit()
             zipObj.close()
-            return redirect(url_for('index'))
+            return redirect(url_for('threat'))
         else:
             for file in request.files.getlist('file'):
                 filename = "threat"+str(threat.id)+"_"+secure_filename(file.filename)
@@ -85,5 +85,5 @@ def report():
                 file = ThreatFile(file=filename, threat_id=threat.id)
                 db.session.add(file)
                 db.session.commit()
-            return redirect(url_for('index'))
+            return redirect(url_for('threat'))
     return render_template('report.html', title='Report', form=form)

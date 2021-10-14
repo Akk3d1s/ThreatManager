@@ -14,7 +14,6 @@ def comment(threat_id=None):
         comment = Comment(comment=form.comment.data, user_id=current_user.id, threat_id=threat_id)
         db.session.add(comment)
         db.session.commit()
-        return redirect(url_for('index'))
-    return redirect(url_for('index'))
+        return redirect(url_for('threat'))
+    return redirect(url_for('threat'))
 
-    # return redirect(url_for('index'))
