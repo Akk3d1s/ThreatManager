@@ -135,21 +135,24 @@
                                     {{comment.Comment.created_at.strftime("Time: %H:%M:%S")}}<br>
                                 </div>
                             </div>
-                            <button type="button">Download Attachments</button>
+                            <a type="button" href="{{ url_for('downloadCommentFile', comment_id=comment.Comment.id) }}">
+                                Download Attachments
+                                </a>
+                            <!-- <button type="button">Download Attachments</button> -->
                         </div>
                         {{comment.Comment.comment}}
                     </div>
                     {% endif %} {% endfor %}
                 </div>
                 <div class="chat">
-                    <form class="d-flex" action="{{ url_for('comment', threat_id=threat.Threat.id )}}" method="post">
+                    <form class="d-flex" action="{{ url_for('comment', threat_id=threat.Threat.id )}}" method="post" enctype="multipart/form-data">
                         {{ form.hidden_tag() }}
                         <label for="fileUpload{{threat.Threat.id}}" class="btn btn-outline-success customFileUpload">
                             <i class="fas fa-paperclip"></i>
                         </label>
                         <input class="btn btn-outline-success" id="fileUpload{{threat.Threat.id}}" name="file" type="file" class="form-control" aria-label="file example" onchange="javascript:updateList('fileUpload{{threat.Threat.id}}','fileList{{threat.Threat.id}}')" multiple="multiple">
-                        <i class="fas fa-paperclip"></i>
-                        </input>
+                        <!-- <input class="btn btn-outline-success" id="file" name="file" type="file" class="form-control" aria-label="file example" onchange="javascript:updateList('fileUpload{{threat.Threat.id}}','fileList{{threat.Threat.id}}')" multiple="multiple"> -->
+                        <!-- <input class="btn btn-outline-success form-control" id="file" name="file" type="file" class="form-control" aria-label="file example" multiple="multiple"></input> -->
                         <textarea name="comment" class="form-control me-2" type="text" placeholder="Reply" aria-label="Reply"></textarea>
                         <button class="btn btn-outline-success" type="submit">Reply</button>
                     </form>

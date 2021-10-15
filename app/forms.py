@@ -75,3 +75,4 @@ class ThreatReportForm(FlaskForm):
 
 class ThreatCommentForm(FlaskForm):
     comment = StringField('Comment', validators=[DataRequired()])
+    file = FileField('File')

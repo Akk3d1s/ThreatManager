@@ -9,7 +9,7 @@ class ThreatFile(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
-        return 'File Name {}'.format(self.file)
+        return 'Threat File Name {}'.format(self.file)
 
 class CommentFile(db.Model):
     __tablename__ = 'file_comment'
@@ -17,4 +17,7 @@ class CommentFile(db.Model):
     file = db.Column(db.String(64))
     comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'), default=0)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return 'Comment File Name {}'.format(self.file)
 
