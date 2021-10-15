@@ -273,9 +273,10 @@
     margin: 20px;
 }
 
-input[type="file"] {
+
+/* input[type="file"] {
     display: none;
-}
+} */
 
 .customFileUpload {
     display: inline-block;
