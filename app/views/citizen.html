@@ -139,10 +139,20 @@
                                     {{comment.Comment.created_at.strftime("Time: %H:%M:%S")}}<br>
                                 </div>
                             </div>
-                            <a type="button" href="{{ url_for('downloadCommentFile', comment_id=comment.Comment.id) }}">
-                                Download Attachments
-                                </a>
-                            <!-- <button type="button">Download Attachments</button> -->
+                            <div class="downloadContainer">
+                                {% if comment.file_count == 0 %}
+                                <div></div>
+                                {% elif comment.file_count > 1 %}
+                                <div>Attachment ({{comment.file_count}} Files Zip) </div>
+                                <button type="button">
+                                    <a href="{{ url_for('downloadCommentFile', comment_id=comment.Comment.id) }}">Download</a>
+                                </button> {% else %}
+                                <div>Attachment ({{comment.file_count}} File)</div>
+                                <button type="button">
+                                    <a href="{{ url_for('downloadCommentFile', comment_id=comment.Comment.id) }}">Download</a>
+                                </button> {% endif %}
+
+                            </div>
                         </div>
                         {{comment.Comment.comment}}
                     </div>
@@ -154,7 +164,8 @@
                         <label for="fileUpload{{threat.Threat.id}}" class="btn btn-outline-success customFileUpload">
                             <i class="fas fa-paperclip"></i>
                         </label>
-                        <input class="btn btn-outline-success" id="fileUpload{{threat.Threat.id}}" name="file" type="file" class="form-control" aria-label="file example" onchange="javascript:updateList('fileUpload{{threat.Threat.id}}','fileList{{threat.Threat.id}}')" multiple="multiple">
+                        <input style="display:none" class="btn btn-outline-success" id="fileUpload{{threat.Threat.id}}" name="file" type="file" class="form-control" aria-label="file example" onchange="javascript:updateList('fileUpload{{threat.Threat.id}}','fileList{{threat.Threat.id}}')"
+                            multiple="multiple">
                         <!-- <input class="btn btn-outline-success" id="file" name="file" type="file" class="form-control" aria-label="file example" onchange="javascript:updateList('fileUpload{{threat.Threat.id}}','fileList{{threat.Threat.id}}')" multiple="multiple"> -->
                         <!-- <input class="btn btn-outline-success form-control" id="file" name="file" type="file" class="form-control" aria-label="file example" multiple="multiple"></input> -->
                         <textarea name="comment" class="form-control me-2" type="text" placeholder="Reply" aria-label="Reply"></textarea>

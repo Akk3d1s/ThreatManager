@@ -9,7 +9,7 @@ from app.models.threat_status import ThreatStatus
 from app.models.threat_category import ThreatCategory
 from app.models.comment import Comment
 from app.models.application_role import RoleApplication
-from app.models.file import ThreatFile
+from app.models.file import ThreatFile, CommentFile
 from werkzeug.urls import url_parse
 from sqlalchemy import and_, or_, not_, func
 
@@ -20,8 +20,9 @@ def threat():
     if current_user.role_id == 1:
         form = ThreatCommentForm()
         userRoles = db.session.query(UserRole).all()
-        threats = db.session.query(Threat, ThreatStatus, ThreatCategory, User, UserRole, func.count(ThreatFile.id).filter(ThreatFile.threat_id==Threat.id).label("file_count")).join(ThreatStatus).join(ThreatCategory).join(User).join(UserRole).group_by(Threat).all()
-        comments = db.session.query(User, Comment, UserRole).join(Comment).join(UserRole).all()
+        threats = db.session.query(Threat, ThreatStatus, ThreatCategory, User, UserRole,func.count(ThreatFile.id).filter(ThreatFile.threat_id==Threat.id).label("file_count")).join(ThreatStatus).join(ThreatCategory).join(User).join(UserRole).group_by(Threat).all()
+        # comments = db.session.query(Comment, User, UserRole.role,func.count(CommentFile.id).filter(CommentFile.comment_id==Comment.id).label("file_count")).join(Comment).join(UserRole).group_by(Comment).all()
+        comments = db.session.query(Comment, User, UserRole, func.count(CommentFile.id).filter(CommentFile.comment_id==Comment.id).label("file_count")).filter(Comment.user_id==User.id).filter(User.role_id==UserRole.id).group_by(Comment).all()
         return render_template("citizen.html", title='Home Page', threats=threats, comments=comments, userRoles=userRoles, form=form)
     # police roles
     elif current_user.role_id == 2:
