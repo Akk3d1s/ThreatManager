@@ -1,9 +1,0 @@
-##security testing##
-safety check -r requirements.txt --full-report
-
-
-
-
-
-Other information - JM - delete later:
-Switched to pinned packages
