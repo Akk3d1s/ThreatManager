@@ -58,12 +58,15 @@
         </div>
     </nav>
 
-    <hr> {% with messages = get_flashed_messages() %} {% if messages %}
-    <ul>
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
+    <!-- <hr> {% with messages = get_flashed_messages() %} -->
+    {% if messages %}
+    <div style="background:rgb(248, 248, 139); color:red">
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    </div>
     {% endif %} {% endwith %} {% block content %}{% endblock %}
 </body>
 

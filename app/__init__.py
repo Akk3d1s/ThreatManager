@@ -9,6 +9,7 @@ from itsdangerous import URLSafeTimedSerializer
 
 UPLOAD_FOLDER = join(dirname(realpath(__file__)), 'static/uploads')
 ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+ALLOWED_FILES_SIZE = 5000000
 
 app = Flask(__name__, template_folder='views')
 app.config.from_object(Config)
