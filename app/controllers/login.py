@@ -4,6 +4,7 @@ from app.forms import LoginForm
 from flask_login import current_user, login_user
 from app.models.user import User
 from werkzeug.urls import url_parse
+import pyotp
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -16,8 +17,8 @@ def login():
     # Handle form submission (POST requests)
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        if user is None or not user.check_password(form.password.data):
-            flash('Invalid email or password')
+        if user is None or not user.check_password(form.password.data) or not pyotp.TOTP(user.totp_secret).verify(form.totp.data):
+            flash('Invalid email, password or TOTP code.')
             return redirect(url_for('login'))
         elif not user.is_active:
             token = url_safe_timed_serializer.dumps(user.email)

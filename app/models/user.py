@@ -14,6 +14,7 @@ class User(UserMixin, db.Model):
     surname = db.Column(db.String(64))
     email = db.Column(db.String(120), unique=True)
     password = db.Column(db.String(128))
+    totp_secret = db.Column(db.String(128))
     role_id = db.Column(db.Integer, db.ForeignKey('user_role.id'))
     threats = db.relationship('Threat', backref='author', lazy='dynamic')
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
