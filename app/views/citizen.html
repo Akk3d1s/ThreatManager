@@ -50,30 +50,30 @@
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingArr{{threat.Threat.id}}">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseArr{{threat.Threat.id}}" aria-expanded="false" aria-controls="collapseArr{{threat.Threat.id}}">
-                <div id="historyBlockHeader">
-                    <div class="caseTopic">
-                        {% if threat.ThreatStatus.id == 1 or threat.ThreatStatus.id == 6 %}
-                            New Case Logged - {{threat.Threat.title}}
-                        {% else %}
-                            NCSC-{{'%04d' % threat.Threat.id}} - {{threat.Threat.title}}
-                        {% endif %}
-                    </div>
-                    <div class="emergencyLevel">
-                        <div class="{{threat.ThreatCategory.category}}">{{threat.ThreatCategory.category.title()}}</div>
-                    </div>
-                    <div class="caseResolvedStatus">
-                        {% if threat.ThreatStatus.status == "APPROVINGNEWCASE" %}
-                            APPROVING NEW CASE
-                        {% elif threat.ThreatStatus.status == "APPROVINGENDoveCASE" %}
-                            APPROVING END CASE
-                        {% else %}
-                            {{threat.ThreatStatus.status}}
-                        {% endif %}
-                    </div>
-                    <div id="buttonBlock">
-                    </div>
-                </div>  
-            </button>
+                    <div id="historyBlockHeader">
+                        <div class="caseTopic">
+                            {% if threat.ThreatStatus.id == 1 or threat.ThreatStatus.id == 6 %}
+                                New Case Logged - {{threat.Threat.title}}
+                            {% else %}
+                                NCSC-{{'%04d' % threat.Threat.id}} - {{threat.Threat.title}}
+                            {% endif %}
+                        </div>
+                        <div class="emergencyLevel">
+                            <div class="{{threat.ThreatCategory.category}}">{{threat.ThreatCategory.category.title()}}</div>
+                        </div>
+                        <div class="caseResolvedStatus">
+                            {% if threat.ThreatStatus.status == "APPROVINGNEWCASE" %}
+                                APPROVING NEW CASE
+                            {% elif threat.ThreatStatus.status == "APPROVINGENDoveCASE" %}
+                                APPROVING END CASE
+                            {% else %}
+                                {{threat.ThreatStatus.status}}
+                            {% endif %}
+                        </div>
+                        <div id="buttonBlock">
+                        </div>
+                    </div>  
+                </button>
             </h2>
             <div id="collapseArr{{threat.Threat.id}}" class="accordion-collapse collapse" aria-labelledby="headingArr{{threat.Threat.id}}">
                 <div class="accordion-body">
@@ -91,8 +91,13 @@
                                     </div>
                                     {% endif %}
                                 </div>
+                                <div>
+                                    {{threat.Threat.timestamp.strftime("Date: %m/%d/%Y")}}<br>
+                                </div>
+                                <div>
+                                    {{threat.Threat.timestamp.strftime("Time: %H:%M:%S")}}<br>
+                                </div>
                             </div>
-
                             <div class="downloadContainer">
                                 <div>
                                     {% if threat.file_count > 1 %} Attachment ({{threat.file_count}} Files Zip) {% else %} Attachment ({{threat.file_count}} File) {% endif %}
@@ -157,7 +162,6 @@
                                 <button class="fileDownloadButton" type="button">
                                     <a href="{{ url_for('downloadCommentFile', comment_id=comment.Comment.id) }}">Download</a>
                                 </button> {% endif %}
-
                             </div>
                         </div>
                         {{comment.Comment.comment}}
@@ -172,22 +176,15 @@
                         </label>
                         <input style="display:none" class="btn btn-outline-success" id="fileUpload{{threat.Threat.id}}" name="file" type="file" class="form-control" aria-label="file example" onchange="javascript:updateList('fileUpload{{threat.Threat.id}}','fileList{{threat.Threat.id}}')"
                             multiple="multiple">
-                        <!-- <input class="btn btn-outline-success" id="file" name="file" type="file" class="form-control" aria-label="file example" onchange="javascript:updateList('fileUpload{{threat.Threat.id}}','fileList{{threat.Threat.id}}')" multiple="multiple"> -->
-                        <!-- <input class="btn btn-outline-success form-control" id="file" name="file" type="file" class="form-control" aria-label="file example" multiple="multiple"></input> -->
                         <textarea name="comment" class="form-control me-2" type="text" placeholder="Reply" aria-label="Reply"></textarea>
                         <button class="btn btn-outline-success" type="submit">Reply</button>
                     </form>
                     <div id="fileList{{threat.Threat.id}}" style="justify-self: start;min-height: 40px; color: black; justify-content: start; align-items:center">
                         0 file selected (optional)
                     </div>
-
                 </div>
-
             </div>
         </div>
-        <!-- <div>
-            <p>{{ threat.Threat.title }} reporter: {{threat.User.firstname}} <b><br>{{ threat.description }}<br>{{threat.reproduce_steps}}</b></p>
-        </div> -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
         {% endfor %}
     </div>

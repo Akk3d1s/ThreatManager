@@ -81,8 +81,9 @@ def psh_seed():
     jonny = User(first_name="Jonny", surname="Mason", email="jonny@police.com", role_id=4, is_active=1)
     jonny.set_password("jonny")
     jonny.save()
-    # attachment = ThreatAttachment()
-    # attachment.save()
+    developer = User(first_name="Developer", surname="King", email="developer@police.com", role_id=5, is_active=1)
+    developer.set_password("developer")
+    developer.save()
 
     
 
