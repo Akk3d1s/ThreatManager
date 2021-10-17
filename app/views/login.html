@@ -40,7 +40,10 @@
                         <p></p>
                         {{ form.password.label }}<br> {{ form.password(size=20) }}<br> {% for error in form.password.errors %}
                         <span style="color: red;">[{{ error }}]</span> {% endfor %}
-
+                        <p>
+                            {{ form.totp.label }}<br> {{ form.totp(size=32) }}<br> {% for error in form.totp.errors %}
+                            <span style="color: red;">[{{ error }}]</span> {% endfor %}
+                        </p>
                         <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
 
                         <p>{{ form.submit() }}</p>
