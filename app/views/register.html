@@ -49,6 +49,23 @@
         {{ form.password2.label }}<br> {{ form.password2(size=20) }}<br> {% for error in form.password2.errors %}
         <span style="color: red;">[{{ error }}]</span> {% endfor %}
     </p>
+    <p>
+        <h5>In order to enable 2factor authentication, please follow below instructions:</h5>
+        <ul>
+          <li>Download <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en&gl=US" target="_blank">Google Authenticator</a> on your mobile.</li>
+          <li>Create a new account with <strong>setup key</strong> method.</li>
+          <li>Provide the required details (name, secret key).</li>
+          <li>Select time-based authentication.</li>
+          <li>Submit the generated key in the form.</li>
+        </ul>
+    </p>
+    <p>
+        {{ form.secret.label }} {{secret}}
+    </p>
+    <p>
+        {{ form.totp.label }}<br> {{ form.totp(size=32) }}<br> {% for error in form.totp.errors %}
+        <span style="color: red;">[{{ error }}]</span> {% endfor %}
+    </p>
     <p>{{ form.submit() }}</p>
 </form>
 {% endblock %}
