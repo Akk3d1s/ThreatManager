@@ -13,5 +13,7 @@ pyflakes==2.3.1
 flake8==3.9.2 
 pyotp==2.6.0 
 pytest==6.2.5
+pytest-flask==1.2.0
+pytest-mock==3.6.1
 pytest-cov==3.0.0
 bandit==1.7.0
