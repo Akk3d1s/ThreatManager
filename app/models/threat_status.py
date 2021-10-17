@@ -9,6 +9,7 @@ class ThreatStatuses(Enum):
     APPROVINGENDCASE = 'APPROVINGENDCASE'
     RESOLVED = 'RESOLVED'
     REJECTED = 'REJECTED'
+    CANCELED = 'CANCELED'
 
 class ThreatStatus(db.Model):
     __tablename__ = 'threat_status'

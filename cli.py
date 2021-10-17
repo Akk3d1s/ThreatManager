@@ -61,7 +61,7 @@ def psh_seed():
     for r in roles:
         role = UserRole(role=r.replace('UserRoles.', ''))
         role.save()
-    statuses = [str(ThreatStatuses.PENDING), str(ThreatStatuses.APPROVINGNEWCASE), str(ThreatStatuses.RESOLVING), str(ThreatStatuses.APPROVINGENDCASE), str(ThreatStatuses.RESOLVED), str(ThreatStatuses.REJECTED)]
+    statuses = [str(ThreatStatuses.PENDING), str(ThreatStatuses.APPROVINGNEWCASE), str(ThreatStatuses.RESOLVING), str(ThreatStatuses.APPROVINGENDCASE), str(ThreatStatuses.RESOLVED), str(ThreatStatuses.REJECTED), str(ThreatStatuses.CANCELED)]
     for s in statuses:
         status = ThreatStatus(status=s.replace('ThreatStatuses.', ''))
         status.save()

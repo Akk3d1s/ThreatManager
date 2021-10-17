@@ -36,7 +36,11 @@
             <div class="caseDownloadButton">Download Case Logs as Table <i class="fas fa-download"></i></div>
         </div>
         <div class="casesInfoContainer">
-            <div>New Cases: 3 Current Cases:2 Resolved Cases: 14</div>
+            <div class="caseCount">New: {{caseCount.new_case}}</div>
+            <div class="caseCount">Resolving: {{caseCount.resolving_case}}</div>
+            <div class="caseCount">Resolved: {{caseCount.resolved_case}}</div>
+            <div class="caseCount">Cancelled: {{caseCount.cancelled_case}}</div>
+            <div class="caseCount">Rejected: {{caseCount.rejected_case}}</div>
         </div>
     </div>
     <div class="accordion" id="accordionPanelsStayOpenExample">

@@ -69,6 +69,7 @@ def report():
         db.session.add(threat)
         db.session.commit()
         requestFileSaveZip(threat.id)
+        return redirect(url_for('threat'))
     return render_template('report.html', title='Report', form=form)
 
 # @app.route('/report', methods=['GET', 'POST'])
