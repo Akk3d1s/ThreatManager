@@ -10,11 +10,14 @@ import time
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    max_allowed_login_attempts = 5
     # Redirect user if already logged in
     if current_user.is_authenticated:
         return redirect(url_for('index'))
     form = LoginForm()
+
+    max_allowed_login_attempts = 5
+    if session.get('login_attempts') == None:
+        session['login_attempts'] = 0
 
     # Handle form submission (POST requests)
     if form.validate_on_submit():
