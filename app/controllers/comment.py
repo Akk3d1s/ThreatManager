@@ -24,7 +24,7 @@ def requestFileValidation():
         file.seek(0, os.SEEK_END)
         fileSize += file.tell()
         if fileSize > ALLOWED_FILES_SIZE:
-            flash("Size of files over the limit of 20 MB")
+            flash("Size of files over the limit of 5 MB")
             return False
         if allowed_file(file.filename) == False:
             flash("Invalid file type")
