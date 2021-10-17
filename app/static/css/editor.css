@@ -168,6 +168,7 @@
     border-radius: 10px;
     padding: 4px;
     margin-right: 4px;
+    text-decoration: none;
 }
 
 .commentFromContainer {
@@ -216,6 +217,16 @@
 }
 
 .caseReportButton a {
+    text-decoration: none;
+    color: black;
+}
+
+.caseDownloadButton a {
+    text-decoration: none;
+    color: black;
+}
+
+.fileDownloadButton a {
     text-decoration: none;
     color: black;
 }

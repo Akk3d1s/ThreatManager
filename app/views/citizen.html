@@ -31,9 +31,11 @@
     <div class="casesInfoHeader">
         <div style="display: flex;">
             <div class="caseReportButton">
-                <a href="{{ url_for('report') }}">Report New Threat<i class="fas fa-plus-circle"></i></a>
+                <a href="{{ url_for('report') }}">Report New Threat <i class="fas fa-plus-circle"></i></a>
             </div>
-            <div class="caseDownloadButton">Download Case Logs as Table <i class="fas fa-download"></i></div>
+            <div class="caseDownloadButton">
+                <a href="{{ url_for('downloadAllCases') }}">Download Case Logs as CSV <i class="fas fa-download"></i></a>
+            </div>
         </div>
         <div class="casesInfoContainer">
             <div class="caseCount">New: {{caseCount.new_case}}</div>
@@ -95,7 +97,7 @@
                                 <div>
                                     {% if threat.file_count > 1 %} Attachment ({{threat.file_count}} Files Zip) {% else %} Attachment ({{threat.file_count}} File) {% endif %}
                                 </div>
-                                <button type="button">
+                                <button class="fileDownloadButton" type="button">
                                     <a href="{{ url_for('downloadThreatFile', threat_id=threat.Threat.id) }}">Download</a>
                                 </button>
                             </div>
@@ -148,11 +150,11 @@
                                 <div></div>
                                 {% elif comment.file_count > 1 %}
                                 <div>Attachment ({{comment.file_count}} Files Zip) </div>
-                                <button type="button">
+                                <button class="fileDownloadButton" type="button">
                                     <a href="{{ url_for('downloadCommentFile', comment_id=comment.Comment.id) }}">Download</a>
                                 </button> {% else %}
                                 <div>Attachment ({{comment.file_count}} File)</div>
-                                <button type="button">
+                                <button class="fileDownloadButton" type="button">
                                     <a href="{{ url_for('downloadCommentFile', comment_id=comment.Comment.id) }}">Download</a>
                                 </button> {% endif %}
 

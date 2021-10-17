@@ -66,9 +66,10 @@ def comment(threat_id=None):
         print(len(request.files.getlist('file')))
         print(request.files['file'])
         if request.files['file'].filename!='':
-        # if len(request.files.getlist('file'))>0:
+            print('have files')
             if not requestFileValidation():
                 return redirect(url_for('threat'))
+        print("comment")
         comment = Comment(comment=form.comment.data, user_id=current_user.id, threat_id=threat_id)
         db.session.add(comment)
         db.session.commit()

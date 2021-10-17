@@ -49,7 +49,6 @@ def downloadAllCases():
         threats = db.session.query(Threat, ThreatStatus, ThreatCategory, User, UserRole).join(ThreatStatus).join(ThreatCategory).join(User).join(UserRole).filter(UserRole.id==current_user.role_id).group_by(Threat).all()
     else: 
         threats = db.session.query(Threat, ThreatStatus, ThreatCategory, User, UserRole).join(ThreatStatus).join(ThreatCategory).join(User).join(UserRole).group_by(Threat).all()
-        
     for threat in threats:
         row_data = {"threat_id":threat.Threat.id,
                         "title": threat.Threat.title,
