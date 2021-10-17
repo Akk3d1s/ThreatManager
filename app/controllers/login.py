@@ -16,7 +16,7 @@ def login():
     form = LoginForm()
 
     max_allowed_login_attempts = 5
-    if session['login_attempts'] == None:
+    if session.get('login_attempts') == None:
         session['login_attempts'] = 0
 
     # Handle form submission (POST requests)
