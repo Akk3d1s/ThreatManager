@@ -1,4 +1,5 @@
-from flask import render_template
+from flask import render_template, request
+from flask.helpers import url_for
 from app import app, db
 from app.forms import ThreatCommentForm
 from flask_login import current_user, login_required
@@ -16,6 +17,7 @@ from sqlalchemy import and_, or_, not_, func
 @app.route('/threat')
 @login_required
 def threat():
+    print(request.path)
     # citizen role
     if current_user.role_id == 1:
         form = ThreatCommentForm()

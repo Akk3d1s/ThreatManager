@@ -8,6 +8,8 @@ from werkzeug.utils import secure_filename
 from os.path import join, dirname, realpath, basename
 from zipfile import ZipFile
 import os
+from app.helpers.authenticator import Authenticator
+
 
 
 def allowed_file(filename):
@@ -59,6 +61,8 @@ def requestFileSaveZip(comment_id):
 
 @app.route('/comment/<int:threat_id>', methods=['GET', 'POST'])
 def comment(threat_id=None):
+    if not Authenticator.route_access_check(request.path):
+        return redirect(url_for('index'))
     # if current_user.is_authenticated:
     #     return redirect(url_for('index'))
     form = ThreatCommentForm()

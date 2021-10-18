@@ -1,4 +1,4 @@
-from flask import send_file, make_response
+from flask import send_file, make_response, request, redirect, url_for
 from flask_migrate import current
 from app import ALLOWED_EXTENSIONS, app, db
 from flask_login import current_user, login_required
@@ -14,11 +14,15 @@ from os.path import join, dirname, realpath, basename
 from io import StringIO
 import csv
 import datetime
+from app.helpers.authenticator import Authenticator
+
 
 
 @app.route('/download_file_threat/<int:threat_id>', methods=['GET', 'POST'])
 @login_required
 def downloadThreatFile(threat_id=None):
+    if not Authenticator.route_access_check(request.path):
+        return redirect(url_for('index'))
     files = ThreatFile.query.filter(ThreatFile.threat_id==threat_id).all()
     filePath = join(dirname(realpath(__file__)))+'/../static/uploads/'
     if len(files)==1:
@@ -30,6 +34,8 @@ def downloadThreatFile(threat_id=None):
 @app.route('/download_file_comment/<int:comment_id>', methods=['GET', 'POST'])
 @login_required
 def downloadCommentFile(comment_id=None):
+    if not Authenticator.route_access_check(request.path):
+        return redirect(url_for('index'))
     files = CommentFile.query.filter(CommentFile.comment_id==comment_id).all()
     filePath = join(dirname(realpath(__file__)))+'/../static/uploads/'
     if len(files)==1:
@@ -38,9 +44,11 @@ def downloadCommentFile(comment_id=None):
         zipFileName = 'comment'+str(comment_id)+'.zip'
         return send_file(filePath+zipFileName, mimetype='application/zip', attachment_filename=zipFileName, as_attachment=True)
 
-@app.route('/download_all_cases', methods=['GET', 'POST'])
+@app.route('/download_all_cases_csv', methods=['GET', 'POST'])
 @login_required
 def downloadAllCases():
+    if not Authenticator.route_access_check(request.path):
+        return redirect(url_for('index'))
     si = StringIO()
     writer = csv.DictWriter(si, fieldnames=['threat_id', 'title', 'category', 'status', 'description', 'steps', 'reported_time', 'user', 'user_role', 'email'])
     row_data = {"threat_id":"threat_id", "title":"title", "category":"category", "status":"status", "description":"description", "steps":"steps", "reported_time":"reported_time", "user":"user", "user_role":"user_role", "email":"email"}

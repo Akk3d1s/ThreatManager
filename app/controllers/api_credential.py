@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, request, redirect, url_for
 from app import app, db
 from app.forms import ThreatCommentForm
 from flask_login import current_user, login_required
@@ -11,10 +11,14 @@ from app.models.comment import Comment
 from app.models.application_role import RoleApplication
 from werkzeug.urls import url_parse
 from sqlalchemy import and_, or_, not_
+from app.helpers.authenticator import Authenticator
+
 
 @app.route('/api_credential')
 @login_required
 def apiCredential():
+    if not Authenticator.route_access_check(request.path):
+        return redirect(url_for('index'))
     # citizen role
     if current_user.role_id == 1:
         # threats = current_user.threats
