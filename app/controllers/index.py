@@ -12,8 +12,11 @@ from sqlalchemy import and_, or_, not_
 @app.route('/index')
 @login_required
 def index():
-    roleApplication = db.session.query(RoleApplication).first()
-    userRoles = db.session.query(UserRole).all()
-    return render_template("dashboard.html", title='Home Page', userRoles=userRoles, roleApplication=roleApplication)
+    try:
+        roleApplication = db.session.query(RoleApplication).first()
+        userRoles = db.session.query(UserRole).all()
+        return render_template("dashboard.html", title='Home Page', userRoles=userRoles, roleApplication=roleApplication)
+    except Exception as error:
+        print(error)
 
         

@@ -1,4 +1,4 @@
-from flask import flash, redirect, url_for
+from flask import flash
 from flask_login import current_user
 
 # ROLE_LIST = {
@@ -9,7 +9,7 @@ from flask_login import current_user
 #     'DEVELOPER': 5,
 #     'ADMIN': 6
 # }
-PATH_LIST = {
+PATH_ROLE_LIST = {
     'api_credential': [5],
     'newcase_application': [1,3],
     'newcase_approve': [4],
@@ -32,7 +32,7 @@ class Authenticator:
     @staticmethod
     def route_access_check(requestPath):
         leadingPath = requestPath.split("/")[1]
-        if current_user.role_id in PATH_LIST[leadingPath]:
+        if current_user.role_id in PATH_ROLE_LIST[leadingPath]:
             return True
         flash('Unauthorized Access')
         return False
