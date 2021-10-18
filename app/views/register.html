@@ -1,4 +1,4 @@
-<!doctype html> {% block content %}
+<!doctype html> {% extends "base.html" %} {% block content %}
 <html lang="en">
 
 <head>
@@ -31,63 +31,43 @@
 
 
                 <p>
-                    {{ form.first_name.label }}<br> {{ form.first_name(size=25) }}<br> {% for error in form.first_name.errors %}
+                    {{ form.first_name.label }}<br> {{ form.first_name(size=20) }}<br> {% for error in form.first_name.errors %}
                     <span style="color: red;">[{{ error }}]</span> {% endfor %}
                 </p>
                 <p>
-                    {{ form.surname.label }}<br> {{ form.surname(size=25) }}<br> {% for error in form.surname.errors %}
+                    {{ form.surname.label }}<br> {{ form.surname(size=20) }}<br> {% for error in form.surname.errors %}
                     <span style="color: red;">[{{ error }}]</span> {% endfor %}
                 </p>
                 <p>
-                    {{ form.email.label }}<br> {{ form.email(size=25) }}<br> {% for error in form.email.errors %}
+                    {{ form.email.label }}<br> {{ form.email(size=20) }}<br> {% for error in form.email.errors %}
                     <span style="color: red;">[{{ error }}]</span> {% endfor %}
                 </p>
                 <p>
-                    {{ form.password.label }}<br> {{ form.password(size=25) }}<br> {% for error in form.password.errors %}
+                    {{ form.password.label }}<br> {{ form.password(size=20) }}<br> {% for error in form.password.errors %}
                     <span style="color: red;">[{{ error }}]</span> {% endfor %}
                 </p>
                 <p>
-                    {{ form.password2.label }}<br> {{ form.password2(size=25) }}<br> {% for error in form.password2.errors %}
+                    {{ form.password2.label }}<br> {{ form.password2(size=20) }}<br> {% for error in form.password2.errors %}
                     <span style="color: red;">[{{ error }}]</span> {% endfor %}
                 </p>
-<div class="card border-dark mb-3 mx-auto" style="max-width: 40rem">
-  <div class="card-header"><b>Enabling Google Authenticator</b></div>
-  <div class="card-body text-dark">
-    <p class="card-text">
-<p style="line-height:1.8">	
-                        1) Download <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en&gl=US" target="_blank">Google Authenticator</a> on your mobile.</br>
-                        2) Create a new account with <strong>setup key</strong> method.</br>
-                        3) Enter a name of your choice and under <i>key</i> enter:</br>
-						<b>{{ form.label }} {{secret}}</b></br>
-                        4) Select time-based authentication.</br>
-                        5)Submit the generated key below.</br>
-						6) Wait for an account confirmation email to arrive.
-
-  </div>
-					  </div>
-					                      {{ form.totp.label }}<br> {{ form.totp(size=32) }}<br> {% for error in form.totp.errors %}
+                <p>
+                    <h5>In order to enable 2factor authentication, please follow below instructions:</h5>
+                    <ul>
+                        <li>Download <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en&gl=US" target="_blank">Google Authenticator</a> on your mobile.</li>
+                        <li>Create a new account with <strong>setup key</strong> method.</li>
+                        <li>Provide the required details (name, secret key).</li>
+                        <li>Select time-based authentication.</li>
+                        <li>Submit the generated key in the form.</li>
+                    </ul>
+                </p>
+                <p>
+                    {{ form.secret.label }} {{secret}}
+                </p>
+                <p>
+                    {{ form.totp.label }}<br> {{ form.totp(size=32) }}<br> {% for error in form.totp.errors %}
                     <span style="color: red;">[{{ error }}]</span> {% endfor %}
-			
-<p></p>
-					                <p>{{ form.submit() }}</p>
+                </p>
+                <p>{{ form.submit() }}</p>
             </form>
-			<a class aria-current="page" href="/">Already have an account? Login</a>
-			
             {% endblock %}
-
-</div>
-</div>
-
-										</p>
-										
-
-					
-			</div>
-			</div>
-
-
-
-                	
-
-
 </body>
