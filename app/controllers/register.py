@@ -10,16 +10,19 @@ from app.models.user import User
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    if current_user.is_authenticated:
-        return redirect(url_for('index'))
-    secret = pyotp.random_base32()
-    form = RegistrationForm(secret=secret)
-    if form.validate_on_submit():
-        user = User(first_name=form.first_name.data, surname=form.surname.data, email=form.email.data, role_id=1, totp_secret=form.secret.data)
-        user.set_password(form.password.data)
-        handle_registration_submission(user)
-        flash('secret from form', form.secret.data)
-    return render_template('register.html', title='Register', form=form, secret=form.secret.data)
+    try:
+        if current_user.is_authenticated:
+            return redirect(url_for('index'))
+        secret = pyotp.random_base32()
+        form = RegistrationForm(secret=secret)
+        if form.validate_on_submit():
+            user = User(first_name=form.first_name.data, surname=form.surname.data, email=form.email.data, role_id=1, totp_secret=form.secret.data)
+            user.set_password(form.password.data)
+            handle_registration_submission(user)
+            flash('secret from form', form.secret.data)
+        return render_template('register.html', title='Register', form=form, secret=form.secret.data)
+    except Exception as error:
+        print(error)
 
 
 @app.route('/confirm_account/<token>')

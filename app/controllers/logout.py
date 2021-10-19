@@ -7,5 +7,8 @@ from werkzeug.urls import url_parse
 
 @app.route('/logout')
 def logout():
-    logout_user()
-    return redirect(url_for('index'))
+    try:
+        logout_user()
+        return redirect(url_for('index'))
+    except Exception as error:
+        print(error)

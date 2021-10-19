@@ -1,4 +1,5 @@
 from flask import render_template, flash, redirect, url_for, request
+from flask_login import login_required
 from app import ALLOWED_EXTENSIONS, ALLOWED_FILES_SIZE, app, db
 from app.forms import ThreatCommentForm
 from flask_login import current_user
@@ -8,6 +9,8 @@ from werkzeug.utils import secure_filename
 from os.path import join, dirname, realpath, basename
 from zipfile import ZipFile
 import os
+from app.helpers.authenticator import Authenticator
+from app.helpers.logger import Logger
 
 
 def allowed_file(filename):
@@ -58,21 +61,22 @@ def requestFileSaveZip(comment_id):
 
 
 @app.route('/comment/<int:threat_id>', methods=['GET', 'POST'])
+@login_required
 def comment(threat_id=None):
-    # if current_user.is_authenticated:
-    #     return redirect(url_for('index'))
-    form = ThreatCommentForm()
-    if form.validate_on_submit():
-        print(len(request.files.getlist('file')))
-        print(request.files['file'])
-        if request.files['file'].filename!='':
-            print('have files')
-            if not requestFileValidation():
-                return redirect(url_for('threat'))
-        print("comment")
-        comment = Comment(comment=form.comment.data, user_id=current_user.id, threat_id=threat_id)
-        db.session.add(comment)
-        db.session.commit()
-        if request.files['file'].filename!='':
-            requestFileSaveZip(comment.id)
-    return redirect(url_for('threat'))
+    try:
+        if not Authenticator.route_access_check(request.path):
+            return redirect(url_for('index'))
+        form = ThreatCommentForm()
+        if form.validate_on_submit():
+            if request.files['file'].filename!='':
+                if not requestFileValidation():
+                    return redirect(url_for('threat'))
+            comment = Comment(comment=form.comment.data, user_id=current_user.id, threat_id=threat_id)
+            db.session.add(comment)
+            db.session.commit()
+            if request.files['file'].filename!='':
+                requestFileSaveZip(comment.id)
+            Logger.success(request.path)
+        return redirect(url_for('threat'))
+    except Exception as error:
+        Logger.fail(request.path, error)
