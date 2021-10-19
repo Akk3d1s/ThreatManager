@@ -31,16 +31,29 @@ while in the venv environment:
 - pip install pylint
 - pip install pyflakes
 - pip install flake8
-- pip install pyotp (https://www.section.io/engineering-education/implementing-totp-2fa-using-flask/)
+- pip install pyotp
 - pip install pytest
 - pip install pytest-cov (coverage reports through "pytest -v --cov=app --cov-report=html"))
 - flask db init (if migrations repo has not been created yet. usually only once, in the beginning of the project)
 
 
+## Installation API (inside api directory)
+__Linux and MacOS__
+- pip install flask
+- pip install flask-sqlalchemy (ORM for databases such as sql-lite, mysql etc)
+- pip install flask_restful
+- pip install python-dotenv
+- pip install safety
+# @todo - check linting and testing
+
+
 
 ## Running
 ### Serve the app
-- flask run
+- flask run (should run at http://127.0.0.1:5000)
+
+### Serve the API
+- flask run inside the api directory (should run at http://127.0.0.1:5001)
 
 ### Updating DB schema
 - flask db migrate (to generate migration scripts. these scripts are used to update the db schema according to the application code)
@@ -49,3 +62,11 @@ while in the venv environment:
 
 ### Fresh rebuild
 Use the CLI: "python cli.py" and then "init"
+
+
+API NOTES
+- For the sake of being distributed, the API was put into its own directory, without referencing code from the monolith app as the idea would be to deploy these seperately.
+- The only resource the monolith and the API share, is the database.
+
+OTHER NOTES
+- We have knowlingly added the .flaskenv files to our repository, for the sake of easily having the same configuration among us. In a real world scenario, we do not recommend doing this.
