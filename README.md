@@ -44,6 +44,7 @@ __Linux and MacOS__
 - pip install flask_restful
 - pip install python-dotenv
 - pip install safety
+- pip install pyjwt
 # @todo - check linting and testing
 
 
