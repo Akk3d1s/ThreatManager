@@ -17,6 +17,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/editor.css') }}" />
 </head>
 
+  <style>
+    a {text-decoration: none; color: white}
+  </style>
+
 <body>
     {% extends "base.html" %} {% block content %}
 
@@ -44,9 +48,12 @@
                 </div>
             </div>
             {% if current_user.role_id == 6 %}
+			<div class="btn btn-secondary">
             <a href="{{url_for('roleApplicationList')}}">
                 Role Applications
-            </a> {% elif current_user.role_id != 1 %}
+            </a>
+			</div>
+			{% elif current_user.role_id != 1 %}
             <div class="dropdown">
 
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" role="button" data-bs-toggle="dropdown" aria-expanded="false">Role Application</button>
