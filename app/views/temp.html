@@ -11,6 +11,19 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/editor.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
     <title>Approver</title>
+    <script>
+        updateList = function(fileId, listId) {
+            let input = document.getElementById(fileId);
+            let output = document.getElementById(listId);
+            let children = "";
+            for (let i = 0; i < input.files.length; i++) {
+                console.log('file')
+                console.log(input.files.item(i).name)
+                children += '<div class="btn-outline-success" style="margin-right:20px;height:max-content">' + input.files.item(i).name + '</div>';
+            }
+            output.innerHTML = children
+        }
+    </script>
 </head>
 
 <body>

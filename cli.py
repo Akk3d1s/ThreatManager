@@ -69,12 +69,12 @@ def psh_seed():
     for c in categories:
         category = ThreatCategory(category=c.replace('ThreatCategories.', ''))
         category.save()
-    admin = User(first_name="Police", surname="Admin", email="admin@police.com", role_id=6, totp_secret="4HMSIHRWLTJM25VFB37FAGYSSZG2LER6", is_active=1)
-    admin.set_password("admin")
-    admin.save()
     justin = User(first_name="Justin", surname="Lo", email="justin@gmail.com", role_id=1, totp_secret="4HMSIHRWLTJM25VFB37FAGYSSZG2LER6", is_active=1)
     justin.set_password("justin")
     justin.save()
+    viewer = User(first_name="Darth", surname="Viewer", email="darth@police.com", role_id=2, totp_secret="4HMSIHRWLTJM25VFB37FAGYSSZG2LER6", is_active=1)
+    viewer.set_password("darth")
+    viewer.save()
     hendrik = User(first_name="Hendrik", surname="Rooyen", email="hendrik@police.com", role_id=3, totp_secret="4HMSIHRWLTJM25VFB37FAGYSSZG2LER6", is_active=1)
     hendrik.set_password("hendrik")
     hendrik.save()
@@ -84,6 +84,9 @@ def psh_seed():
     developer = User(first_name="Developer", surname="King", email="developer@police.com", role_id=5, totp_secret="4HMSIHRWLTJM25VFB37FAGYSSZG2LER6", is_active=1)
     developer.set_password("developer")
     developer.save()
+    admin = User(first_name="Police", surname="Admin", email="admin@police.com", role_id=6, totp_secret="4HMSIHRWLTJM25VFB37FAGYSSZG2LER6", is_active=1)
+    admin.set_password("admin")
+    admin.save()
 
     
 

@@ -10,7 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/editor.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
-    <title>Approver</title>
+    <title>Citizen</title>
     <script>
         updateList = function(fileId, listId) {
             let input = document.getElementById(fileId);
@@ -73,20 +73,6 @@
                             </div>
                         </div>
                         <div id="buttonBlock">
-                            {% if threat.ThreatStatus.id == 1 %}
-                            <div style="justify-content: center;color:black;margin: 10px;">Approval Application:</div> 
-                            <!-- <div type="button" class="btn btn-outline-info">Emergency level</div> -->
-                            <a href="{{ url_for('newcase', threat_id=threat.Threat.id) }}">
-                                <div type="button" class="btn btn-outline-danger approvalApplicationButton">Start case</div>
-                            </a>
-                            {% elif threat.ThreatStatus.id == 3 %}
-                            <div style="justify-content: center;color:black;margin: 10px;">Approval Application:</div> 
-                            <!-- <div type="button" class="btn btn-outline-info">Emergency level</div> -->
-                            <a href="{{ url_for('endcase', threat_id=threat.Threat.id) }}">
-                                <div type="button" class="btn btn-outline-primary approvalApplicationButton">End case</div>
-                            </a>
-                            {% else %}
-                            {% endif %}
                         </div>
                     </div>  
                 </button>
@@ -184,58 +170,13 @@
                     </div>
                     {% endif %} {% endfor %}
                 </div>
-                <div class="chat">
-                    <form class="d-flex" action="{{ url_for('comment', threat_id=threat.Threat.id )}}" method="post" enctype="multipart/form-data">
-                        {{ form.hidden_tag() }}
-                        <label for="fileUpload{{threat.Threat.id}}" class="btn btn-outline-success customFileUpload">
-                            <i class="fas fa-paperclip"></i>
-                        </label>
-                        <input style="display:none" class="btn btn-outline-success" id="fileUpload{{threat.Threat.id}}" name="file" type="file" class="form-control" aria-label="file example" onchange="javascript:updateList('fileUpload{{threat.Threat.id}}','fileList{{threat.Threat.id}}')"
-                            multiple="multiple">
-                        <textarea name="comment" class="form-control me-2" type="text" placeholder="Reply" aria-label="Reply"></textarea>
-                        <button class="btn btn-outline-success" type="submit">Reply</button>
-                    </form>
-                    <div id="fileList{{threat.Threat.id}}" style="justify-self: start;min-height: 40px; color: black; justify-content: start; align-items:center">
-                        0 file selected (optional) (less than 20 files and 10 Mb)
-                    </div>
-                </div>
-                <div class="approverButtonsContainer">
-                    {% if threat.ThreatStatus.status == "APPROVINGNEWCASE" %}
-                    <div class="dropdown show">
-                        <a class="btn btn-success" id="approveDropdownArr{{threat.Threat.id}}" role="button">Approve</a>
-                    </div>
-                    <div id="threat-categories-menu-Arr{{threat.Threat.id}}" class="dropdown-menu-self hide" aria-labelledby="approveDropdown">
-                        <!-- <div style="height:100%; text-align: center;">Category: </div> -->
-                        {% for threatCategory in threatCategories %}
-                        <a class="dropdown-item" href="{{ url_for('approveNewcase', threat_id=threat.Threat.id, category_id=threatCategory.id) }}">{{ threatCategory.category }}</a> {% endfor %}
-                    </div>
-
-
-                    <a href="{{ url_for('rejectNewcase', threat_id=threat.Threat.id) }}">
-                        <div type="button" class="btn btn-danger approvalApplicationButton">Reject</div>
-                    </a>
-                    {% elif threat.ThreatStatus.status == "APPROVINGENDCASE" %}
-                    <a href="{{ url_for('approveEndcase', threat_id=threat.Threat.id) }}">
-                        <div type="button" class="btn btn-success approvalApplicationButton">Approve</div>
-                    </a>
-                    <a href="{{ url_for('rejectEndcase', threat_id=threat.Threat.id) }}">
-                        <div type="button" class="btn btn-danger approvalApplicationButton">Reject</div>
-                    </a>
-                    <button type="button" class="btn btn-secondary">Contact consulting agencies</button> {% endif %}
-                </div>
-
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
-        <script>
-            document.getElementById("approveDropdownArr{{threat.Threat.id}}").addEventListener("click", (e) => {
-                console.log("clicked")
-                document.getElementById("threat-categories-menu-Arr{{threat.Threat.id}}").classList.toggle("hide")
-            })
-        </script>
         {% endfor %}
     </div>
     {% endblock %}
+
 </body>
 
 </html>
