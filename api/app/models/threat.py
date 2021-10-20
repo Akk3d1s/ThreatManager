@@ -7,6 +7,7 @@ from app import db
 @dataclass
 class Threat(db.Model):
     __tablename__ = 'threat'
+    id: int
     title: str
     description: str
     reproduce_steps: str

@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, make_response
+from flask import Flask, jsonify, request, make_response, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 import jwt
 import datetime
@@ -43,18 +43,42 @@ def login():
         return make_response('Invalid credentials', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'})
     except Exception as err:
         # should log err to logging service
-        return jsonify({'error', 'Something went wrong, please contact support'})
+        return jsonify({'error': 'Something went wrong, please contact support'})
+
 
 @app.route('/threats')
 @token_required
 def threats():
-
     try:
         threats = Threat.query.all()
         return jsonify(threats)
     except Exception as err:
         # should log err to logging service
-        return jsonify({'error', 'Something went wrong, please contact support'})
+        return jsonify({'error': 'Something went wrong, please contact support'})
+
+
+@app.route('/threats/<threat_id>/files')
+@token_required
+def threat_files(threat_id):
+    try:
+        files = ThreatFile.query.filter_by(threat_id=threat_id).all()
+        return jsonify(files)
+    except Exception as err:
+        # should log err to logging service
+        return jsonify({'error': 'Something went wrong, please contact support'})
+
+
+@app.route('/threats/<threat_id>/files/<file_id>/download')
+@token_required
+def threat_file_download(threat_id, file_id):
+    try:
+        file = ThreatFile.query.filter_by(threat_id=threat_id, id=file_id).first()
+        if file is None or file.file is None:
+            return jsonify({'error': 'Unable to locate file'})
+        return send_from_directory(app.config['UPLOAD_FOLDER'], file.file, as_attachment=True)
+    except Exception as err:
+        # should log err to logging service
+        return jsonify({'error': 'Something went wrong, please contact support'})
 
 
 
@@ -63,3 +87,4 @@ from app.models.user import User
 from app.models.threat import Threat
 from app.models.threat_status import ThreatStatus
 from app.models.threat_category import ThreatCategory
+from app.models.threat_file import ThreatFile
