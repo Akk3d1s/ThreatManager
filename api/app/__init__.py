@@ -43,7 +43,7 @@ def login():
         return make_response('Invalid credentials', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'})
     except Exception as err:
         # should log err to logging service
-        return jsonify({'error': 'Something went wrong, please contact support'})
+        return jsonify({'error': 'Something went wrong, please contact support'}), 500
 
 
 @app.route('/threats')
@@ -54,7 +54,7 @@ def threats():
         return jsonify(threats)
     except Exception as err:
         # should log err to logging service
-        return jsonify({'error': 'Something went wrong, please contact support'})
+        return jsonify({'error': 'Something went wrong, please contact support'}), 500
 
 
 @app.route('/threats/<threat_id>/files')
@@ -65,7 +65,7 @@ def threat_files(threat_id):
         return jsonify(files)
     except Exception as err:
         # should log err to logging service
-        return jsonify({'error': 'Something went wrong, please contact support'})
+        return jsonify({'error': 'Something went wrong, please contact support'}), 500
 
 
 @app.route('/threats/<threat_id>/files/<file_id>/download')
@@ -74,17 +74,36 @@ def threat_file_download(threat_id, file_id):
     try:
         file = ThreatFile.query.filter_by(threat_id=threat_id, id=file_id).first()
         if file is None or file.file is None:
-            return jsonify({'error': 'Unable to locate file'})
+            return jsonify({'error': 'Unable to locate file'}), 404
         return send_from_directory(app.config['UPLOAD_FOLDER'], file.file, as_attachment=True)
     except Exception as err:
         # should log err to logging service
-        return jsonify({'error': 'Something went wrong, please contact support'})
+        return jsonify({'error': 'Something went wrong, please contact support'}), 500
+
+
+@app.route('/threats/<threat_id>/comments')
+@token_required
+def threat_comments(threat_id):
+    try:
+        response = []
+        comments = ThreatComment.query.filter_by(threat_id=threat_id).all()
+        for comment in comments:
+            user = User.query.filter_by(id=comment.user_id).first()
+            if user is None:
+                return jsonify({'error': 'Something went wrong, please contact support'}), 500
+            response.append({'comment': comment.comment, 'created_at': comment.created_at, 'role': user.role.role})
+        return jsonify(response)
+    except Exception as err:
+        # should log err to logging service
+        return jsonify({'error': 'Something went wrong, please contact support'}), 500
 
 
 
 # bootstrapping
 from app.models.user import User
+from app.models.user_role import UserRole
 from app.models.threat import Threat
 from app.models.threat_status import ThreatStatus
 from app.models.threat_category import ThreatCategory
 from app.models.threat_file import ThreatFile
+from app.models.threat_comment import ThreatComment
