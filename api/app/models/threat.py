@@ -12,6 +12,7 @@ class Threat(db.Model):
     reproduce_steps: str
     timestamp: str
     progress: str
+    threat_level: str
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(64))
@@ -22,3 +23,4 @@ class Threat(db.Model):
     status_id = db.Column(db.Integer, db.ForeignKey('threat_status.id'))
     progress = relationship('ThreatStatus', backref='threat')
     category_id = db.Column(db.Integer, db.ForeignKey('threat_category.id'))
+    threat_level = relationship('ThreatCategory', backref='threat')

@@ -50,7 +50,6 @@ def login():
 def threats():
 
     try:
-        # threats = ThreatStatus.query.all()
         threats = Threat.query.all()
         return jsonify(threats)
     except Exception as err:
@@ -59,7 +58,8 @@ def threats():
 
 
 
-
+# bootstrapping
 from app.models.user import User
 from app.models.threat import Threat
 from app.models.threat_status import ThreatStatus
+from app.models.threat_category import ThreatCategory
