@@ -18,7 +18,7 @@ def requestFileValidation():
     fileList = request.files.getlist('file')
     print(fileList)
     if len(fileList)>20:
-        flash("More than 20 files")
+        flash("Over than 20 files")
         return False
     fileSize = 0
     for file in fileList:
@@ -27,7 +27,7 @@ def requestFileValidation():
         print("fileSize: ")
         print(fileSize)
         if fileSize > ALLOWED_FILES_SIZE:
-            flash("Size of files over the limit of 20 MB")
+            flash("Size of files over the limit of 10 MB")
             return False
         if allowed_file(file.filename) == False:
             flash("Invalid file type")
