@@ -1,10 +1,13 @@
 from flask import Flask, jsonify, request, make_response
+from flask_sqlalchemy import SQLAlchemy
 import jwt
 import datetime
 from functools import wraps
+from config import Config
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'my_secret'
+app.config.from_object(Config)
+db = SQLAlchemy(app)
 
 def token_required(f):
     @wraps(f)
@@ -18,6 +21,7 @@ def token_required(f):
             data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
         except Exception as err:
             return jsonify({'message': 'Invalid token'}), 403
+
         return f(*args, **kwargs)
 
     return decorated
@@ -27,9 +31,12 @@ def token_required(f):
 def login():
     auth = request.authorization
 
-    if auth and auth.password == 'password':
-        token = jwt.encode({'user': auth.username, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=2)}, app.config['SECRET_KEY'])
-        return jsonify({'token': token})
+    if auth:
+        user = User.query.filter_by(email=auth.username).first()
+        
+        if user is not None and user.check_password(auth.password):
+            token = jwt.encode({'user': auth.username, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=2)}, app.config['SECRET_KEY'])
+            return jsonify({'token': token})
     
     return make_response('Invalid credentials', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'})
 
@@ -37,3 +44,6 @@ def login():
 @token_required
 def protected():
     return jsonify({'message': 'You have access!'})
+
+
+from app.models.user import User
