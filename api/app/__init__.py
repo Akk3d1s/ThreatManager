@@ -27,23 +27,39 @@ def token_required(f):
     return decorated
 
 
+# @todo - should check if this account is a developer role
 @app.route('/login')
 def login():
     auth = request.authorization
 
-    if auth:
-        user = User.query.filter_by(email=auth.username).first()
+    try:        
+        if auth:
+            user = User.query.filter_by(email=auth.username).first()
+            
+            if user is not None and user.check_password(auth.password):
+                token = jwt.encode({'user': auth.username, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=2)}, app.config['SECRET_KEY'])
+                return jsonify({'token': token})
         
-        if user is not None and user.check_password(auth.password):
-            token = jwt.encode({'user': auth.username, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=2)}, app.config['SECRET_KEY'])
-            return jsonify({'token': token})
-    
-    return make_response('Invalid credentials', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'})
+        return make_response('Invalid credentials', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'})
+    except Exception as err:
+        # should log err to logging service
+        return jsonify({'error', 'Something went wrong, please contact support'})
 
-@app.route('/protected')
+@app.route('/threats')
 @token_required
-def protected():
-    return jsonify({'message': 'You have access!'})
+def threats():
+
+    try:
+        # threats = ThreatStatus.query.all()
+        threats = Threat.query.all()
+        return jsonify(threats)
+    except Exception as err:
+        # should log err to logging service
+        return jsonify({'error', 'Something went wrong, please contact support'})
+
+
 
 
 from app.models.user import User
+from app.models.threat import Threat
+from app.models.threat_status import ThreatStatus
