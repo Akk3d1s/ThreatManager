@@ -3,3 +3,5 @@ __pycache__
 app.db
 api/venv
 app/static/uploads
+htmlcov
+.coverage
