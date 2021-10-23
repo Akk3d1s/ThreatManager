@@ -10,10 +10,11 @@ from app.models.threat_category import ThreatCategory
 from app.models.comment import Comment
 from app.models.application_role import RoleApplication
 from app.helpers.authenticator import Authenticator
+from sqlalchemy import or_
 
 @app.route('/api_credential')
 @login_required
-def apiCredential():
+def api_credential():
     if not Authenticator.route_access_check(request.path):
         return redirect(url_for('index'))
     # citizen role
@@ -25,7 +26,7 @@ def apiCredential():
         # Threat.category_id==ThreatCategory.id).filter(
         # User.id==current_user.id).all()
         form = ThreatCommentForm()
-        userRoles = db.session.query(UserRole).all()
+        user_roles = db.session.query(UserRole).all()
         threats = db.session.query(
             User, UserRole, Threat, ThreatStatus, ThreatCategory).filter(
             User.role_id == UserRole.id).filter(
@@ -38,7 +39,7 @@ def apiCredential():
             User.id == Comment.user_id).all()
         return render_template(
             "citizen.html", title='Home Page', threats=threats,
-            comments=comments, userRoles=userRoles, form=form)
+            comments=comments, userRoles=user_roles, form=form)
     # police roles
     elif current_user.role_id == 2:
         threats = db.session.query(
@@ -50,7 +51,7 @@ def apiCredential():
             "citizen.html", title="Home Page", threats=threats)
     elif current_user.role_id == 3:
         form = ThreatCommentForm()
-        userRoles = db.session.query(UserRole).all()
+        user_roles = db.session.query(UserRole).all()
         threats = db.session.query(
             User, UserRole, Threat, ThreatStatus, ThreatCategory).filter(
             User.role_id == UserRole.id).filter(
@@ -61,11 +62,11 @@ def apiCredential():
             User.role_id == UserRole.id).filter(
             User.id == Comment.user_id).all()
         return render_template(
-            "editor.html", title='Home Page', userRoles=userRoles,
+            "editor.html", title='Home Page', userRoles=user_roles,
             threats=threats, comments=comments, form=form)
     elif current_user.role_id == 4:
         form = ThreatCommentForm()
-        userRoles = db.session.query(UserRole).all()
+        user_roles = db.session.query(UserRole).all()
         threats = db.session.query(
             User, UserRole, Threat, ThreatStatus, ThreatCategory).filter(
             User.role_id == UserRole.id).filter(
@@ -76,15 +77,15 @@ def apiCredential():
         comments = db.session.query(User, UserRole, Comment).filter(
             User.role_id == UserRole.id).filter(
             User.id == Comment.user_id).all()
-        threatCategories = db.session.query(ThreatCategory).all()
+        threat_categories = db.session.query(ThreatCategory).all()
         return render_template(
             "approver.html", title="Home Page",
-            userRoles=userRoles, threats=threats,
-            comments=comments, threatCategories=threatCategories, form=form)
+            userRoles=user_roles, threats=threats,
+            comments=comments, threatCategories=threat_categories, form=form)
     else:
-        roleApplications = db.session.query(
+        role_applications = db.session.query(
             User, UserRole, RoleApplication).filter(
             User.id == RoleApplication.user_id).filter(
             UserRole.id == RoleApplication.role_id).all()
         return render_template(
-            "admin.html", title="Home Page", roleApplications=roleApplications)
+            "admin.html", title="Home Page", roleApplications=role_applications)
