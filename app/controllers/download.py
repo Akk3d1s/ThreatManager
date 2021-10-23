@@ -35,6 +35,7 @@ def downloadThreatFile(threat_id=None):
             return send_file(filePath+zipFileName, mimetype='application/zip', attachment_filename=zipFileName, as_attachment=True)
     except Exception as error:
         Logger.fail(request.path, error)
+        return redirect(url_for('index'))
 
 @app.route('/download_file_comment/<int:comment_id>', methods=['GET', 'POST'])
 @login_required
@@ -53,6 +54,7 @@ def downloadCommentFile(comment_id=None):
             return send_file(filePath+zipFileName, mimetype='application/zip', attachment_filename=zipFileName, as_attachment=True)
     except Exception as error:
         Logger.fail(request.path, error)
+        return redirect(url_for('index'))
 
 @app.route('/download_all_cases_csv', methods=['GET', 'POST'])
 @login_required
@@ -89,3 +91,4 @@ def downloadAllCases():
         return output
     except Exception as error:
         Logger.fail(request.path, error)
+        return redirect(url_for('index'))

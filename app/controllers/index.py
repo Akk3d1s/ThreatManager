@@ -18,5 +18,6 @@ def index():
         return render_template("dashboard.html", title='Home Page', userRoles=userRoles, roleApplication=roleApplication)
     except Exception as error:
         print(error)
+        return render_template("dashboard.html", title='Home Page', userRoles=userRoles, roleApplication=roleApplication)
 
         

@@ -34,7 +34,7 @@ class Logger:
     @staticmethod
     def fail(requestPath, error):
         leadingPath = requestPath.split("/")[1]
-        errorLog = ErrorLog(route=requestPath, error=error, user_id=current_user.id)
+        errorLog = ErrorLog(route=requestPath, error=str(error), user_id=current_user.id)
         db.session.add(errorLog)
         db.session.commit()
         flash(PATH_ACTION_LIST[leadingPath]+" Failed")

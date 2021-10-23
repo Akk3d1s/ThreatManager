@@ -23,6 +23,7 @@ def roleApplication(role_id=None):
         return redirect(url_for('index'))
     except Exception as error:
         Logger.fail(request.path, error)
+        return redirect(url_for('index'))
 
 @app.route('/role_application_list', methods=['GET', 'POST'])
 @login_required
@@ -35,6 +36,7 @@ def roleApplicationList():
         return render_template("admin.html", title="Home Page", roleApplications=roleApplications)
     except Exception as error:
         Logger.fail(request.path, error)
+        return redirect(url_for('index'))
 
 @app.route('/role_application_approve/<int:role_application_id>', methods=['GET', 'POST'])
 @login_required
@@ -51,6 +53,7 @@ def approveRoleApplication(role_application_id=None):
         return redirect(url_for('roleApplicationList'))
     except Exception as error:
         Logger.fail(request.path, error)
+        return redirect(url_for('index'))
 
 @app.route('/role_application_reject/<int:role_application_id>', methods=['GET', 'POST'])
 @login_required
@@ -63,3 +66,4 @@ def rejectRoleApplication(role_application_id=None):
         return redirect(url_for('roleApplicationList'))
     except Exception as error:
         Logger.fail(request.path, error)
+        return redirect(url_for('index'))

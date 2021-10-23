@@ -78,3 +78,4 @@ def report():
         return render_template('report.html', title='Report', form=form)
     except Exception as error:
         Logger.fail(request.path, error)
+        return redirect(url_for('threat'))
