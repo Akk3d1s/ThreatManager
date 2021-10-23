@@ -9,8 +9,8 @@ def client():
             app.config['WTF_CSRF_ENABLED'] = False
         yield client
 
-def comment(client, data):
-    return client.post('/comment/1', content_type='multipart/form-data', data=data, follow_redirects=True)
+def comment(client, data, threat_id=1):
+    return client.post('/comment/{}'.format(threat_id), content_type='multipart/form-data', data=data, follow_redirects=True)
 
 def test_successful_comment_single_file(client):
     '''Test successful comment'''
@@ -44,12 +44,20 @@ def test_failed_comment_unauthorized_role(client):
     rv = comment(client, data)
     assert b'Comment Sent' not in rv.data
 
-def test_failed_comment_unrelated_citizen(client):
+def test_failed_comment_unauthorized_citizen(client):
     '''Test unauthorized user role comment'''
     with client.session_transaction() as session:
         session['_user_id'] = '6'
-    data = dict(comment='comment_test_unrelated_citizen')
+    data = dict(comment='comment_test_unauthorized_citizen')
     rv = comment(client, data)
+    assert b'Comment Sent' not in rv.data
+
+def test_failed_invalid_threat_id(client):
+    '''Test invalid threat_id'''
+    with client.session_transaction() as session:
+        session['_user_id'] = '2'
+    data = dict(comment='comment_test_invalid_threat_id')
+    rv = comment(client, data, 300)
     assert b'Comment Sent' not in rv.data
 
 def test_failed_comment_no_comment(client):
@@ -59,7 +67,7 @@ def test_failed_comment_no_comment(client):
     data = dict(comment='', file=(io.BytesIO(b'file contents'), "filename.jpg"))
     rv = comment(client, data)
     assert b'Comment Sent' not in rv.data
-    
+
 def test_failed_incorrect_file_extension(client):
     '''Test successful comment'''
     with client.session_transaction() as session:
