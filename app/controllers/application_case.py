@@ -20,7 +20,9 @@ def newcase(threat_id=None):
     except Exception as error:
         Logger.fail(request.path, error)
 
-@app.route('/newcase_approve/<int:threat_id>/<int:category_id>', methods=['GET', 'POST'])
+
+@app.route('/newcase_approve/<int:threat_id>/<int:category_id>', methods=[
+    'GET', 'POST'])
 @login_required
 def approveNewcase(threat_id, category_id):
     try:
@@ -33,6 +35,7 @@ def approveNewcase(threat_id, category_id):
         return redirect(url_for('threat'))
     except Exception as error:
         Logger.fail(request.path, error)
+
 
 @app.route('/newcase_reject/<int:threat_id>', methods=['GET', 'POST'])
 @login_required
@@ -48,6 +51,7 @@ def rejectNewcase(threat_id=None):
     except Exception as error:
         Logger.fail(request.path, error)
 
+
 @app.route('/endcase_application/<int:threat_id>', methods=['GET', 'POST'])
 @login_required
 def endcase(threat_id=None):
@@ -62,6 +66,7 @@ def endcase(threat_id=None):
     except Exception as error:
         Logger.fail(request.path, error)
 
+
 @app.route('/endcase_approve/<int:threat_id>', methods=['GET', 'POST'])
 @login_required
 def approveEndcase(threat_id=None):
@@ -75,6 +80,7 @@ def approveEndcase(threat_id=None):
         return redirect(url_for('threat'))
     except Exception as error:
         Logger.fail(request.path, error)
+
 
 @app.route('/endcase_reject/<int:threat_id>', methods=['GET', 'POST'])
 @login_required

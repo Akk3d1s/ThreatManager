@@ -18,7 +18,7 @@
 </head>
 
   <style>
-    a {text-decoration: none; color: white}
+    a {text-decoration: none; color: white}	
   </style>
 
 <body>
@@ -37,16 +37,19 @@
     <p>
         <div id="dashboardButtonContainer">
             <div>
-                <div class="btn btn-secondary">
                     {% if current_user.role_id == 5 %}
+					<div class="btn btn-secondary">
                     <a href="{{url_for('apiCredential')}}">
                         API Credential
-                    </a> {% else %}
+                    </a>
+					</div>
+					{% elif current_user.role_id != 6 %}
+					<div class="btn btn-secondary">
                     <a href="{{url_for('threat')}}">
                         Threat List
-                    </a> {% endif %}
+                    </a>
+					{% endif %}
                 </div>
-            </div>
             {% if current_user.role_id == 6 %}
 			<div class="btn btn-secondary">
             <a href="{{url_for('roleApplicationList')}}">
@@ -55,7 +58,6 @@
 			</div>
 			{% elif current_user.role_id != 1 %}
             <div class="dropdown">
-
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" role="button" data-bs-toggle="dropdown" aria-expanded="false">Role Application</button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                     {% for userRole in userRoles %}
@@ -63,6 +65,13 @@
                         <a class="dropdown-item" href="{{ url_for('roleApplication', role_id=userRole.id)}}">{{ userRole.role.lower()}}</a>
                     </li>
                     {% endfor %}
+					
+					
+					
+					
+					
+					
+					
                 </ul>
                 {% if roleApplication.role_id %}
                 <div>

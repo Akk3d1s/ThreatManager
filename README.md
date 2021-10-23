@@ -1,60 +1,71 @@
 # ThreatManager
+Please run on Python 3.10.0 or higher
 
+## Installation and running
+__Linux, MacOS and most IDEs__
+1_ Navigate to the root (e.g. cd /ThreatManager )
+2) To run a virtual environment: "python3 -m venv venv"
+3) Activate the newly installed virtual environment: source venv/bin/activate
+4) While in the Venv environment: pip install -r requirements.txt
+5) flask db init (if migrations repo has not been created yet. usually only once, in the beginning of the project)
+6) python cli.py
+7) init
+8) flask run (should run at http://127.0.0.1:5000)
 
-## Installation
-
-__Windows__
-1) Navigate to ThreatManager: e.g. cd/ThreatManager
+__Windows Command Prompt_
+1) Navigate to the root: e.g. cd ThreatManager
 2) To create a virtual environment (recommended): Python -m venv venv
 3) To activate the installed environment: venv\scripts\activate
 4) While in the Venv environment: pip install -r requirements.txt
-5) flask db init
+5) flask db init (if migrations repo has not been created yet. usually only once, in the beginning of the project)
 6) python cli.py
 7) init
-8) flask run
+8) flask run (should run at http://127.0.0.1:5000)
+
+## Test roles for the marker
+The Google Authenticator key for all of the below roles: 4HMSIHRWLTJM25VFB37FAGYSSZG2LER6
+
+Citizen (can log threats):
+Email: justin@gmail.com
+Password: justin
+
+Editor (can reply to citizen to ask for more information and forward cases to the approver):
+Email: hendrik@police.com
+Password: hendrik
+
+Approver (can approve or reject cases)
+Email: jonny@police.com
+Password: jonny
+
+Admin (can change user roles upon request):
+Email: admin@police.com
+Password: admin
+
+Developer (can access the API):
+Email: developer@police.com
+Password: developer
 
 
-__Linux and MacOS__
-"python3 -m venv venv" (this will run the venv package and create a virtual environment called venv. We do this to not affect our global version of python)
-to activate newly installed virtual environment type "source venv/bin/activate"
-while in the venv environment:
-- pip install flask
-- pip install python-dotenv (to allow using an env file instead of setting the environment variables every time through the terminal)
-- pip install flask-wtf (for handling forms)
-- pip install flask-sqlalchemy (ORM for databases such as sql-lite, mysql etc)
-- pip install flask-migrate (handy tool for handling robust changes to our database in the future)
-- pip install flask-login
-- pip install email-validator
-- pip install flask-mail
-- pip install pyjwt
-- pip install safety (check for security vulnerabilities in the dependencies
-- pip install pylint
-- pip install pyflakes
-- pip install flake8
-- pip install pyotp
-- pip install pytest
-- pip install pytest-cov (coverage reports through "pytest -v --cov=app --cov-report=html"))
-- flask db init (if migrations repo has not been created yet. usually only once, in the beginning of the project)
+## Installation and running of the API  (inside api directory)
+1) Navigate to the directory: cd /ThreatManager/API (cd ThreatManager/API on Windows Command Prompt)
+2) pip install -r requirements.txt
+3) flask run inside the api directory (should run at http://127.0.0.1:5001)
+4) Paste in http://127.0.0.1:5001/login to login
+5) For login details please see the Developer email (username) and password above.
+6) http://127.0.0.1:5001/[*]?token=[put API token in here]
+	* = any of the above can go in teh space above
+	threats
+	threats/[enter the threat id here]/files
+	threats/[enter the threat id here]/files/<file_id>/download
+	threats/[enter the threat id here]/comments
 
 
-## Installation API (inside api directory)
-__Linux and MacOS__
-- pip install flask
-- pip install flask-sqlalchemy (ORM for databases such as sql-lite, mysql etc)
-- pip install flask_restful
-- pip install python-dotenv
-- pip install safety
-- pip install pyjwt
 # @todo - check linting and testing
 
-
-
-## Running
-### Serve the app
-- flask run (should run at http://127.0.0.1:5000)
-
-### Serve the API
-- flask run inside the api directory (should run at http://127.0.0.1:5001)
+## Command Line Interface
+1) Run cli.py from within the root
+2) useful commands:
+	
 
 ### Updating DB schema
 - flask db migrate (to generate migration scripts. these scripts are used to update the db schema according to the application code)
