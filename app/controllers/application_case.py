@@ -1,16 +1,23 @@
-from flask import redirect, url_for, request
+from flask import flash, redirect, url_for, request
 from flask_login import login_required
 from app import app, db
 from app.models.threat import Threat
+from app.models.threat_category import ThreatCategory
 from app.helpers.authenticator import Authenticator
 from app.helpers.logger import Logger
 
+
+def validateThreatIDnCategoryID(threat_id, category_id=1):
+    return (Threat.query.filter_by(id=threat_id).first() and ThreatCategory.query.filter_by(id=category_id).first())
 
 @app.route('/newcase_application/<int:threat_id>', methods=['GET', 'POST'])
 @login_required
 def newcase(threat_id=None):
     try:
         if not Authenticator.route_access_check(request.path):
+            return redirect(url_for('index'))
+        if not validateThreatIDnCategoryID(threat_id):
+            flash("Invalid ID of threat")
             return redirect(url_for('index'))
         threat = Threat.query.filter_by(id=threat_id).first()
         threat.status_id = 2
@@ -30,10 +37,14 @@ def approveNewcase(threat_id, category_id):
     try:
         if not Authenticator.route_access_check(request.path):
             return redirect(url_for('index'))
+        if not validateThreatIDnCategoryID(threat_id, category_id):
+            flash("Invalid ID of threat or category")
+            return redirect(url_for('index'))
         threat = Threat.query.filter_by(id=threat_id).first()
         threat.status_id = 3
         threat.category_id = category_id
         db.session.commit()
+        Logger.success(request.path)
         return redirect(url_for('threat'))
     except Exception as error:
         Logger.fail(request.path, error)
@@ -46,6 +57,9 @@ def approveNewcase(threat_id, category_id):
 def rejectNewcase(threat_id=None):
     try:
         if not Authenticator.route_access_check(request.path):
+            return redirect(url_for('index'))
+        if not validateThreatIDnCategoryID(threat_id):
+            flash("Invalid ID of threat")
             return redirect(url_for('index'))
         threat = Threat.query.filter_by(id=threat_id).first()
         threat.status_id = 6
@@ -64,6 +78,9 @@ def endcase(threat_id=None):
     try:
         if not Authenticator.route_access_check(request.path):
             return redirect(url_for('index'))
+        if not validateThreatIDnCategoryID(threat_id):
+            flash("Invalid ID of threat")
+            return redirect(url_for('index'))
         threat = Threat.query.filter_by(id=threat_id).first()
         threat.status_id = 4
         db.session.commit()
@@ -80,6 +97,9 @@ def endcase(threat_id=None):
 def approveEndcase(threat_id=None):
     try:
         if not Authenticator.route_access_check(request.path):
+            return redirect(url_for('index'))
+        if not validateThreatIDnCategoryID(threat_id):
+            flash("Invalid ID of threat")
             return redirect(url_for('index'))
         threat = Threat.query.filter_by(id=threat_id).first()
         threat.status_id = 5
@@ -98,9 +118,13 @@ def rejectEndcase(threat_id=None):
     try:
         if not Authenticator.route_access_check(request.path):
             return redirect(url_for('index'))
+        if not validateThreatIDnCategoryID(threat_id):
+            flash("Invalid ID of threat")
+            return redirect(url_for('index'))
         threat = Threat.query.filter_by(id=threat_id).first()
         threat.status_id = 3
         db.session.commit()
+        Logger.success(request.path)
         return redirect(url_for('threat'))
     except Exception as error:
         Logger.fail(request.path, error)

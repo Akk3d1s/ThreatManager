@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, request
+from flask import flash, redirect, url_for, request
 from flask_login import login_required
 from app import ALLOWED_EXTENSIONS, ALLOWED_FILES_SIZE, app, db
 from app.forms import ThreatCommentForm
@@ -69,10 +69,11 @@ def requestFileSaveZip(comment_id):
 def validateThreatIDnCitizen(threat_id):
     if Threat.query.filter_by(id=threat_id).first() is not None: 
         if current_user.role_id == 1:
-            if not current_user.id == Threat.query.filter_by(id=threat_id). first().user_id:
+            if not current_user.id == Threat.query.filter_by(id=threat_id).first().user_id:
                 flash('Unauthorized Threat')
                 return False
         return True
+    flash('Invalid ID of Threat')
     return False
 
 @app.route('/comment/<int:threat_id>', methods=['GET', 'POST'])

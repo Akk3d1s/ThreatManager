@@ -11,10 +11,10 @@ from flask_login import current_user
 # }
 PATH_ROLE_LIST = {
     'api_credential': [5],
-    'newcase_application': [1,3],
+    'newcase_application': [3],
     'newcase_approve': [4],
     'newcase_reject': [4],
-    'endcase_application': [1,3],
+    'endcase_application': [3],
     'endcase_approve': [4],
     'endcase_reject': [4],
     'role_application': [2,3,4,5],

@@ -13,7 +13,7 @@ def comment(client, data, threat_id=1):
     return client.post('/comment/{}'.format(threat_id), content_type='multipart/form-data', data=data, follow_redirects=True)
 
 def test_successful_comment_single_file(client):
-    '''Test successful comment'''
+    '''Test successful comment with one file'''
     with client.session_transaction() as session:
         session['_user_id'] = '1'
     data = dict(comment='comment_test_single_file', file=(io.BytesIO(b'file contents'), "filename.jpg"))
@@ -21,7 +21,7 @@ def test_successful_comment_single_file(client):
     assert b'Comment Sent' in rv.data
 
 def test_successful_comment_multiple_file(client):
-    '''Test successful comment'''
+    '''Test successful comment with multiple files'''
     with client.session_transaction() as session:
         session['_user_id'] = '1'
     data = dict(comment='comment_test_multiple_file', file=[(io.BytesIO(b'file contents'), "filename.jpg"),(io.BytesIO(b'file contents'), "filename.jpg"),(io.BytesIO(b'file contents'), "filename.jpg")])
@@ -29,7 +29,7 @@ def test_successful_comment_multiple_file(client):
     assert b'Comment Sent' in rv.data
 
 def test_successful_comment_without_file(client):
-    '''Test successful comment'''
+    '''Test successful comment without file'''
     with client.session_transaction() as session:
         session['_user_id'] = '1'
     data = dict(comment='comment_test_without_file', file=(io.BytesIO(),''))
@@ -57,7 +57,8 @@ def test_failed_invalid_threat_id(client):
     with client.session_transaction() as session:
         session['_user_id'] = '2'
     data = dict(comment='comment_test_invalid_threat_id')
-    rv = comment(client, data, 300)
+    threat_id = 300
+    rv = comment(client, data, threat_id)
     assert b'Comment Sent' not in rv.data
 
 def test_failed_comment_no_comment(client):
