@@ -53,14 +53,12 @@ Password: developer
 4) Paste in http://127.0.0.1:5001/login to login
 5) For login details please see the Developer email (username) and password above.
 6) http://127.0.0.1:5001/[*]?token=[put API token in here]
-	* = any of the above can go in th espace above
+	* = any of the above can go in teh space above
 	threats
 	threats/[enter the threat id here]/files
 	threats/[enter the threat id here]/files/<file_id>/download
 	threats/[enter the threat id here]/comments
 
-
-# API in the terminal
 
 # @todo - check linting and testing
 
