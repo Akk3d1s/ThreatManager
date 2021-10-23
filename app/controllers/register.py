@@ -22,7 +22,7 @@ def register():
             flash('secret from form', form.secret.data)
         return render_template('register.html', title='Register', form=form, secret=form.secret.data)
     except Exception as error:
-        print(error)
+        flash('Something went wrong. Please contact support.')
 
 
 @app.route('/confirm_account/<token>')
@@ -61,6 +61,7 @@ def resend_confirmation(token):
         else:
             confirmation_token = url_safe_timed_serializer.dumps(email)
             Mailer.send_confirmation_mail(email, confirmation_token)
+            flash('Mail sent!')
     except BadSignature:
         flash('Invalid request')
     return redirect(url_for('login'))
