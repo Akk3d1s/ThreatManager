@@ -60,7 +60,13 @@ Password: developer
 	threats/[enter the threat id here]/comments
 
 
-# @todo - check linting and testing
+## Testing Monolith
+- go into /tests directory
+- run pytest
+
+## Testing API
+- go into /api directory
+- run pytest
 
 ## Command Line Interface
 1) Run cli.py from within the root
