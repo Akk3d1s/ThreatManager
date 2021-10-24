@@ -24,17 +24,17 @@ PATH_ACTION_LIST = {
 
 class Logger:
     @staticmethod
-    def success(requestPath):
-        leadingPath = requestPath.split("/")[1]
-        actionLog = ActionLog(route=requestPath, action=PATH_ACTION_LIST[leadingPath], user_id=current_user.id)
-        db.session.add(actionLog)
+    def success(request_path):
+        leading_path = request_path.split("/")[1]
+        action_log = ActionLog(route=request_path, action=PATH_ACTION_LIST[leading_path], user_id=current_user.id)
+        db.session.add(action_log)
         db.session.commit()
-        flash(PATH_ACTION_LIST[leadingPath])
+        flash(PATH_ACTION_LIST[leading_path])
 
     @staticmethod
-    def fail(requestPath, error):
-        leadingPath = requestPath.split("/")[1]
-        errorLog = ErrorLog(route=requestPath, error=str(error), user_id=current_user.id)
-        db.session.add(errorLog)
+    def fail(request_path, error):
+        leading_path = request_path.split("/")[1]
+        error_log = ErrorLog(route=request_path, error=str(error), user_id=current_user.id)
+        db.session.add(error_log)
         db.session.commit()
-        flash(PATH_ACTION_LIST[leadingPath]+" Failed")
+        flash(PATH_ACTION_LIST[leading_path]+" Failed")

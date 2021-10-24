@@ -30,9 +30,9 @@ PATH_ROLE_LIST = {
 
 class Authenticator:
     @staticmethod
-    def route_access_check(requestPath):
-        leadingPath = requestPath.split("/")[1]
-        if current_user.role_id in PATH_ROLE_LIST[leadingPath]:
+    def route_access_check(request_path):
+        leading_path = request_path.split("/")[1]
+        if current_user.role_id in PATH_ROLE_LIST[leading_path]:
             return True
         flash('Unauthorized Access')
         return False
