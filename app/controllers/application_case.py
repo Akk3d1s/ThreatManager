@@ -7,7 +7,7 @@ from app.helpers.authenticator import Authenticator
 from app.helpers.logger import Logger
 
 
-def validateThreatIDnCategoryID(threat_id, category_id=1):
+def validate_threat_idn_category_id(threat_id, category_id=1):
     return (Threat.query.filter_by(id=threat_id).first() and ThreatCategory.query.filter_by(id=category_id).first())
 
 @app.route('/newcase_application/<int:threat_id>', methods=['GET', 'POST'])
@@ -16,7 +16,7 @@ def newcase(threat_id=None):
     try:
         if not Authenticator.route_access_check(request.path):
             return redirect(url_for('index'))
-        if not validateThreatIDnCategoryID(threat_id):
+        if not validate_threat_idn_category_id(threat_id):
             flash("Invalid ID of threat")
             return redirect(url_for('index'))
         threat = Threat.query.filter_by(id=threat_id).first()
@@ -37,7 +37,7 @@ def approve_newcase(threat_id, category_id):
     try:
         if not Authenticator.route_access_check(request.path):
             return redirect(url_for('index'))
-        if not validateThreatIDnCategoryID(threat_id, category_id):
+        if not validate_threat_idn_category_id(threat_id, category_id):
             flash("Invalid ID of threat or category")
             return redirect(url_for('index'))
         threat = Threat.query.filter_by(id=threat_id).first()
@@ -58,7 +58,7 @@ def reject_newcase(threat_id=None):
     try:
         if not Authenticator.route_access_check(request.path):
             return redirect(url_for('index'))
-        if not validateThreatIDnCategoryID(threat_id):
+        if not validate_threat_idn_category_id(threat_id):
             flash("Invalid ID of threat")
             return redirect(url_for('index'))
         threat = Threat.query.filter_by(id=threat_id).first()
@@ -78,7 +78,7 @@ def endcase(threat_id=None):
     try:
         if not Authenticator.route_access_check(request.path):
             return redirect(url_for('index'))
-        if not validateThreatIDnCategoryID(threat_id):
+        if not validate_threat_idn_category_id(threat_id):
             flash("Invalid ID of threat")
             return redirect(url_for('index'))
         threat = Threat.query.filter_by(id=threat_id).first()
@@ -98,7 +98,7 @@ def approve_endcase(threat_id=None):
     try:
         if not Authenticator.route_access_check(request.path):
             return redirect(url_for('index'))
-        if not validateThreatIDnCategoryID(threat_id):
+        if not validate_threat_idn_category_id(threat_id):
             flash("Invalid ID of threat")
             return redirect(url_for('index'))
         threat = Threat.query.filter_by(id=threat_id).first()
@@ -118,7 +118,7 @@ def reject_endcase(threat_id=None):
     try:
         if not Authenticator.route_access_check(request.path):
             return redirect(url_for('index'))
-        if not validateThreatIDnCategoryID(threat_id):
+        if not validate_threat_idn_category_id(threat_id):
             flash("Invalid ID of threat")
             return redirect(url_for('index'))
         threat = Threat.query.filter_by(id=threat_id).first()
