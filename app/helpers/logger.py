@@ -56,8 +56,4 @@ class Logger:
         error_log = ErrorLog(route=request_path, error=str(error), user_id=current_user.id)
         db.session.add(error_log)
         db.session.commit()
-<<<<<<< HEAD
         flash("Error Occurred in "+ PATH_FAIL_LIST[leadingPath])
-=======
-        flash(PATH_ACTION_LIST[leading_path]+" Failed")
->>>>>>> Jonny

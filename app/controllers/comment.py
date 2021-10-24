@@ -66,24 +66,12 @@ def request_file_save_zip(comment_id):
 # validate threat_id is exist first
 # if user is citizen, validate if the citizen is the reporter of the threat first
 # since a citizen can only access and comment on the threat related to herself/himself
-<<<<<<< HEAD
-def validateThreatIDnCitizen(threat_id):
-    if Threat.query.filter_by(id=threat_id).first() is not None: 
-        if current_user.role_id == 1:
-            if not current_user.id == Threat.query.filter_by(id=threat_id).first().user_id:
-                flash('Unauthorized Threat')
-                return False
-        return True
-    flash('Invalid ID of Threat')
-    return False
-=======
 def validate_citizen(threat_id):
     if current_user.role_id == 1:
         if not current_user.id == Threat.query.filter_by(id=threat_id).first().user_id:
             flash('Unauthorized Threat')
             return False
     return True
->>>>>>> Jonny
 
 @app.route('/comment/<int:threat_id>', methods=['GET', 'POST'])
 @login_required
@@ -91,11 +79,7 @@ def comment(threat_id=None):
     try:
         if not Authenticator.route_access_check(request.path):
             return redirect(url_for('index'))
-<<<<<<< HEAD
-        if not validateThreatIDnCitizen(threat_id): 
-=======
         if not validate_citizen(threat_id): 
->>>>>>> Jonny
             return redirect(url_for('index'))
         form = ThreatCommentForm()
         if form.validate_on_submit():
