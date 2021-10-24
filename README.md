@@ -1,7 +1,7 @@
 # ThreatManager
 Please run on Python 3.10.0 or higher
 
-## Installation and running
+## Installation and running of the Monlith
 __Linux, MacOS and most IDEs__
 1_ Navigate to the root (e.g. cd /ThreatManager )
 2) To run a virtual environment: "python3 -m venv venv"
