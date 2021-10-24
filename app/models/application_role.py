@@ -8,5 +8,9 @@ class RoleApplication(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     role_id = db.Column(db.Integer, db.ForeignKey('user_role.id'))
 
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
     def __repr__(self):
         return '<Role Application userId: {}, roleId: {}>'.format(self.user_id, self.role_id)

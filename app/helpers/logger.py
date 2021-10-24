@@ -11,8 +11,8 @@ PATH_ACTION_LIST = {
     'endcase_application': "Applied for End Case",
     'endcase_approve': "Approved End Case",
     'endcase_reject': "Rejected End Case",
-    'role_application': "Applied Role Change",
-    'role_application_list': "View Role Application List",
+    'role_application': "Applied for Role Change",
+    'role_application_list': "View Role Change Application List",
     'role_application_approve': "Approved Role Change Application",
     'role_application_reject': "Rejected Role Change Application",
     'comment': "Comment Sent",
@@ -22,7 +22,7 @@ PATH_ACTION_LIST = {
     'report': "Reported New Threat"
 }
 
-PATH_FAIL_LIST = {
+PATH_ERROR_LIST = {
     'api_credential': "Inspecting credential",
     'newcase_application': "Appling for New Case",
     'newcase_approve': "Approving New Case",
@@ -56,4 +56,4 @@ class Logger:
         error_log = ErrorLog(route=request_path, error=str(error), user_id=current_user.id)
         db.session.add(error_log)
         db.session.commit()
-        flash("Error Occurred in "+ PATH_FAIL_LIST[leadingPath])
+        flash("Error Occurred in "+ PATH_ERROR_LIST[leading_path])

@@ -22,7 +22,7 @@ from app.helpers.logger import Logger
 @login_required
 def download_threat_file(threat_id=None):
     try:
-        if not Authenticator.route_access_check(request.path):
+        if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))
         files = ThreatFile.query.filter(ThreatFile.threat_id==threat_id).all()
         file_path = join(dirname(realpath(__file__)))+'/../static/uploads/'
@@ -41,7 +41,7 @@ def download_threat_file(threat_id=None):
 @login_required
 def download_comment_file(comment_id=None):
     try:
-        if not Authenticator.route_access_check(request.path):
+        if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))
         files = CommentFile.query.filter(CommentFile.comment_id==comment_id).all()
         file_path = join(dirname(realpath(__file__)))+'/../static/uploads/'
@@ -60,7 +60,7 @@ def download_comment_file(comment_id=None):
 @login_required
 def download_all_cases():
     try:
-        if not Authenticator.route_access_check(request.path):
+        if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))
         s_i = StringIO()
         writer = csv.DictWriter(s_i, fieldnames=['threat_id', 'title', 'category', 'status', 'description', 'steps', 'reported_time', 'user', 'user_role', 'email'])

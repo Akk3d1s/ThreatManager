@@ -1,5 +1,6 @@
 from flask import flash
 from flask_login import current_user
+from app.models.threat import Threat
 
 # ROLE_LIST = {
 #     'PUBLIC': 1,
@@ -28,11 +29,25 @@ PATH_ROLE_LIST = {
     'report': [1,3]
 }
 
+UNAUTHORIZED_ROUTE_ACCESS = "Unauthorized Route Access"
+UNAUTHORIZED_THREAT_ACCESS = "Unauthorized Threat Access"
+
 class Authenticator:
     @staticmethod
-    def route_access_check(request_path):
-        leading_path = request_path.split("/")[1]
-        if current_user.role_id in PATH_ROLE_LIST[leading_path]:
+    def role_access_check(requestPath):
+        leadingPath = requestPath.split("/")[1]
+        if current_user.role_id in PATH_ROLE_LIST[leadingPath]:
             return True
-        flash('Unauthorized Access')
+        flash(UNAUTHORIZED_ROUTE_ACCESS)
         return False
+
+    # validate threat_id is exist first
+    # if user is citizen, validate if the citizen is the reporter of the threat first
+    # since a citizen can only access and comment on the threat related to herself/himself
+    @staticmethod
+    def citizen_access_check(threat_id):
+        if current_user.role_id == 1:
+            if not current_user.id == Threat.query.filter_by(id=threat_id).first().user_id:
+                flash(UNAUTHORIZED_THREAT_ACCESS)
+                return False
+        return True

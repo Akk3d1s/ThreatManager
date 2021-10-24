@@ -5,3 +5,5 @@ api/venv
 app/static/uploads
 htmlcov
 .coverage
+.pytest_cache
+.pytest_cache/v
