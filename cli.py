@@ -95,9 +95,6 @@ def psh_seed():
     comment.save()
     commentFile = CommentFile(file='seed_comment_file', comment_id=comment.id)
     commentFile.save()
-    # viewer = User(first_name="Darth", surname="Viewer", email="darth@police.com", role_id=2, totp_secret="4HMSIHRWLTJM25VFB37FAGYSSZG2LER6", is_active=1)
-    # viewer.set_password("darth")
-    # viewer.save()
 
     
 
