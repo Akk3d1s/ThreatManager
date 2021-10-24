@@ -25,14 +25,14 @@ def download_threat_file(threat_id=None):
         if not Authenticator.route_access_check(request.path):
             return redirect(url_for('index'))
         files = ThreatFile.query.filter(ThreatFile.threat_id==threat_id).all()
-        filePath = join(dirname(realpath(__file__)))+'/../static/uploads/'
+        file_path = join(dirname(realpath(__file__)))+'/../static/uploads/'
         if len(files)==1:
             Logger.success(request.path)
-            return send_file(filePath+files[0].file, attachment_filename=files[0].file, as_attachment=True)
+            return send_file(file_path+files[0].file, attachment_filename=files[0].file, as_attachment=True)
         else:
-            zipFileName = 'threat'+str(threat_id)+'.zip'
+            zip_file_name = 'threat'+str(threat_id)+'.zip'
             Logger.success(request.path)
-            return send_file(filePath+zipFileName, mimetype='application/zip', attachment_filename=zipFileName, as_attachment=True)
+            return send_file(file_path+zip_file_name, mimetype='application/zip', attachment_filename=zip_file_name, as_attachment=True)
     except Exception as error:
         Logger.fail(request.path, error)
         return redirect(url_for('index'))
@@ -44,14 +44,14 @@ def download_comment_file(comment_id=None):
         if not Authenticator.route_access_check(request.path):
             return redirect(url_for('index'))
         files = CommentFile.query.filter(CommentFile.comment_id==comment_id).all()
-        filePath = join(dirname(realpath(__file__)))+'/../static/uploads/'
+        file_path = join(dirname(realpath(__file__)))+'/../static/uploads/'
         if len(files)==1:
             Logger.success(request.path)
-            return send_file(filePath+files[0].file, attachment_filename=files[0].file, as_attachment=True)
+            return send_file(file_path+files[0].file, attachment_filename=files[0].file, as_attachment=True)
         else:
-            zipFileName = 'comment'+str(comment_id)+'.zip'
+            zip_file_name = 'comment'+str(comment_id)+'.zip'
             Logger.success(request.path)
-            return send_file(filePath+zipFileName, mimetype='application/zip', attachment_filename=zipFileName, as_attachment=True)
+            return send_file(file_path+zip_file_name, mimetype='application/zip', attachment_filename=zip_file_name, as_attachment=True)
     except Exception as error:
         Logger.fail(request.path, error)
         return redirect(url_for('index'))
@@ -62,8 +62,8 @@ def download_all_cases():
     try:
         if not Authenticator.route_access_check(request.path):
             return redirect(url_for('index'))
-        si = StringIO()
-        writer = csv.DictWriter(si, fieldnames=['threat_id', 'title', 'category', 'status', 'description', 'steps', 'reported_time', 'user', 'user_role', 'email'])
+        s_i = StringIO()
+        writer = csv.DictWriter(s_i, fieldnames=['threat_id', 'title', 'category', 'status', 'description', 'steps', 'reported_time', 'user', 'user_role', 'email'])
         row_data = {"threat_id":"threat_id", "title":"title", "category":"category", "status":"status", "description":"description", "steps":"steps", "reported_time":"reported_time", "user":"user", "user_role":"user_role", "email":"email"}
         writer.writerow(row_data)
         if current_user.role_id == 1:
@@ -83,7 +83,7 @@ def download_all_cases():
                             "email": threat.User.email
                         }
             writer.writerow(row_data)
-        output = make_response(si.getvalue())
+        output = make_response(s_i.getvalue())
         current_date = datetime.datetime.now().strftime('%Y%m%d')
         output.headers["Content-Disposition"] = "attachment; filename=threats_{}.csv".format(current_date)
         output.headers["Content-type"] = "text/csv"
