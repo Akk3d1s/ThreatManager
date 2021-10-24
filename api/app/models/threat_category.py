@@ -1,9 +1,11 @@
+'''ThreatCategory'''
 from dataclasses import dataclass
 from app import db
 
 
 @dataclass
 class ThreatCategory(db.Model):
+    '''ThreatCategory model'''
     __tablename__ = 'threat_category'
     category: str
 

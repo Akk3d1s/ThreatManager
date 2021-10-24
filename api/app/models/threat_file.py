@@ -1,10 +1,10 @@
+'''ThreatFile'''
 from dataclasses import dataclass
-from datetime import datetime
-from sqlalchemy.orm import backref, relationship
 from app import db
 
 @dataclass
 class ThreatFile(db.Model):
+    '''ThreatFile model'''
     __tablename__ = 'file_threat'
     id: int
     file: str

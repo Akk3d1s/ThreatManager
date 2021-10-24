@@ -1,11 +1,13 @@
+'''Threat'''
 from dataclasses import dataclass
 from datetime import datetime
-from sqlalchemy.orm import backref, relationship
+from sqlalchemy.orm import relationship
 from app import db
 
 
 @dataclass
 class Threat(db.Model):
+    '''Threat model'''
     __tablename__ = 'threat'
     id: int
     title: str

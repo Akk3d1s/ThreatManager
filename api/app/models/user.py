@@ -1,11 +1,13 @@
+'''User'''
+from dataclasses import dataclass
 from app import db
 from werkzeug.security import check_password_hash
-from dataclasses import dataclass
-from sqlalchemy.orm import backref, relationship
+from sqlalchemy.orm import relationship
 
 
 @dataclass
 class User(db.Model):
+    '''User model'''
     id: int
     email: str
     password: str
@@ -20,4 +22,5 @@ class User(db.Model):
     role = relationship('UserRole', backref='user')
 
     def check_password(self, password):
+        '''Check if password is valid'''
         return check_password_hash(self.password, password)
