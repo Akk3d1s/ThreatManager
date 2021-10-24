@@ -5,13 +5,15 @@
 import os
 import subprocess
 import shutil
+import io
 
 from app.models.user import User
 from app.models.user_role import UserRole, UserRoles
+from app.models.threat import Threat
 from app.models.threat_status import ThreatStatus, ThreatStatuses
 from app.models.threat_category import ThreatCategory, ThreatCategories
-from app.models.threat_attachment import ThreatAttachment
-from app.models.threat_attachment_extension import ThreatAttachmentExtension
+from app.models.comment import Comment
+from app.models.file import CommentFile
 
 
 
@@ -84,6 +86,15 @@ def psh_seed():
     admin = User(first_name="Police", surname="Admin", email="admin@police.com", role_id=6, totp_secret="4HMSIHRWLTJM25VFB37FAGYSSZG2LER6", is_active=1)
     admin.set_password("admin")
     admin.save()
+    citizen = User(first_name="Darth", surname="Citizen", email="citizen@gmail.com", role_id=1, totp_secret="4HMSIHRWLTJM25VFB37FAGYSSZG2LER6", is_active=1)
+    citizen.set_password("citizen")
+    citizen.save()
+    threat = Threat(title='Seed Threat', description='This is a seed threat for testing', reproduce_steps='Seed created this threat and used for testing', user_id=1, status_id=1, category_id=1)
+    threat.save()
+    comment = Comment(comment='Seed Comment', user_id=3, threat_id=threat.id)
+    comment.save()
+    commentFile = CommentFile(file='seed_comment_file', comment_id=comment.id)
+    commentFile.save()
     # viewer = User(first_name="Darth", surname="Viewer", email="darth@police.com", role_id=2, totp_secret="4HMSIHRWLTJM25VFB37FAGYSSZG2LER6", is_active=1)
     # viewer.set_password("darth")
     # viewer.save()

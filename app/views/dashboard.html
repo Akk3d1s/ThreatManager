@@ -39,7 +39,7 @@
             <div>
                     {% if current_user.role_id == 5 %}
 					<div class="btn btn-secondary">
-                    <a href="{{url_for('apiCredential')}}">
+                    <a href="{{url_for('api_credential')}}">
                         API Credential
                     </a>
 					</div>
@@ -52,7 +52,7 @@
                 </div>
             {% if current_user.role_id == 6 %}
 			<div class="btn btn-secondary">
-            <a href="{{url_for('roleApplicationList')}}">
+            <a href="{{url_for('role_application_list')}}">
                 Role Applications
             </a>
 			</div>
@@ -62,7 +62,7 @@
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                     {% for userRole in userRoles %}
                     <li>
-                        <a class="dropdown-item" href="{{ url_for('roleApplication', role_id=userRole.id)}}">{{ userRole.role.lower()}}</a>
+                        <a class="dropdown-item" href="{{ url_for('role_application', role_id=userRole.id)}}">{{ userRole.role.lower()}}</a>
                     </li>
                     {% endfor %}
 					

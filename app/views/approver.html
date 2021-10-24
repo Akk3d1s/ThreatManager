@@ -34,7 +34,7 @@
                 <a href="{{ url_for('report') }}">Report New Threat <i class="fas fa-plus-circle"></i></a>
             </div> -->
             <div class="caseDownloadButton">
-                <a href="{{ url_for('downloadAllCases') }}">Download Case Logs as CSV <i class="fas fa-download"></i></a>
+                <a href="{{ url_for('download_all_cases') }}">Download Case Logs as CSV <i class="fas fa-download"></i></a>
             </div>
         </div>
         <div class="casesInfoContainer">
@@ -119,7 +119,7 @@
                                     {% if threat.file_count > 1 %} Attachment ({{threat.file_count}} Files Zip) {% else %} Attachment ({{threat.file_count}} File) {% endif %}
                                 </div>
                                 <button class="fileDownloadButton" type="button">
-                                    <a href="{{ url_for('downloadThreatFile', threat_id=threat.Threat.id) }}">Download</a>
+                                    <a href="{{ url_for('download_threat_file', threat_id=threat.Threat.id) }}">Download</a>
                                 </button>
                             </div>
                         </div>
@@ -172,11 +172,11 @@
                                 {% elif comment.file_count > 1 %}
                                 <div>Attachment ({{comment.file_count}} Files Zip) </div>
                                 <button class="fileDownloadButton" type="button">
-                                    <a href="{{ url_for('downloadCommentFile', comment_id=comment.Comment.id) }}">Download</a>
+                                    <a href="{{ url_for('download_comment_file', comment_id=comment.Comment.id) }}">Download</a>
                                 </button> {% else %}
                                 <div>Attachment ({{comment.file_count}} File)</div>
                                 <button class="fileDownloadButton" type="button">
-                                    <a href="{{ url_for('downloadCommentFile', comment_id=comment.Comment.id) }}">Download</a>
+                                    <a href="{{ url_for('download_comment_file', comment_id=comment.Comment.id) }}">Download</a>
                                 </button> {% endif %}
                             </div>
                         </div>
@@ -207,18 +207,18 @@
                     <div id="threat-categories-menu-Arr{{threat.Threat.id}}" class="dropdown-menu-self hide" aria-labelledby="approveDropdown">
                         <!-- <div style="height:100%; text-align: center;">Category: </div> -->
                         {% for threatCategory in threatCategories %}
-                        <a class="dropdown-item" href="{{ url_for('approveNewcase', threat_id=threat.Threat.id, category_id=threatCategory.id) }}">{{ threatCategory.category }}</a> {% endfor %}
+                        <a class="dropdown-item" href="{{ url_for('approve_newcase', threat_id=threat.Threat.id, category_id=threatCategory.id) }}">{{ threatCategory.category }}</a> {% endfor %}
                     </div>
 
 
-                    <a href="{{ url_for('rejectNewcase', threat_id=threat.Threat.id) }}">
+                    <a href="{{ url_for('reject_newcase', threat_id=threat.Threat.id) }}">
                         <div type="button" class="btn btn-danger approvalApplicationButton">Reject</div>
                     </a>
                     {% elif threat.ThreatStatus.status == "APPROVINGENDCASE" %}
-                    <a href="{{ url_for('approveEndcase', threat_id=threat.Threat.id) }}">
+                    <a href="{{ url_for('approve_endcase', threat_id=threat.Threat.id) }}">
                         <div type="button" class="btn btn-success approvalApplicationButton">Approve</div>
                     </a>
-                    <a href="{{ url_for('rejectEndcase', threat_id=threat.Threat.id) }}">
+                    <a href="{{ url_for('reject_endcase', threat_id=threat.Threat.id) }}">
                         <div type="button" class="btn btn-danger approvalApplicationButton">Reject</div>
                     </a>
                     <button type="button" class="btn btn-secondary">Contact consulting agencies</button> {% endif %}

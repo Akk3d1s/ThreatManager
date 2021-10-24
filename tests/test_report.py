@@ -1,9 +1,6 @@
 import pytest
 from app import app
-from flask import url_for
 import io
-import flask_login
-from app.models.user import User
 
 @pytest.fixture
 def client():
@@ -21,7 +18,7 @@ def test_successful_report_single_file(client):
         session['_user_id'] = '2'
     data = dict(title='title', description='description', reproduce_steps='reproduce_steps', file=(io.BytesIO(b'file contents'), "filename.jpg"))
     rv = report(client, data)
-    assert b'Report New Threat' in rv.data
+    assert b'New Case Logged' in rv.data
 
 def test_successful_report_multiple_files(client):
     '''Test successful report'''
@@ -29,10 +26,10 @@ def test_successful_report_multiple_files(client):
         session['_user_id'] = '2'
     data = dict(title='title', description='description', reproduce_steps='reproduce_steps', file=[(io.BytesIO(b'file contents'), "filename.jpg"),(io.BytesIO(b'file contents'), "filename.jpg")])
     rv = report(client, data)
-    assert b'Report New Threat' in rv.data
+    assert b'New Case Logged' in rv.data
 
 def test_failed_report_unauthorized_role(client):
-    '''Test unauthorized user report''' 
+    '''Test unauthorized user role report''' 
     with client.session_transaction() as session:
         session['_user_id'] = '4'
     data = dict(title='title', description='description', reproduce_steps='reproduce_steps', file=(io.BytesIO(b'file contents'), "filename.jpg"))
@@ -51,7 +48,7 @@ def test_failed_report_no_file(client):
     '''Test failed report with no file'''
     with client.session_transaction() as session:
         session['_user_id'] = '2'
-    data = dict(title='title', description='description', reproduce_steps='steps')
+    data = dict(title='title', description='description', reproduce_steps='steps', file=(io.BytesIO(),''))
     rv = report(client, data)
     assert b'Check this box to confirm that you are happy to send this issue to the Police' in rv.data
 

@@ -12,6 +12,7 @@ from app.models.threat_category import ThreatCategory
 from app.models.threat_file import ThreatFile
 from app.models.threat_comment import ThreatComment
 
+# @todo - secret key needs to be retrieved from database
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):

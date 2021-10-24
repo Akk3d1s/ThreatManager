@@ -10,56 +10,60 @@ from app.helpers.logger import Logger
 
 @app.route('/role_application/<int:role_id>', methods=['GET', 'POST'])
 @login_required
-def roleApplication(role_id=None):
+def role_application(role_id=None):
     try:
         if not Authenticator.route_access_check(request.path):
             return redirect(url_for('index'))
         if(RoleApplication.query.filter(RoleApplication.user_id==current_user.id).count()>=1):
             RoleApplication.query.filter(RoleApplication.user_id==current_user.id).delete()
-        roleApplication = RoleApplication(user_id=current_user.id, role_id=role_id)
-        db.session.add(roleApplication)
+        role_application = RoleApplication(user_id=current_user.id, role_id=role_id)
+        db.session.add(role_application)
         db.session.commit()
         Logger.success(request.path)
         return redirect(url_for('index'))
     except Exception as error:
         Logger.fail(request.path, error)
+        return redirect(url_for('index'))
 
 @app.route('/role_application_list', methods=['GET', 'POST'])
 @login_required
-def roleApplicationList():
+def role_application_list():
     try:
         if not Authenticator.route_access_check(request.path):
             return redirect(url_for('index'))
-        roleApplications = db.session.query(User, UserRole, RoleApplication).filter(User.id==RoleApplication.user_id).filter(UserRole.id==RoleApplication.role_id).all()
+        role_applications = db.session.query(User, UserRole, RoleApplication).filter(User.id==RoleApplication.user_id).filter(UserRole.id==RoleApplication.role_id).all()
         Logger.success(request.path)
-        return render_template("admin.html", title="Home Page", roleApplications=roleApplications)
+        return render_template("admin.html", title="Home Page", roleApplications=role_applications)
     except Exception as error:
         Logger.fail(request.path, error)
+        return redirect(url_for('index'))
 
 @app.route('/role_application_approve/<int:role_application_id>', methods=['GET', 'POST'])
 @login_required
-def approveRoleApplication(role_application_id=None):
+def approve_role_application(role_application_id=None):
     try:
         if not Authenticator.route_access_check(request.path):
             return redirect(url_for('index'))
-        roleApplication = RoleApplication.query.filter(RoleApplication.id==role_application_id).first()
-        user = User.query.filter(User.id==roleApplication.user_id).first()
-        user.role_id = roleApplication.role_id
+        role_application = RoleApplication.query.filter(RoleApplication.id==role_application_id).first()
+        user = User.query.filter(User.id==role_application.user_id).first()
+        user.role_id = role_application.role_id
         RoleApplication.query.filter(RoleApplication.id==role_application_id).delete()
         db.session.commit()
         Logger.success(request.path)
-        return redirect(url_for('roleApplicationList'))
+        return redirect(url_for('role_application_list'))
     except Exception as error:
         Logger.fail(request.path, error)
+        return redirect(url_for('index'))
 
 @app.route('/role_application_reject/<int:role_application_id>', methods=['GET', 'POST'])
 @login_required
-def rejectRoleApplication(role_application_id=None):
+def reject_role_application(role_application_id=None):
     try:
         if not Authenticator.route_access_check(request.path):
             return redirect(url_for('index'))
         RoleApplication.query.filter(RoleApplication.id==role_application_id).delete()
         Logger.success(request.path)
-        return redirect(url_for('roleApplicationList'))
+        return redirect(url_for('role_application_list'))
     except Exception as error:
         Logger.fail(request.path, error)
+        return redirect(url_for('index'))

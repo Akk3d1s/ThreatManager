@@ -18,6 +18,10 @@ class CommentFile(db.Model):
     comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'), default=0)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
     def __repr__(self):
         return 'Comment File Name {}'.format(self.file)
 

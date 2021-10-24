@@ -14,5 +14,9 @@ class Threat(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey('threat_category.id'))
     # attachment_id = db.Column(db.Integer, db.ForeignKey('threat_attachment.id'))
 
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
     def __repr__(self):
         return '<Threat {}>'.format(self.title)
