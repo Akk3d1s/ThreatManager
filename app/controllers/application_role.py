@@ -16,7 +16,7 @@ def role_application(role_id=None):
     try:
         if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))
-        if not IdValidator.validateRoleID(role_id):
+        if not IdValidator.validate_role_id(role_id):
             return redirect(url_for('index'))
         if(RoleApplication.query.filter(RoleApplication.user_id==current_user.id).count()>=1):
             RoleApplication.query.filter(RoleApplication.user_id==current_user.id).delete()
@@ -47,7 +47,7 @@ def approve_role_application(role_application_id=None):
     try:
         if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))
-        if not IdValidator.validateRoleApplicationID(role_application_id):
+        if not IdValidator.validate_role_application_id(role_application_id):
             return redirect(url_for('index'))
         role_application = RoleApplication.query.filter(RoleApplication.id==role_application_id).first()
         user = User.query.filter(User.id==role_application.user_id).first()
@@ -66,7 +66,7 @@ def reject_role_application(role_application_id=None):
     try:
         if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))
-        if not IdValidator.validateRoleApplicationID(role_application_id):
+        if not IdValidator.validate_role_application_id(role_application_id):
             return redirect(url_for('index'))
         RoleApplication.query.filter(RoleApplication.id==role_application_id).delete()
         Logger.success(request.path)

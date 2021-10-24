@@ -13,7 +13,7 @@ def newcase(threat_id=None):
     try:
         if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))
-        if not IdValidator.validateThreatIDnCategoryID(threat_id):
+        if not IdValidator.validate_threat_id_and_category_id(threat_id):
             return redirect(url_for('index'))
         threat = Threat.query.filter_by(id=threat_id).first()
         threat.status_id = 2
@@ -32,7 +32,7 @@ def approve_newcase(threat_id, category_id):
     try:
         if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))
-        if not IdValidator.validateThreatIDnCategoryID(threat_id, category_id):
+        if not IdValidator.validate_threat_id_and_category_id(threat_id, category_id):
             return redirect(url_for('index'))
         threat = Threat.query.filter_by(id=threat_id).first()
         threat.status_id = 3
@@ -52,7 +52,7 @@ def reject_newcase(threat_id=None):
     try:
         if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))
-        if not IdValidator.validateThreatIDnCategoryID(threat_id):
+        if not IdValidator.validate_threat_id_and_category_id(threat_id):
             return redirect(url_for('index'))
         threat = Threat.query.filter_by(id=threat_id).first()
         threat.status_id = 6
@@ -71,7 +71,7 @@ def endcase(threat_id=None):
     try:
         if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))
-        if not IdValidator.validateThreatIDnCategoryID(threat_id):
+        if not IdValidator.validate_threat_id_and_category_id(threat_id):
             return redirect(url_for('index'))
         threat = Threat.query.filter_by(id=threat_id).first()
         threat.status_id = 4
@@ -90,7 +90,7 @@ def approve_endcase(threat_id=None):
     try:
         if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))
-        if not IdValidator.validateThreatIDnCategoryID(threat_id):
+        if not IdValidator.validate_threat_id_and_category_id(threat_id):
             return redirect(url_for('index'))
         threat = Threat.query.filter_by(id=threat_id).first()
         threat.status_id = 5
@@ -109,7 +109,7 @@ def reject_endcase(threat_id=None):
     try:
         if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))
-        if not IdValidator.validateThreatIDnCategoryID(threat_id):
+        if not IdValidator.validate_threat_id_and_category_id(threat_id):
             return redirect(url_for('index'))
         threat = Threat.query.filter_by(id=threat_id).first()
         threat.status_id = 3

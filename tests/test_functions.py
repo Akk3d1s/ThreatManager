@@ -29,39 +29,39 @@ def test_allowed_file_invalid():
 # id validator functions
 def test_validate_role_id_valid():
     '''Test valid role_id'''
-    assert IdValidator.validateRoleID(UserRole.query.first().id) == True
+    assert IdValidator.validate_role_id(UserRole.query.first().id) == True
 
 def test_validate_role_id_invalid():
     '''Test invalid role_id'''
     invalid_id = UserRole.query.order_by(desc(UserRole.id)).first().id+1
-    assert IdValidator.validateRoleID(invalid_id) == False
+    assert IdValidator.validate_role_id(invalid_id) == False
 
 def test_validate_threat_id_valid():
     '''Test valid threat_id'''
-    assert IdValidator.validateThreatIDnCategoryID(Threat.query.first().id) == True
+    assert IdValidator.validate_threat_id_and_category_id(Threat.query.first().id) == True
 
 def test_validate_threat_id_invalid():
     '''Test invalid threat_id'''
     invalid_id = Threat.query.order_by(desc(Threat.id)).first().id+1
-    assert IdValidator.validateThreatIDnCategoryID(invalid_id) == False
+    assert IdValidator.validate_threat_id_and_category_id(invalid_id) == False
 
 def test_validate_category_id_valid():
     '''Test valid category_id'''
-    assert IdValidator.validateThreatIDnCategoryID(Threat.query.first().id, ThreatCategory.query.first().id) == True
+    assert IdValidator.validate_threat_id_and_category_id(Threat.query.first().id, ThreatCategory.query.first().id) == True
 
 def test_validate_category_id_invalid():
     '''Test invalid category_id'''
     invalid_id = ThreatCategory.query.order_by(desc(ThreatCategory.id)).first().id+1
-    assert IdValidator.validateThreatIDnCategoryID(Threat.query.first().id, invalid_id) == False
+    assert IdValidator.validate_threat_id_and_category_id(Threat.query.first().id, invalid_id) == False
 
 def test_validate_role_application_id_valid():
     '''Test valid role_application_id'''
-    assert IdValidator.validateRoleApplicationID(RoleApplication.query.first().id) == True
+    assert IdValidator.validate_role_application_id(RoleApplication.query.first().id) == True
 
 def test_validate_role_application_id_invalid():
     '''Test invalid role_application_id'''
     invalid_id = RoleApplication.query.order_by(desc(RoleApplication.id)).first().id+1
-    assert IdValidator.validateRoleApplicationID(invalid_id) == False
+    assert IdValidator.validate_role_application_id(invalid_id) == False
 
 # authenticator functions
 def test_authenticator_role_access_check_authorized(client):

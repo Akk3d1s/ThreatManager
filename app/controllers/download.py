@@ -8,9 +8,7 @@ from app.models.threat import Threat
 from app.models.threat_status import ThreatStatus
 from app.models.threat_category import ThreatCategory
 from app.models.file import ThreatFile, CommentFile
-from sqlalchemy import func
-from werkzeug.utils import secure_filename, send_from_directory
-from os.path import join, dirname, realpath, basename
+from os.path import join, dirname, realpath
 from io import StringIO
 import csv
 import datetime

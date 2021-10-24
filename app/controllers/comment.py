@@ -5,7 +5,6 @@ from app.forms import ThreatCommentForm
 from flask_login import current_user
 from app.models.comment import Comment
 from app.models.file import CommentFile
-from app.models.threat import Threat
 from werkzeug.utils import secure_filename
 from os.path import join, dirname, realpath, basename
 from zipfile import ZipFile
@@ -71,7 +70,7 @@ def comment(threat_id=None):
     try:
         if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))
-        if not IdValidator.validateThreatIDnCategoryID(threat_id):
+        if not IdValidator.validate_threat_id_and_category_id(threat_id):
             return redirect(url_for('index'))
         if not Authenticator.citizen_access_check(threat_id): 
             return redirect(url_for('index'))
