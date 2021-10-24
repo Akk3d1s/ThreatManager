@@ -12,7 +12,7 @@ def client():
             app.config['WTF_CSRF_ENABLED'] = False
         yield client
 
-def comment(client, data, threat_id=1):
+def comment(client, data=dict(comment='default comment', file=(io.BytesIO(),'')), threat_id=1):
     return client.post('/comment/{}'.format(threat_id), content_type='multipart/form-data', data=data, follow_redirects=True)
 
 def test_successful_comment_single_file(client):
@@ -87,7 +87,6 @@ def test_failed_incorrect_oversize_files(client):
     data = dict(comment='comment_test_oversize_files', file=[(io.BytesIO(b'file contents'*(1024**2)), "filename.png"),(io.BytesIO(b'file contents'), ("filename2.jpg"))])
     rv = comment(client, data)
     assert PATH_ACTION_LIST['comment'].encode() not in rv.data
-
 
 def test_failed_incorrect_exceed_file_amount(client):
     '''Test successful comment'''

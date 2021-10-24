@@ -21,6 +21,6 @@ class UserRole(db.Model):
         db.session.commit()
 
     def __repr__(self):
-        role = UserRole(role='PUBLIC')
-        role.save()
+        # role = UserRole(role='PUBLIC')
+        # role.save()
         return '<User Role {}>'.format(self.role)

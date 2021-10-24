@@ -16,23 +16,35 @@ class IdValidator:
     @staticmethod
     def validateRoleID(role_id):
         if not UserRole.query.filter_by(id=role_id).first():
-            flash(INVALID_ID_FLASH_LIST['role_id'])
-            return False
+            try:
+                flash(INVALID_ID_FLASH_LIST['role_id'])
+                return False
+            except:
+                return False
         return True
     
     @staticmethod
     def validateThreatIDnCategoryID(threat_id, category_id=1):
         if not Threat.query.filter_by(id=threat_id).first():
-            flash(INVALID_ID_FLASH_LIST['threat_id'])
-            return False
+            try:
+                flash(INVALID_ID_FLASH_LIST['threat_id'])
+                return False
+            except:
+                return False
         if not ThreatCategory.query.filter_by(id=category_id).first():
-            flash(INVALID_ID_FLASH_LIST['category_id'])
-            return False
+            try:
+                flash(INVALID_ID_FLASH_LIST['category_id'])
+                return False
+            except:
+                return False
         return True
 
     @staticmethod
     def validateRoleApplicationID(role_application_id):
         if not RoleApplication.query.filter_by(id=role_application_id).first():
-            flash(INVALID_ID_FLASH_LIST['role_application_id'])
-            return False
+            try:
+                flash(INVALID_ID_FLASH_LIST['role_application_id'])
+                return False
+            except:
+                return False
         return True
