@@ -50,4 +50,5 @@ class Authenticator:
             if not current_user.id == Threat.query.filter_by(id=threat_id).first().user_id:
                 flash(UNAUTHORIZED_THREAT_ACCESS)
                 return False
-        return True
+            return True
+        return False

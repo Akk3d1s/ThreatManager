@@ -1,6 +1,7 @@
+import io
 import pytest
 from app import app
-import io
+from app.helpers.authenticator import UNAUTHORIZED_ROUTE_ACCESS
 
 @pytest.fixture
 def client():
@@ -18,7 +19,7 @@ def test_successful_report_single_file(client):
         session['_user_id'] = '2'
     data = dict(title='title', description='description', reproduce_steps='reproduce_steps', file=(io.BytesIO(b'file contents'), "filename.jpg"))
     rv = report(client, data)
-    assert b'New Case Logged' in rv.data
+    assert b'New Case Logged' in rv.data # redirected to url_for('threat')
 
 def test_successful_report_multiple_files(client):
     '''Test successful report'''
@@ -26,7 +27,7 @@ def test_successful_report_multiple_files(client):
         session['_user_id'] = '2'
     data = dict(title='title', description='description', reproduce_steps='reproduce_steps', file=[(io.BytesIO(b'file contents'), "filename.jpg"),(io.BytesIO(b'file contents'), "filename.jpg")])
     rv = report(client, data)
-    assert b'New Case Logged' in rv.data
+    assert b'New Case Logged' in rv.data # redirected to url_for('threat')
 
 def test_failed_report_unauthorized_role(client):
     '''Test unauthorized user role report''' 
@@ -34,7 +35,7 @@ def test_failed_report_unauthorized_role(client):
         session['_user_id'] = '4'
     data = dict(title='title', description='description', reproduce_steps='reproduce_steps', file=(io.BytesIO(b'file contents'), "filename.jpg"))
     rv = report(client, data)
-    assert b'Dashboard' in rv.data
+    assert UNAUTHORIZED_ROUTE_ACCESS.encode() in rv.data
 
 def test_failed_report_no_description(client):
     '''Test failed report with no description'''
@@ -42,7 +43,7 @@ def test_failed_report_no_description(client):
         session['_user_id'] = '2'
     data = dict(title='title', description='', reproduce_steps='steps', file=(io.BytesIO(b'file contents'), "filename.jpg"))
     rv = report(client, data)
-    assert b'Check this box to confirm that you are happy to send this issue to the Police' in rv.data
+    assert b'Check this box to confirm that you are happy to send this issue to the Police' in rv.data # stay in the url_for('report')
 
 def test_failed_report_no_file(client):
     '''Test failed report with no file'''
