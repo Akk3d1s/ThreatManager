@@ -1,3 +1,4 @@
 FLASK_APP=threatmanager-api.py
 FLASK_RUN_PORT=5001
 FLASK_ENV=development
+SECRET_KEY=3fa89266-0d3a-4b76-a563-b179a8f93bad
