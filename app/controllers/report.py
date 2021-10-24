@@ -14,7 +14,7 @@ from app.helpers.logger import Logger
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-def requestFileValidation():
+def request_file_validation():
     fileList = request.files.getlist('file')
     print(fileList)
     if len(fileList)>20:
@@ -34,7 +34,7 @@ def requestFileValidation():
             return False
     return True
 
-def requestFileSaveZip(threat_id):
+def request_file_save_zip(threat_id):
     fileCount = len(request.files.getlist('file'))
     if fileCount == 1: # single file no need zip
         file = request.files['file']
@@ -67,12 +67,12 @@ def report():
             return redirect(url_for('index'))
         form = ThreatReportForm()
         if form.validate_on_submit() and 'file' in request.files:
-            if not requestFileValidation():
+            if not request_file_validation():
                 return redirect(url_for('report'))
             threat = Threat(title=form.title.data, description=form.description.data, reproduce_steps=form.reproduce_steps.data, user_id=current_user.id, status_id=1, category_id=1)
             db.session.add(threat)
             db.session.commit()
-            requestFileSaveZip(threat.id)
+            request_file_save_zip(threat.id)
             Logger.success(request.path)
             return redirect(url_for('threat'))
         return render_template('report.html', title='Report', form=form)

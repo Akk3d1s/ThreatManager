@@ -20,7 +20,7 @@ from app.helpers.logger import Logger
 
 @app.route('/download_file_threat/<int:threat_id>', methods=['GET', 'POST'])
 @login_required
-def downloadThreatFile(threat_id=None):
+def download_threat_file(threat_id=None):
     try:
         if not Authenticator.route_access_check(request.path):
             return redirect(url_for('index'))
@@ -39,7 +39,7 @@ def downloadThreatFile(threat_id=None):
 
 @app.route('/download_file_comment/<int:comment_id>', methods=['GET', 'POST'])
 @login_required
-def downloadCommentFile(comment_id=None):
+def download_comment_file(comment_id=None):
     try:
         if not Authenticator.route_access_check(request.path):
             return redirect(url_for('index'))
@@ -58,7 +58,7 @@ def downloadCommentFile(comment_id=None):
 
 @app.route('/download_all_cases_csv', methods=['GET', 'POST'])
 @login_required
-def downloadAllCases():
+def download_all_cases():
     try:
         if not Authenticator.route_access_check(request.path):
             return redirect(url_for('index'))

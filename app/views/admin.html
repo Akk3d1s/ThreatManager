@@ -44,10 +44,10 @@
                     </ul>
                 </div>
                 <div>
-                    <a href="{{ url_for('approveRoleApplication', role_application_id=roleApplication.RoleApplication.id) }}">
+                    <a href="{{ url_for('approve_role_application', role_application_id=roleApplication.RoleApplication.id) }}">
                         <button type="button" class="btn btn-success">Approve</button>
                     </a>
-                    <a href="{{ url_for('rejectRoleApplication', role_application_id=roleApplication.RoleApplication.id) }}">
+                    <a href="{{ url_for('reject_role_application', role_application_id=roleApplication.RoleApplication.id) }}">
                         <button type="button" class="btn btn-danger">Reject</button>
                     </a>
                 </div>
