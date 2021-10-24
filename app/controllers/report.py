@@ -12,12 +12,14 @@ from app.helpers.authenticator import Authenticator
 from app.helpers.logger import Logger
 
 def allowed_file(filename):
+    """Checks the extension of the files.
+    The same function exists within comment.py"""
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def request_file_validation():
     file_list = request.files.getlist('file')
     print(file_list)
-    if len(file_list)>20:
+    if len(file_list) > 20:
         flash("Over than 20 files")
         return False
     file_size = 0
@@ -34,7 +36,13 @@ def request_file_validation():
             return False
     return True
 
+
 def request_file_save_zip(threat_id):
+    """
+    Sips the files if the number of files are more than one,
+    considering a user can only download one file each time.
+    The same function exists in report.py.
+    """
     file_count = len(request.files.getlist('file'))
     if file_count == 1: # single file no need zip
         file = request.files['file']
@@ -59,9 +67,11 @@ def request_file_save_zip(threat_id):
         zip_obj.close()
         return redirect(url_for('threat'))
 
+
 @app.route('/report', methods=['GET', 'POST'])
 @login_required
 def report():
+    """Used to report a new case"""
     try:
         if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))

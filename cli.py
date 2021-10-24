@@ -16,13 +16,13 @@ from app.models.comment import Comment
 from app.models.file import CommentFile
 
 
-
 def execute_command(command):
     """execute commands and handle piping"""
     try:
         subprocess.run(command, shell=True)
     except Exception:
         print("psh: command not found: {}".format(command))
+
 
 def psh_init():
     """Recreate new database with migration scripts"""
@@ -32,6 +32,7 @@ def psh_init():
     execute_command('flask db migrate')
     execute_command('flask db upgrade')
     psh_seed()
+
 
 def psh_delete():
     """delete database"""
@@ -45,18 +46,13 @@ def psh_delete():
     else:
         print("migrations does not exist")
 
+
 def psh_security():
-	"""offers some automated security testing"""
-	secure = str(input(print("Which vulnerabilities do you want to test? |packages| code"))) 
-	if secure == "packages":
-		"""checks for known vulnerabilities in installed packages"""
-		execute_command('safety check --full-report')
-	elif secure == "code":
-		"""finds and processes files in subdirectories"""
-		execute_command('bandit -r app')
-	else:
-		print("Command not found")
-		
+    """offers some automated security testing of packages and code"""
+    execute_command('safety check --full-report')
+    execute_command('bandit -r app')
+
+
 def psh_seed():
     """seed data into tables"""
     roles = [str(UserRoles.PUBLIC), str(UserRoles.READ), str(UserRoles.EDITOR), str(UserRoles.APPROVER), str(UserRoles.DEVELOPER), str(UserRoles.ADMIN)]
@@ -96,7 +92,6 @@ def psh_seed():
     commentFile = CommentFile(file='seed_comment_file', comment_id=comment.id)
     commentFile.save()
 
-    
 
 def psh_help():
     print("""psh: shell implementation in Python.
@@ -104,7 +99,8 @@ def psh_help():
           - init
           - delete
           - seed
-		  - security""")
+          - security""")
+
 
 def main():
     while True:

@@ -1,3 +1,6 @@
+"""
+
+"""
 from flask import render_template, flash, redirect, url_for, Markup, request
 import pyotp
 from itsdangerous import SignatureExpired, BadSignature
@@ -10,6 +13,10 @@ from app.models.user import User
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    """
+    Handles the inputting of user data when registering for an account.
+
+    """
     try:
         if current_user.is_authenticated:
             return redirect(url_for('index'))
@@ -27,7 +34,7 @@ def register():
 
 @app.route('/confirm_account/<token>')
 def confirm_account(token):
-    # Activate the user if successful
+    """Activates the user if successful """
     try:
         email = url_safe_timed_serializer.loads(token, max_age=max_confirmation_waiting_time)
         user = User.query.filter_by(email=email).first()

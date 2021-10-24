@@ -41,6 +41,7 @@ PATH_ERROR_LIST = {
     'report': "Reporting New Threat"
 }
 
+
 class Logger:
     @staticmethod
     def success(request_path):
