@@ -47,13 +47,15 @@ Password: developer
 
 
 ## Installation and running of the API  (inside api directory)
-1) Navigate to the directory: cd /ThreatManager/API (cd ThreatManager/API on Windows Command Prompt)
-2) pip install -r requirements.txt
-3) flask run inside the api directory (should run at http://127.0.0.1:5001)
-4) Paste in http://127.0.0.1:5001/login to login
-5) For login details please see the Developer email (username) and password above.
-6) http://127.0.0.1:5001/[*]?token=[put API token in here]
-	* = any of the above can go in teh space above
+1) Navigate to the directory: cd /ThreatManager/api (cd ThreatManager/api on Windows Command Prompt)
+2) python3 -m venv venv
+3) source venv/bin/activate
+4) pip install -r requirements.txt
+5) flask run inside the api directory (should run at http://127.0.0.1:5001)
+6) Paste in http://127.0.0.1:5001/login to login
+7) For login details please see the Developer email (username) and password above.
+8) http://127.0.0.1:5001/[*]?token=[put API token in here]
+	* = any of the above can go in the space above
 	threats
 	threats/[enter the threat id here]/files
 	threats/[enter the threat id here]/files/<file_id>/download
