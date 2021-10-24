@@ -1,9 +1,10 @@
-from app import app
-import jwt
-import datetime
+'''API routes'''
 from functools import wraps
+import datetime
 from flask import jsonify, request, make_response, send_from_directory
+import jwt
 # bootstrapping
+from app import app
 from app.models.user import User
 from app.models.user_role import UserRole
 from app.models.threat import Threat
@@ -15,6 +16,7 @@ from app.models.threat_category import ThreatCategory
 
 
 def token_required(f):
+    '''This function check if the token is valid'''
     @wraps(f)
     def decorated(*args, **kwargs):
         token = request.args.get('token')
@@ -34,18 +36,24 @@ def token_required(f):
 
 @app.route('/login')
 def login():
+    '''Handle login. Successful login will generate a JWT
+    token to be used to access the other endpoints.'''
     auth = request.authorization
 
-    try:        
+    try:
         if auth:
             user = User.query.filter_by(email=auth.username, role_id=5).first()
-            
             if user is not None and user.check_password(auth.password):
-                token = jwt.encode({'user': auth.username, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=2)}, app.config['SECRET_KEY'])
+                token = jwt.encode({
+                    'user': auth.username,
+                    'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=2)},
+                    app.config['SECRET_KEY'])
                 Logger.success('/login', 'Retrieve token', user.id)
                 return jsonify({'token': token})
-        
-        return make_response('Invalid credentials', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'})
+        return make_response(
+            'Invalid credentials',
+            401,
+            {'WWW-Authenticate': 'Basic realm="Login Required"'})
     except Exception as err:
         Logger.fail('/login', str(err), get_user_id())
         return jsonify({'error': 'Something went wrong, please contact support'}), 500
@@ -54,6 +62,7 @@ def login():
 @app.route('/threats')
 @token_required
 def threats():
+    '''Retrieve threats'''
     try:
         threats = Threat.query.all()
         Logger.success('/threats', 'Retrieve threats', get_user_id())
@@ -66,6 +75,7 @@ def threats():
 @app.route('/threats/<threat_id>/files')
 @token_required
 def threat_files(threat_id):
+    '''Retrieve files by threat id'''
     try:
         files = ThreatFile.query.filter_by(threat_id=threat_id).all()
         Logger.success('/files', 'Retrieve files', get_user_id())
@@ -78,6 +88,7 @@ def threat_files(threat_id):
 @app.route('/threats/<threat_id>/files/<file_id>/download')
 @token_required
 def threat_file_download(threat_id, file_id):
+    '''Download file by threat and file id'''
     try:
         file = ThreatFile.query.filter_by(threat_id=threat_id, id=file_id).first()
         if file is None or file.file is None:
@@ -94,6 +105,7 @@ def threat_file_download(threat_id, file_id):
 @app.route('/threats/<threat_id>/comments')
 @token_required
 def threat_comments(threat_id):
+    '''Retrieve comments by threat id'''
     try:
         response = []
         comments = ThreatComment.query.filter_by(threat_id=threat_id).all()
@@ -102,7 +114,10 @@ def threat_comments(threat_id):
             if user is None:
                 Logger.fail('/comments', 'Unable to locate user', get_user_id())
                 return jsonify({'error': 'Something went wrong, please contact support'}), 500
-            response.append({'comment': comment.comment, 'created_at': comment.created_at, 'role': user.role.role})
+            response.append({
+                'comment': comment.comment,
+                'created_at': comment.created_at,
+                'role': user.role.role})
         Logger.success('/comments', 'Retrieve comments', get_user_id())
         return jsonify(response)
     except Exception as err:
@@ -111,6 +126,7 @@ def threat_comments(threat_id):
 
 
 def get_user_id():
+    '''Retrieve user id from token'''
     data = jwt.decode(request.args.get('token'), app.config['SECRET_KEY'], algorithms=['HS256'])
     user = User.query.filter_by(email=data['user']).first()
     if user is None:

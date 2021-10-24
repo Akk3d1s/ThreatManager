@@ -1,8 +1,10 @@
+'''ThreatStatus'''
 from dataclasses import dataclass
 from app import db
 
 @dataclass
 class ThreatStatus(db.Model):
+    '''ThreatStatus model'''
     __tablename__ = 'threat_status'
     status: str
 

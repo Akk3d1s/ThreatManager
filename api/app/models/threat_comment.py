@@ -1,10 +1,11 @@
+'''ThreatComment'''
 from dataclasses import dataclass
 from datetime import datetime
 from app import db
-from sqlalchemy.orm import backref, relationship
 
 @dataclass
 class ThreatComment(db.Model):
+    '''ThreatComment model'''
     __tablename__ = 'comment'
     comment: str
     created_at: str

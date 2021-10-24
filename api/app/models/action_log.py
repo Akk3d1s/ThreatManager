@@ -1,7 +1,9 @@
+'''Action log'''
 from datetime import datetime
 from app import db
 
 class ActionLog(db.Model):
+    '''Handle persisting action logs'''
     __tablename__ = 'action_log'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -11,5 +13,6 @@ class ActionLog(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def save(self):
+        '''Save log into db'''
         db.session.add(self)
         db.session.commit()
