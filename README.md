@@ -7,20 +7,18 @@ __Linux, MacOS and most IDEs__
 2) To run a virtual environment: "python3 -m venv venv"
 3) Activate the newly installed virtual environment: source venv/bin/activate
 4) While in the Venv environment: pip install -r requirements.txt
-5) flask db init (if migrations repo has not been created yet. usually only once, in the beginning of the project)
-6) python cli.py
-7) init
-8) flask run (should run at http://127.0.0.1:5000)
+5) python cli.py
+6) init
+7) flask run (should run at http://127.0.0.1:5000)
 
 __Windows Command Prompt_
 1) Navigate to the root: e.g. cd ThreatManager
-2) To create a virtual environment (recommended): Python -m venv venv
+2) To create a virtual environment (recommended): python -m venv venv
 3) To activate the installed environment: venv\scripts\activate
 4) While in the Venv environment: pip install -r requirements.txt
-5) flask db init (if migrations repo has not been created yet. usually only once, in the beginning of the project)
-6) python cli.py
-7) init
-8) flask run (should run at http://127.0.0.1:5000)
+5) python cli.py
+6) init
+7) flask run (should run at http://127.0.0.1:5000)
 
 ## Test roles for the marker
 The Google Authenticator key for all of the below roles: 4HMSIHRWLTJM25VFB37FAGYSSZG2LER6
