@@ -10,8 +10,9 @@ from werkzeug.utils import secure_filename
 from os.path import join, dirname, realpath, basename
 from zipfile import ZipFile
 import os
-from app.helpers.authenticator import Authenticator
 from app.helpers.logger import Logger
+from app.helpers.id_validator import IdValidator
+from app.helpers.authenticator import Authenticator
 
 
 def allowed_file(filename): # check extension of the files
@@ -22,7 +23,7 @@ def requestFileValidation():
     fileList = request.files.getlist('file')
     print(fileList)
     if len(fileList)>20: # must be less than 20 files
-        flash("Over than 20 files")
+        flash("Over 20 files")
         return False
     fileSize = 0
     for file in fileList: # loop to calculate the size of all the files uploaded
@@ -63,9 +64,7 @@ def requestFileSaveZip(comment_id):
         zipObj.close()
         return redirect(url_for('threat'))
 
-# validate threat_id is exist first
-# if user is citizen, validate if the citizen is the reporter of the threat first
-# since a citizen can only access and comment on the threat related to herself/himself
+
 def validateThreatIDnCitizen(threat_id):
     if Threat.query.filter_by(id=threat_id).first() is not None: 
         if current_user.role_id == 1:
@@ -80,9 +79,11 @@ def validateThreatIDnCitizen(threat_id):
 @login_required
 def comment(threat_id=None):
     try:
-        if not Authenticator.route_access_check(request.path):
+        if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))
-        if not validateThreatIDnCitizen(threat_id): 
+        if not IdValidator.validateThreatIDnCategoryID(threat_id):
+            return redirect(url_for('index'))
+        if not Authenticator.citizen_access_check(threat_id): 
             return redirect(url_for('index'))
         form = ThreatCommentForm()
         if form.validate_on_submit():
@@ -96,7 +97,7 @@ def comment(threat_id=None):
                 requestFileSaveZip(comment.id)
             Logger.success(request.path)
             return redirect(url_for('threat'))
-        flash('Empty comment')
+        flash('Empty Comment')
         return redirect(url_for('threat'))
     except Exception as error:
         Logger.fail(request.path, error)

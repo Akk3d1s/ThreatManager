@@ -63,7 +63,7 @@ def requestFileSaveZip(threat_id):
 @login_required
 def report():
     try:
-        if not Authenticator.route_access_check(request.path):
+        if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))
         form = ThreatReportForm()
         if form.validate_on_submit() and 'file' in request.files:

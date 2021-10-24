@@ -15,7 +15,7 @@ from sqlalchemy import or_
 @app.route('/api_credential')
 @login_required
 def api_credential():
-    if not Authenticator.route_access_check(request.path):
+    if not Authenticator.role_access_check(request.path):
         return redirect(url_for('index'))
     # citizen role
     if current_user.role_id == 1:

@@ -2,22 +2,18 @@ from flask import flash, redirect, url_for, request
 from flask_login import login_required
 from app import app, db
 from app.models.threat import Threat
-from app.models.threat_category import ThreatCategory
-from app.helpers.authenticator import Authenticator
 from app.helpers.logger import Logger
+from app.helpers.authenticator import Authenticator
+from app.helpers.id_validator import IdValidator
 
-
-def validateThreatIDnCategoryID(threat_id, category_id=1):
-    return (Threat.query.filter_by(id=threat_id).first() and ThreatCategory.query.filter_by(id=category_id).first())
 
 @app.route('/newcase_application/<int:threat_id>', methods=['GET', 'POST'])
 @login_required
 def newcase(threat_id=None):
     try:
-        if not Authenticator.route_access_check(request.path):
+        if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))
-        if not validateThreatIDnCategoryID(threat_id):
-            flash("Invalid ID of threat")
+        if not IdValidator.validateThreatIDnCategoryID(threat_id):
             return redirect(url_for('index'))
         threat = Threat.query.filter_by(id=threat_id).first()
         threat.status_id = 2
@@ -29,16 +25,14 @@ def newcase(threat_id=None):
         return redirect(url_for('threat'))
 
 
-
 @app.route('/newcase_approve/<int:threat_id>/<int:category_id>', methods=[
     'GET', 'POST'])
 @login_required
 def approveNewcase(threat_id, category_id):
     try:
-        if not Authenticator.route_access_check(request.path):
+        if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))
-        if not validateThreatIDnCategoryID(threat_id, category_id):
-            flash("Invalid ID of threat or category")
+        if not IdValidator.validateThreatIDnCategoryID(threat_id, category_id):
             return redirect(url_for('index'))
         threat = Threat.query.filter_by(id=threat_id).first()
         threat.status_id = 3
@@ -56,10 +50,9 @@ def approveNewcase(threat_id, category_id):
 @login_required
 def rejectNewcase(threat_id=None):
     try:
-        if not Authenticator.route_access_check(request.path):
+        if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))
-        if not validateThreatIDnCategoryID(threat_id):
-            flash("Invalid ID of threat")
+        if not IdValidator.validateThreatIDnCategoryID(threat_id):
             return redirect(url_for('index'))
         threat = Threat.query.filter_by(id=threat_id).first()
         threat.status_id = 6
@@ -76,10 +69,9 @@ def rejectNewcase(threat_id=None):
 @login_required
 def endcase(threat_id=None):
     try:
-        if not Authenticator.route_access_check(request.path):
+        if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))
-        if not validateThreatIDnCategoryID(threat_id):
-            flash("Invalid ID of threat")
+        if not IdValidator.validateThreatIDnCategoryID(threat_id):
             return redirect(url_for('index'))
         threat = Threat.query.filter_by(id=threat_id).first()
         threat.status_id = 4
@@ -96,10 +88,9 @@ def endcase(threat_id=None):
 @login_required
 def approveEndcase(threat_id=None):
     try:
-        if not Authenticator.route_access_check(request.path):
+        if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))
-        if not validateThreatIDnCategoryID(threat_id):
-            flash("Invalid ID of threat")
+        if not IdValidator.validateThreatIDnCategoryID(threat_id):
             return redirect(url_for('index'))
         threat = Threat.query.filter_by(id=threat_id).first()
         threat.status_id = 5
@@ -116,10 +107,9 @@ def approveEndcase(threat_id=None):
 @login_required
 def rejectEndcase(threat_id=None):
     try:
-        if not Authenticator.route_access_check(request.path):
+        if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))
-        if not validateThreatIDnCategoryID(threat_id):
-            flash("Invalid ID of threat")
+        if not IdValidator.validateThreatIDnCategoryID(threat_id):
             return redirect(url_for('index'))
         threat = Threat.query.filter_by(id=threat_id).first()
         threat.status_id = 3
