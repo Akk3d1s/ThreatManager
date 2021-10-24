@@ -28,7 +28,7 @@ def newcase(threat_id=None):
 @app.route('/newcase_approve/<int:threat_id>/<int:category_id>', methods=[
     'GET', 'POST'])
 @login_required
-def approveNewcase(threat_id, category_id):
+def approve_newcase(threat_id, category_id):
     try:
         if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))
@@ -48,7 +48,7 @@ def approveNewcase(threat_id, category_id):
 
 @app.route('/newcase_reject/<int:threat_id>', methods=['GET', 'POST'])
 @login_required
-def rejectNewcase(threat_id=None):
+def reject_newcase(threat_id=None):
     try:
         if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))
@@ -86,7 +86,7 @@ def endcase(threat_id=None):
 
 @app.route('/endcase_approve/<int:threat_id>', methods=['GET', 'POST'])
 @login_required
-def approveEndcase(threat_id=None):
+def approve_endcase(threat_id=None):
     try:
         if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))
@@ -105,7 +105,7 @@ def approveEndcase(threat_id=None):
 
 @app.route('/endcase_reject/<int:threat_id>', methods=['GET', 'POST'])
 @login_required
-def rejectEndcase(threat_id=None):
+def reject_endcase(threat_id=None):
     try:
         if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))
