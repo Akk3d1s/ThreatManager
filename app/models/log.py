@@ -1,6 +1,7 @@
 from datetime import datetime
 from app import db
 
+
 class ActionLog(db.Model):
     __tablename__ = 'action_log'
     id = db.Column(db.Integer, primary_key=True)
@@ -11,6 +12,7 @@ class ActionLog(db.Model):
 
     def __repr__(self):
         return 'user_id: {} action: {} '.format(self.user_id, self.action)
+
 
 class ErrorLog(db.Model):
     __tablename__ = 'error_log'

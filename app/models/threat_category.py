@@ -2,11 +2,13 @@ from datetime import datetime
 from app import db
 from enum import Enum
 
+
 class ThreatCategories(Enum):
     LOW = 'LOW'
     MEDIUM = 'MEDIUM'
     HIGH = 'HIGH'
     CRITICAL = 'CRITICAL'
+
 
 class ThreatCategory(db.Model):
     __tablename__ = 'threat_category'

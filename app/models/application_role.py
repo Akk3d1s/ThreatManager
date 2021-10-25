@@ -1,6 +1,7 @@
 from datetime import datetime
 from app import db
 
+
 class RoleApplication(db.Model):
     __tablename__ = 'role_application'
     id = db.Column(db.Integer, primary_key=True)

@@ -2,6 +2,7 @@ from datetime import datetime
 from app import db
 from enum import Enum
 
+
 class ThreatStatuses(Enum):
     PENDING = 'PENDING'
     APPROVINGNEWCASE = 'APPROVINGNEWCASE'
@@ -10,6 +11,7 @@ class ThreatStatuses(Enum):
     RESOLVED = 'RESOLVED'
     REJECTED = 'REJECTED'
     CANCELED = 'CANCELED'
+
 
 class ThreatStatus(db.Model):
     __tablename__ = 'threat_status'
