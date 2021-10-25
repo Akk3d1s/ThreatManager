@@ -32,7 +32,6 @@ PATH_ROLE_LIST = {
 UNAUTHORIZED_ROUTE_ACCESS = "Unauthorized Route Access"
 UNAUTHORIZED_THREAT_ACCESS = "Unauthorized Threat Access"
 
-
 class Authenticator:
     @staticmethod
     def role_access_check(requestPath):

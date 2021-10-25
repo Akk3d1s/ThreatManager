@@ -1,7 +1,6 @@
 from datetime import datetime
 from app import db
 
-
 class ThreatAttachment(db.Model):
     __tablename__ = 'threat_attachment'
     id = db.Column(db.Integer, primary_key=True)

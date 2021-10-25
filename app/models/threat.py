@@ -20,4 +20,3 @@ class Threat(db.Model):
 
     def __repr__(self):
         return '<Threat {}>'.format(self.title)
-        

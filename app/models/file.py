@@ -1,7 +1,6 @@
 from datetime import datetime
 from app import db
 
-
 class ThreatFile(db.Model):
     __tablename__ = 'file_threat'
     id = db.Column(db.Integer, primary_key=True)
@@ -11,7 +10,6 @@ class ThreatFile(db.Model):
 
     def __repr__(self):
         return 'Threat File Name {}'.format(self.file)
-
 
 class CommentFile(db.Model):
     __tablename__ = 'file_comment'
@@ -26,3 +24,4 @@ class CommentFile(db.Model):
 
     def __repr__(self):
         return 'Comment File Name {}'.format(self.file)
+

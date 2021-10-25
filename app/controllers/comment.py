@@ -1,7 +1,3 @@
-"""
-This module is used for commenting and
-file upload functionality of the system.
-"""
 from flask import flash, redirect, url_for, request
 from flask_login import login_required
 from app import ALLOWED_EXTENSIONS, ALLOWED_FILES_SIZE, app, db
@@ -18,17 +14,14 @@ from app.helpers.id_validator import IdValidator
 from app.helpers.authenticator import Authenticator
 
 
-def allowed_file(filename):
-    """Checks the extension of the files.
-    The same function exists in report.py"""
+def allowed_file(filename): # check extension of the files
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-
+# validate of all the files uploaded
 def request_file_validation():
-    """"Used to validate of all the files uploaded"""
     file_list = request.files.getlist('file')
     print(file_list)
-    if len(file_list) > 20: # must be less than 20 files
+    if len(file_list)>20: # must be less than 20 files
         flash("Over 20 files")
         return False
     file_size = 0
@@ -43,15 +36,11 @@ def request_file_validation():
             return False
     return True
 
-
-def request_file_save_zip(comment_id):
-    """
-    Zips the files if the number of files are more than one,
-    considering a user can only download one file each time.
-    The same function exists in report.py.
-    """
+# zip the files if the number of files are more than one
+# considering a user can only download one file each time 
+def request_file_save_zip(comment_id): 
     file_count = len(request.files.getlist('file'))
-    if file_count == 1: # single file does not need to be zipped
+    if file_count == 1: # single file no need zip
         file = request.files['file']
         filename = "comment"+str(comment_id)+"_"+secure_filename(file.filename)
         file.seek(0)
@@ -78,23 +67,22 @@ def request_file_save_zip(comment_id):
 @app.route('/comment/<int:threat_id>', methods=['GET', 'POST'])
 @login_required
 def comment(threat_id=None):
-    """Used for threat commenting"""
     try:
         if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))
         if not IdValidator.validate_threat_id_and_category_id(threat_id):
             return redirect(url_for('index'))
-        if not Authenticator.citizen_access_check(threat_id):
+        if not Authenticator.citizen_access_check(threat_id): 
             return redirect(url_for('index'))
         form = ThreatCommentForm()
         if form.validate_on_submit():
-            if request.files['file'].filename != '':
+            if request.files['file'].filename!='':
                 if not request_file_validation():
                     return redirect(url_for('threat'))
             comment = Comment(comment=form.comment.data, user_id=current_user.id, threat_id=threat_id)
             db.session.add(comment)
             db.session.commit()
-            if request.files['file'].filename != '':
+            if request.files['file'].filename!='':
                 request_file_save_zip(comment.id)
             Logger.success(request.path)
             return redirect(url_for('threat'))

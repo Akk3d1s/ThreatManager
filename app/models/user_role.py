@@ -2,7 +2,6 @@ from datetime import datetime
 from app import db
 from enum import Enum
 
-
 class UserRoles(Enum):
     PUBLIC = 'PUBLIC'
     READ = 'READ'
@@ -10,7 +9,6 @@ class UserRoles(Enum):
     APPROVER = 'APPROVER'
     DEVELOPER = 'DEVELOPER'
     ADMIN = 'ADMIN'
-
 
 class UserRole(db.Model):
     __tablename__ = 'user_role'

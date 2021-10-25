@@ -1,6 +1,3 @@
-""""
-This module contains relating of downloading .csv and images files
-"""
 from flask import send_file, make_response, request, redirect, url_for
 from flask_migrate import current
 from app import ALLOWED_EXTENSIONS, app, db
@@ -22,13 +19,12 @@ from app.helpers.logger import Logger
 @app.route('/download_file_threat/<int:threat_id>', methods=['GET', 'POST'])
 @login_required
 def download_threat_file(threat_id=None):
-    """Used to download a single threat image file"""
     try:
         if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))
-        files = ThreatFile.query.filter(ThreatFile.threat_id == threat_id).all()
+        files = ThreatFile.query.filter(ThreatFile.threat_id==threat_id).all()
         file_path = join(dirname(realpath(__file__)))+'/../static/uploads/'
-        if len(files) == 1:
+        if len(files)==1:
             Logger.success(request.path)
             return send_file(file_path+files[0].file, attachment_filename=files[0].file, as_attachment=True)
         else:
@@ -39,17 +35,15 @@ def download_threat_file(threat_id=None):
         Logger.fail(request.path, error)
         return redirect(url_for('index'))
 
-
 @app.route('/download_file_comment/<int:comment_id>', methods=['GET', 'POST'])
 @login_required
 def download_comment_file(comment_id=None):
-    """Used to download a set of comments from a particular case"""
     try:
         if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))
-        files = CommentFile.query.filter(CommentFile.comment_id == comment_id).all()
+        files = CommentFile.query.filter(CommentFile.comment_id==comment_id).all()
         file_path = join(dirname(realpath(__file__)))+'/../static/uploads/'
-        if len(files) == 1:
+        if len(files)==1:
             Logger.success(request.path)
             return send_file(file_path+files[0].file, attachment_filename=files[0].file, as_attachment=True)
         else:
@@ -60,11 +54,9 @@ def download_comment_file(comment_id=None):
         Logger.fail(request.path, error)
         return redirect(url_for('index'))
 
-
 @app.route('/download_all_cases_csv', methods=['GET', 'POST'])
 @login_required
 def download_all_cases():
-    """To download all threats as a .CSV file """
     try:
         if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))

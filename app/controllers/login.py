@@ -1,6 +1,3 @@
-"""
-This module contains the functionality for any type of user to login.
-"""
 from flask import render_template, flash, redirect, url_for, request, Markup, session
 from app import app, url_safe_timed_serializer
 from app.forms import LoginForm
@@ -14,12 +11,6 @@ from app.helpers.logger import Logger
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    """
-    Limits login attempts to five, and if this amount has
-    been exceeded then user has to wait one hour to try
-    loggining in again.
-    Handles TOTP code and password.
-    """
     try:
         # Redirect user if already logged in
         if current_user.is_authenticated:

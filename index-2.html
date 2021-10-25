@@ -1,0 +1,69 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Unknown </title></head><body>
+<h1 id="threatmanager">ThreatManager</h1>
+<p>Please run on Python 3.10.0 or higher</p>
+<h2 id="installation-and-running-of-the-monlith">Installation and running of the Monlith</h2>
+<p><strong>Linux, MacOS and most IDEs</strong>
+1_ Navigate to the root (e.g. cd /ThreatManager )
+2) To run a virtual environment: "python3 -m venv venv"
+3) Activate the newly installed virtual environment: source venv/bin/activate
+4) While in the Venv environment: pip install -r requirements.txt
+5) python cli.py
+6) init
+7) flask run (should run at http://127.0.0.1:5000)</p>
+<p>__Windows Command Prompt_
+1) Navigate to the root: e.g. cd ThreatManager
+2) To create a virtual environment (recommended): python -m venv venv
+3) To activate the installed environment: venv\scripts\activate
+4) While in the Venv environment: pip install -r requirements.txt
+5) python cli.py
+6) init
+7) flask run (should run at http://127.0.0.1:5000)</p>
+<h2 id="test-roles-for-the-marker">Test roles for the marker</h2>
+<p>The Google Authenticator key for all of the below roles: 4HMSIHRWLTJM25VFB37FAGYSSZG2LER6</p>
+<p>Citizen (can log threats):
+Email: justin@gmail.com
+Password: justin</p>
+<p>Editor (can reply to citizen to ask for more information and forward cases to the approver):
+Email: hendrik@police.com
+Password: hendrik</p>
+<p>Approver (can approve or reject cases)
+Email: jonny@police.com
+Password: jonny</p>
+<p>Admin (can change user roles upon request):
+Email: admin@police.com
+Password: admin</p>
+<p>Developer (can access the API):
+Email: developer@police.com
+Password: developer</p>
+<h2 id="installation-and-running-of-the-api-inside-api-directory">Installation and running of the API  (inside api directory)</h2>
+<p>1) Navigate to the directory: cd /ThreatManager/api (cd ThreatManager/api on Windows Command Prompt)
+2) python3 -m venv venv
+3) source venv/bin/activate
+4) pip install -r requirements.txt
+5) flask run inside the api directory (should run at http://127.0.0.1:5001)
+6) Paste in http://127.0.0.1:5001/login to login
+7) For login details please see the Developer email (username) and password above.
+8) http://127.0.0.1:5001/[*]?token=[put API token in here]
+    * = any of the above can go in the space above
+    threats
+    threats/[enter the threat id here]/files
+    threats/[enter the threat id here]/files/<file_id>/download
+    threats/[enter the threat id here]/comments</p>
+<h2 id="testing-monolith">Testing Monolith</h2>
+<ul>
+<li>go into /tests directory</li>
+<li>run pytest</li>
+</ul>
+<h2 id="testing-api">Testing API</h2>
+<ul>
+<li>go into /api directory</li>
+<li>run pytest</li>
+</ul>
+<h3 id="fresh-rebuild">Fresh rebuild</h3>
+<p>Use the CLI: "python cli.py" and then "init"</p>
+<p>API NOTES
+- For the sake of being distributed, the API was put into its own directory, without referencing code from the monolith app as the idea would be to deploy these seperately.
+- The only resource the monolith and the API share, is the database.</p>
+<p>OTHER NOTES
+- We have knowlingly added the .flaskenv files to our repository, for the sake of easily having the same configuration among us. In a real world scenario, we do not recommend doing this.</p>
+</body></html>
