@@ -17,7 +17,7 @@ from app.helpers.logger import Logger
 @app.route('/role_application/<int:role_id>', methods=['GET', 'POST'])
 @login_required
 def role_application(role_id=None):
-    """Deals with user requests for a different level of permissions"""
+    """Deals with user requests for a different level of permission"""
     try:
         if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))

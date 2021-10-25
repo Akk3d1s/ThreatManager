@@ -1,4 +1,4 @@
-"""Deals with the separation of the logging of threats depending on user permission level"""
+"""Deals with the the logging/viewing of threats depending on user type"""
 from flask import render_template, request
 from flask.helpers import url_for
 from app import app, db

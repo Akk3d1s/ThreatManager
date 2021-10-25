@@ -4,6 +4,7 @@ from flask import flash, url_for
 
 
 class Mailer:
+    """Sends a confirmation of email address email to the user registering for an account"""
     @staticmethod
     def send_confirmation_mail(email, token):
         try:

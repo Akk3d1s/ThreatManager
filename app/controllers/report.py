@@ -1,3 +1,4 @@
+"""Contains functions releated to the logging of new threats"""
 from flask import render_template, flash, redirect, url_for, request
 from app import ALLOWED_EXTENSIONS, ALLOWED_FILES_SIZE, app, db
 from app.forms import ThreatReportForm
@@ -12,8 +13,7 @@ from app.helpers.authenticator import Authenticator
 from app.helpers.logger import Logger
 
 def allowed_file(filename):
-    """Checks the extension of the files.
-    The same function exists within comment.py"""
+    """Checks the extension of the files."""
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def request_file_validation():
@@ -39,9 +39,8 @@ def request_file_validation():
 
 def request_file_save_zip(threat_id):
     """
-    Sips the files if the number of files are more than one,
+    Zips the files if the number of files are more than one,
     considering a user can only download one file each time.
-    The same function exists in report.py.
     """
     file_count = len(request.files.getlist('file'))
     if file_count == 1: # single file no need zip

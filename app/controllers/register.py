@@ -1,6 +1,3 @@
-"""
-
-"""
 from flask import render_template, flash, redirect, url_for, Markup, request
 import pyotp
 from itsdangerous import SignatureExpired, BadSignature
@@ -15,7 +12,6 @@ from app.models.user import User
 def register():
     """
     Handles the inputting of user data when registering for an account.
-
     """
     try:
         if current_user.is_authenticated:
