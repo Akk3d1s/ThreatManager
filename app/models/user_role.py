@@ -1,7 +1,7 @@
 """Module that connects to the user_role table"""
 from datetime import datetime
-from app import db
 from enum import Enum
+from app import db
 
 
 class UserRoles(Enum):

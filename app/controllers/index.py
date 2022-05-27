@@ -1,7 +1,7 @@
 """Main entry of the application"""
 from flask import render_template
-from app import app, db
 from flask_login import login_required
+from app import app, db
 from app.models.user_role import UserRole
 from app.models.application_role import RoleApplication
 
@@ -16,4 +16,3 @@ def index():
                            title='Home Page',
                            userRoles=user_roles,
                            roleApplication=role_application)
-

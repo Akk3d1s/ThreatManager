@@ -1,9 +1,9 @@
 """Contains functions releated to the logging of new threats"""
-from flask import render_template, flash, redirect, url_for, request
-from werkzeug.utils import secure_filename
 import os
 from os.path import join, dirname, realpath, basename
 from zipfile import ZipFile
+from flask import render_template, flash, redirect, url_for, request
+from werkzeug.utils import secure_filename
 from flask_login import current_user, login_required
 from app import ALLOWED_EXTENSIONS, ALLOWED_FILES_SIZE, app, db
 from app.forms import ThreatReportForm

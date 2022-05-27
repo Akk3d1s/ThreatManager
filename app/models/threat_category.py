@@ -1,10 +1,11 @@
 """Module that connects to the threat_category table"""
 from datetime import datetime
-from app import db
 from enum import Enum
+from app import db
 
 
 class ThreatCategories(Enum):
+    """Threat category enums"""
     LOW = 'LOW'
     MEDIUM = 'MEDIUM'
     HIGH = 'HIGH'

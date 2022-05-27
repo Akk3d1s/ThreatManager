@@ -24,7 +24,11 @@ def threat():
             form = ThreatCommentForm()
             user_roles = db.session.query(UserRole).all()
             threats = db.session\
-                .query(Threat, ThreatStatus, ThreatCategory, User, UserRole,func.count(ThreatFile.id)
+                .query(Threat,
+                       ThreatStatus,
+                       ThreatCategory,
+                       User,
+                       UserRole,func.count(ThreatFile.id)
                        .filter(ThreatFile.threat_id == Threat.id)
                        .label("file_count"))\
                 .join(ThreatStatus)\
@@ -34,7 +38,6 @@ def threat():
                 .filter(User.id == current_user.id)\
                 .group_by(Threat)\
                 .all()
-            # comments = db.session.query(Comment, User, UserRole.role,func.count(CommentFile.id).filter(CommentFile.comment_id == Comment.id).label("file_count")).join(Comment).join(UserRole).group_by(Comment).all()
             comments = db.session\
                 .query(Comment, User, UserRole, func.count(CommentFile.id)
                        .filter(CommentFile.comment_id == Comment.id)
@@ -68,14 +71,19 @@ def threat():
             form = ThreatCommentForm()
             user_roles = db.session.query(UserRole).all()
             threats = db.session\
-                .query(Threat, ThreatStatus, ThreatCategory, User, UserRole,func.count(ThreatFile.id)
+                .query(Threat,
+                       ThreatStatus,
+                       ThreatCategory,
+                       User,
+                       UserRole,func.count(ThreatFile.id)
                        .filter(ThreatFile.threat_id == Threat.id)
                        .label("file_count"))\
                 .join(ThreatStatus)\
                 .join(ThreatCategory)\
                 .join(User)\
                 .join(UserRole)\
-                .filter(or_(ThreatStatus.status == "APPROVINGNEWCASE", ThreatStatus.status == "APPROVINGENDCASE"))\
+                .filter(or_(ThreatStatus.status == "APPROVINGNEWCASE",
+                            ThreatStatus.status == "APPROVINGENDCASE"))\
                 .group_by(Threat)\
                 .all()
             comments = db.session\
@@ -97,8 +105,8 @@ def threat():
                        .filter(Threat.status_id == 6)
                        .label("rejected_case"), func.count(Threat.id)
                        .filter(Threat.status_id == 7)
-                       .label("cancelled_case"))
-            first()
+                       .label("cancelled_case"))\
+                .first()
             threat_categories = db.session.query(ThreatCategory).all()
             return render_template("approver.html",
                                    title="Home Page",
@@ -121,7 +129,11 @@ def threat():
             form = ThreatCommentForm()
             user_roles = db.session.query(UserRole).all()
             threats = db.session\
-                .query(Threat, ThreatStatus, ThreatCategory, User, UserRole,func.count(ThreatFile.id)
+                .query(Threat,
+                       ThreatStatus,
+                       ThreatCategory,
+                       User,
+                       UserRole,func.count(ThreatFile.id)
                        .filter(ThreatFile.threat_id == Threat.id)
                        .label("file_count"))\
                 .join(ThreatStatus)\
@@ -175,5 +187,5 @@ def threat():
                                        comments=comments,
                                        threatCategories=threat_categories,
                                        form=form)
-    except Exception as error:
+    except ValueError as error:
         print(error)

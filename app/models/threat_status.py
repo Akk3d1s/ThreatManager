@@ -1,7 +1,7 @@
 """Module that connects to the theat_status table"""
 from datetime import datetime
-from app import db
 from enum import Enum
+from app import db
 
 
 class ThreatStatuses(Enum):

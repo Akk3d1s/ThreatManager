@@ -23,7 +23,7 @@ class IdValidator:
             try:
                 flash(INVALID_ID_FLASH_LIST['role_id'])
                 return False
-            except:
+            except ValueError:
                 return False
         return True
 
@@ -34,13 +34,13 @@ class IdValidator:
             try:
                 flash(INVALID_ID_FLASH_LIST['threat_id'])
                 return False
-            except:
+            except ValueError:
                 return False
         if not ThreatCategory.query.filter_by(id=category_id).first():
             try:
                 flash(INVALID_ID_FLASH_LIST['category_id'])
                 return False
-            except:
+            except ValueError:
                 return False
         return True
 
@@ -51,6 +51,6 @@ class IdValidator:
             try:
                 flash(INVALID_ID_FLASH_LIST['role_application_id'])
                 return False
-            except:
+            except ValueError:
                 return False
         return True

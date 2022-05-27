@@ -11,8 +11,12 @@ class Mailer:
         """Send confirmation mail"""
         try:
             confirmation_link = url_for('confirm_account', token=token, _external=True)
-            message = Message('Account confirmation', sender='threatmanager@gmail.com', recipients=[email])
-            message.body = f'Please confirm your account by copy and pasting this url: {confirmation_link}'
+            message = Message(
+                'Account confirmation',
+                sender='threatmanager@gmail.com',
+                recipients=[email])
+            message.body = f'Please confirm your account by copy ' \
+                           f'and pasting this url: {confirmation_link}'
             mail.send(message)
             flash(
                 'A confirmation email has been sent to the provided email address. '

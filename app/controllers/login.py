@@ -1,9 +1,9 @@
 """
 This module contains the functionality for any type of user to login.
 """
+import time
 from werkzeug.urls import url_parse
 import pyotp
-import time
 from flask import render_template, flash, redirect, url_for, request, Markup, session
 from flask_login import current_user, login_user
 from app import app, url_safe_timed_serializer

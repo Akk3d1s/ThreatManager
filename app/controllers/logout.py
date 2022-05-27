@@ -2,8 +2,8 @@
 Contains a function handling a user logging out.
 """
 from flask import redirect, url_for
-from app import app
 from flask_login import logout_user
+from app import app
 
 @app.route('/logout')
 def logout():
