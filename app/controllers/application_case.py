@@ -38,7 +38,7 @@ def newcase(threat_id=None):
         db.session.commit()
         Logger.success(request.path)
         return redirect(url_for('threat'))
-    except Exception as error:
+    except ValueError as error:
         Logger.fail(request.path, error)
         return redirect(url_for('threat'))
 
@@ -65,7 +65,7 @@ def approve_newcase(threat_id, category_id):
         db.session.commit()
         Logger.success(request.path)
         return redirect(url_for('threat'))
-    except Exception as error:
+    except ValueError as error:
         Logger.fail(request.path, error)
         return redirect(url_for('threat'))
 
@@ -90,7 +90,7 @@ def reject_newcase(threat_id=None):
         db.session.commit()
         Logger.success(request.path)
         return redirect(url_for('threat'))
-    except Exception as error:
+    except ValueError as error:
         Logger.fail(request.path, error)
         return redirect(url_for('threat'))
 
@@ -115,7 +115,7 @@ def endcase(threat_id=None):
         db.session.commit()
         Logger.success(request.path)
         return redirect(url_for('threat'))
-    except Exception as error:
+    except ValueError as error:
         Logger.fail(request.path, error)
         return redirect(url_for('threat'))
 
@@ -140,7 +140,7 @@ def approve_endcase(threat_id=None):
         db.session.commit()
         Logger.success(request.path)
         return redirect(url_for('threat'))
-    except Exception as error:
+    except ValueError as error:
         Logger.fail(request.path, error)
         return redirect(url_for('threat'))
 
@@ -165,6 +165,6 @@ def reject_endcase(threat_id=None):
         db.session.commit()
         Logger.success(request.path)
         return redirect(url_for('threat'))
-    except Exception as error:
+    except ValueError as error:
         Logger.fail(request.path, error)
         return redirect(url_for('threat'))

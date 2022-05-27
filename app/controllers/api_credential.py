@@ -11,9 +11,9 @@ from app.helpers.logger import Logger
 def api_credential():
     """API credential route. Can only be accessed be the developer role"""
     try:
-        if not Authenticator.route_access_check(request.path):
+        if not Authenticator.role_access_check(request.path):
             return redirect(url_for('index'))
         return render_template("api_credential.html")
-    except Exception as error:
+    except ValueError as error:
         Logger.fail(request.path, error)
         return redirect(url_for('index'))
