@@ -1,15 +1,14 @@
 """
 This module contains the functionality for any type of user to login.
 """
-from flask import render_template, flash, redirect, url_for, request, Markup, session
-from app import app, url_safe_timed_serializer
-from app.forms import LoginForm
-from flask_login import current_user, login_user
-from app.models.user import User
 from werkzeug.urls import url_parse
 import pyotp
 import time
-from app.helpers.logger import Logger
+from flask import render_template, flash, redirect, url_for, request, Markup, session
+from flask_login import current_user, login_user
+from app import app, url_safe_timed_serializer
+from app.forms import LoginForm
+from app.models.user import User
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -39,17 +38,21 @@ def login():
                 else:
                     reset_failed_login()
             user = User.query.filter_by(email=form.email.data).first()
-            if user is None or not user.check_password(form.password.data) or not pyotp.TOTP(user.totp_secret).verify(form.totp.data):
+            if user is None \
+                    or not user.check_password(form.password.data) \
+                    or not pyotp.TOTP(user.totp_secret).verify(form.totp.data):
                 record_failed_login()
-                flash('Invalid email, password or TOTP code. ' + str(max_allowed_login_attempts - session['login_attempts']) + ' attempts left')
+                flash('Invalid email, password or TOTP code. '
+                      + str(max_allowed_login_attempts - session['login_attempts'])
+                      + ' attempts left')
                 return redirect(url_for('login'))
             elif not user.is_active:
                 record_failed_login()
                 token = url_safe_timed_serializer.dumps(user.email)
-                flash(Markup('Please confirm account. Click <a href="/resend_confirmation/' + token + '">here</a> to '
-                                                                                                    'resend '
-                                                                                                    'confirmation '
-                                                                                                    'email.'))
+                flash(
+                    Markup('Please confirm account. '
+                           'Click <a href="/resend_confirmation/'
+                           + token + '">here</a> to resend confirmation email.'))
                 return redirect(url_for('login'))
             reset_failed_login()
             login_user(user, remember=form.remember_me.data)
@@ -59,13 +62,15 @@ def login():
             return redirect(next_page)
         # Logger.success(request.path)
         return render_template('login.html', title='Sign In', form=form)
-    except Exception as error:
+    except ValueError as error:
         print(error)
         # Logger.fail(request.path, error)
 
 def record_failed_login():
+    """Persist failed login"""
     session['last_login'] = time.time()
     session['login_attempts'] += 1
 
 def reset_failed_login():
+    """Reset persisted failed login"""
     session['login_attempts'] = 0

@@ -1,15 +1,16 @@
+"""Module represents the different forms"""
 import re
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, MultipleFileField, IntegerField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField
 from wtforms.fields.simple import HiddenField
-from wtforms.validators import NumberRange, ValidationError, DataRequired, Email, EqualTo
-from app.models.user import User
-from app import ALLOWED_EXTENSIONS
-from flask_wtf.file import FileField, FileAllowed, FileRequired
+from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
+from flask_wtf.file import FileField
 import pyotp
+from app.models.user import User
 
 class LoginForm(FlaskForm):
+    """Model represents the fields of the login form"""
     email = StringField('Email', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     totp = IntegerField('Generated OTP', validators=[DataRequired()])
@@ -17,6 +18,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Sign In') 
 
 class RegistrationForm(FlaskForm):
+    """Model represents the fields of the registration form"""
     first_name = StringField('First name', validators=[DataRequired()])
     surname = StringField('Surname', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -27,11 +29,13 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Register')
 
     def validate_username(self, username):
+        """Validate username"""
         user = User.query.filter_by(username=username.data).first()
         if user is not None:
             raise ValidationError('Please use a different username.')
 
     def validate_email(self, email):
+        """Validate email"""
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Please use a different email address.')
@@ -45,7 +49,9 @@ class RegistrationForm(FlaskForm):
                 1 symbol or more
                 1 uppercase letter or more
                 1 lowercase letter or more
-            Original Source: https://stackoverflow.com/questions/16709638/checking-the-strength-of-a-password-how-to-check-conditions#32542964
+            Original Source:
+            https://stackoverflow.com/questions/16709638
+            /checking-the-strength-of-a-password-how-to-check-conditions#32542964
         """
 
         # calculating the length
@@ -67,21 +73,25 @@ class RegistrationForm(FlaskForm):
         password_ok = not (length_error or digit_error or uppercase_error or lowercase_error or symbol_error)
 
         if not password_ok:
-            raise ValidationError('Password should be at least 8 characters in length and contain at least 1 digit, 1 symbol, 1 uppercase letter and 1 lowercase letter')
+            raise ValidationError(
+                'Password should be at least 8 characters in length and contain '
+                'at least 1 digit, 1 symbol, 1 uppercase letter and 1 lowercase letter')
 
     def validate_totp(self, totp):
+        """Validate totp"""
         if not pyotp.TOTP(self.secret.data).verify(totp.data):
             raise ValidationError('Please enter valid TOTP code.')
 
 
 class ThreatReportForm(FlaskForm):
+    """Model represents the fields of the threat form"""
     title = StringField('Title', validators=[DataRequired()])
     description = StringField('Description', validators=[DataRequired()])
     reproduce_steps = StringField('Steps', validators=[DataRequired()])
-    # files = MultipleFileField('Files', validators=[FileRequired(), FileAllowed(files, 'Image only!')])
     file = FileField('File')
 
 
 class ThreatCommentForm(FlaskForm):
+    """Model represents the fields of the threat comment form"""
     comment = StringField('Comment', validators=[DataRequired()])
     file = FileField('File')

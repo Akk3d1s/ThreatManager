@@ -1,9 +1,12 @@
-from flask import render_template, flash, redirect, url_for, Markup, request
+"""
+Module to handle the registration process for users.
+"""
+from flask import render_template, flash, redirect, url_for, Markup
 import pyotp
 from itsdangerous import SignatureExpired, BadSignature
+from flask_login import current_user
 from app import app, url_safe_timed_serializer, MAX_CONFIRMATION_WAITING_TIME, MAX_CONFIRMATION_RESEND_WAITING_TIME
 from app.forms import RegistrationForm
-from flask_login import current_user, login_user
 from app.helpers.mailer import Mailer
 from app.models.user import User
 
@@ -19,13 +22,17 @@ def register():
         secret = pyotp.random_base32()
         form = RegistrationForm(secret=secret)
         if form.validate_on_submit():
-            user = User(first_name=form.first_name.data, surname=form.surname.data, email=form.email.data, role_id=1, totp_secret=form.secret.data)
+            user = User(
+                first_name=form.first_name.data,
+                surname=form.surname.data,
+                email=form.email.data, role_id=1,
+                totp_secret=form.secret.data)
             user.set_password(form.password.data)
             handle_registration_submission(user)
             flash('secret from form', form.secret.data)
         return render_template('register.html', title='Register', form=form, secret=form.secret.data)
     except Exception as error:
-        flash('Something went wrong. Please contact support.')
+        flash(f'Something went wrong. Please contact support.{error}')
 
 
 @app.route('/confirm_account/<token>')
@@ -56,6 +63,7 @@ def confirm_account(token):
 
 @app.route('/resend_confirmation/<token>')
 def resend_confirmation(token):
+    """Handle resending of confirmation link"""
     try:
         email = url_safe_timed_serializer.loads(token, max_age=MAX_CONFIRMATION_RESEND_WAITING_TIME)
         user = User.query.filter_by(email=email).first()
@@ -71,6 +79,7 @@ def resend_confirmation(token):
 
 
 def handle_registration_submission(user):
+    """Send confirmation email"""
     user.save()
     token = url_safe_timed_serializer.dumps(user.email)
     Mailer.send_confirmation_mail(user.email, token)
