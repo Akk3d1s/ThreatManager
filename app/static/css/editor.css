@@ -36,22 +36,6 @@
     /* width: 12vw */
 }
 
-.LOW {
-    background-color: rgb(232, 244, 69);
-    border-radius: 8px;
-    padding: 4px;
-    width: max-content;
-    color: white;
-}
-
-.MEDIUM {
-    background-color: rgb(244, 192, 69);
-    border-radius: 8px;
-    padding: 4px;
-    width: max-content;
-    color: white;
-}
-
 .HIGH {
     background-color: rgb(244, 133, 69);
     border-radius: 8px;
@@ -68,28 +52,8 @@
     color: white;
 }
 
-.status1 {
-    color: rgb(97, 92, 28);
-}
-
-.status2 {
-    color: rgb(189, 180, 54);
-}
-
 .status3 {
     color: rgb(194, 53, 53);
-}
-
-.status4 {
-    color: rgb(69, 124, 244);
-}
-
-.status5 {
-    color: rgb(43, 143, 48);
-}
-
-.status6 {
-    color: rgb(50, 53, 50);
 }
 
 .serious {
@@ -124,14 +88,6 @@
     padding-left: 10px;
     align-items: center;
     justify-content: space-between;
-}
-
-.buttonsContainer {
-    display: inline-block;
-    /* justify-content: space-between; */
-    width: 100vw;
-    background: black;
-    height: 200px;
 }
 
 .chat {
@@ -294,11 +250,6 @@
     width: 70px;
     text-align: center;
     align-items: center;
-}
-
-#fileList2 {
-    min-height: 30px;
-    display: flex;
 }
 
 .downloadContainer {

@@ -1,6 +1,6 @@
 import pytest
 import pyotp
-from app import app, url_safe_timed_serializer, max_confirmation_waiting_time, max_confirmation_resend_waiting_time
+from app import app, url_safe_timed_serializer, MAX_CONFIRMATION_WAITING_TIME, MAX_CONFIRMATION_RESEND_WAITING_TIME
 from app.models.user import User
 from app.helpers.mailer import Mailer
 

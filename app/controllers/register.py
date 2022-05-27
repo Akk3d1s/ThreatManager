@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect, url_for, Markup, request
 import pyotp
 from itsdangerous import SignatureExpired, BadSignature
-from app import app, url_safe_timed_serializer, max_confirmation_waiting_time, max_confirmation_resend_waiting_time
+from app import app, url_safe_timed_serializer, MAX_CONFIRMATION_WAITING_TIME, MAX_CONFIRMATION_RESEND_WAITING_TIME
 from app.forms import RegistrationForm
 from flask_login import current_user, login_user
 from app.helpers.mailer import Mailer
@@ -32,7 +32,7 @@ def register():
 def confirm_account(token):
     """Activates the user if successful """
     try:
-        email = url_safe_timed_serializer.loads(token, max_age=max_confirmation_waiting_time)
+        email = url_safe_timed_serializer.loads(token, max_age=MAX_CONFIRMATION_WAITING_TIME)
         user = User.query.filter_by(email=email).first()
         if not user:
             flash('Invalid request')
@@ -57,7 +57,7 @@ def confirm_account(token):
 @app.route('/resend_confirmation/<token>')
 def resend_confirmation(token):
     try:
-        email = url_safe_timed_serializer.loads(token, max_age=max_confirmation_resend_waiting_time)
+        email = url_safe_timed_serializer.loads(token, max_age=MAX_CONFIRMATION_RESEND_WAITING_TIME)
         user = User.query.filter_by(email=email).first()
         if not user:
             flash('Link may have expired, please try to log in again')
