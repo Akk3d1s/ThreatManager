@@ -1,8 +1,10 @@
+"""Handle log persistence"""
 from datetime import datetime
 from app import db
 
 
 class ActionLog(db.Model):
+    """Model that represents the action_log table"""
     __tablename__ = 'action_log'
     id = db.Column(db.Integer, primary_key=True)
     route = db.Column(db.String(64))
@@ -11,10 +13,11 @@ class ActionLog(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
-        return 'user_id: {} action: {} '.format(self.user_id, self.action)
+        return f'user_id: {self.user_id} action: {self.action} '
 
 
 class ErrorLog(db.Model):
+    """Model that represents the error_log table"""
     __tablename__ = 'error_log'
     id = db.Column(db.Integer, primary_key=True)
     route = db.Column(db.String(64))
@@ -23,4 +26,4 @@ class ErrorLog(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
-        return 'user_id: {} error: {} '.format(self.user_id, self.error)
+        return f'user_id: {self.user_id} error: {self.error} '

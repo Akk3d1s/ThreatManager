@@ -1,3 +1,4 @@
+"""Helper file for generally used functionality"""
 from flask import flash
 from flask_login import current_user
 from app.models.threat import Threat
@@ -34,10 +35,12 @@ UNAUTHORIZED_THREAT_ACCESS = "Unauthorized Threat Access"
 
 
 class Authenticator:
+    """Authenticator class with static methods to help perform authentication checks"""
     @staticmethod
-    def role_access_check(requestPath):
-        leadingPath = requestPath.split("/")[1]
-        if current_user.role_id in PATH_ROLE_LIST[leadingPath]:
+    def role_access_check(request_path):
+        """Check if user has the role to access path"""
+        leading_path = request_path.split("/")[1]
+        if current_user.role_id in PATH_ROLE_LIST[leading_path]:
             return True
         flash(UNAUTHORIZED_ROUTE_ACCESS)
         return False
@@ -47,6 +50,7 @@ class Authenticator:
     # since a citizen can only access and comment on the threat related to herself/himself
     @staticmethod
     def citizen_access_check(threat_id):
+        """Check if the citizen has access to the threat"""
         if current_user.role_id == 1:
             if not current_user.id == Threat.query.filter_by(id=threat_id).first().user_id:
                 flash(UNAUTHORIZED_THREAT_ACCESS)

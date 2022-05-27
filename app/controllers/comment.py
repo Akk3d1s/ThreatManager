@@ -2,17 +2,17 @@
 This module is used for commenting and
 file upload functionality of the system.
 """
-from flask import flash, redirect, url_for, request
-from flask_login import login_required
-from app import ALLOWED_EXTENSIONS, ALLOWED_FILES_SIZE, app, db
-from app.forms import ThreatCommentForm
-from flask_login import current_user
-from app.models.comment import Comment
-from app.models.file import CommentFile
-from werkzeug.utils import secure_filename
 from os.path import join, dirname, realpath, basename
 from zipfile import ZipFile
 import os
+from flask import flash, redirect, url_for, request
+from flask_login import login_required
+from flask_login import current_user
+from werkzeug.utils import secure_filename
+from app import ALLOWED_EXTENSIONS, ALLOWED_FILES_SIZE, app, db
+from app.forms import ThreatCommentForm
+from app.models.comment import Comment
+from app.models.file import CommentFile
 from app.helpers.logger import Logger
 from app.helpers.id_validator import IdValidator
 from app.helpers.authenticator import Authenticator
@@ -91,15 +91,17 @@ def comment(threat_id=None):
             if request.files['file'].filename != '':
                 if not request_file_validation():
                     return redirect(url_for('threat'))
-            comment = Comment(comment=form.comment.data, user_id=current_user.id, threat_id=threat_id)
-            db.session.add(comment)
+            c = Comment(comment=form.comment.data,
+                              user_id=current_user.id,
+                              threat_id=threat_id)
+            db.session.add(c)
             db.session.commit()
             if request.files['file'].filename != '':
-                request_file_save_zip(comment.id)
+                request_file_save_zip(c.id)
             Logger.success(request.path)
             return redirect(url_for('threat'))
         flash('Empty Comment')
         return redirect(url_for('threat'))
-    except Exception as error:
+    except ValueError as error:
         Logger.fail(request.path, error)
         return redirect(url_for('threat'))

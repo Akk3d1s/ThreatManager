@@ -1,6 +1,7 @@
+"""handle passing logs to log module"""
 from flask import flash
 from flask_login import current_user
-from app import app, db
+from app import db
 from app.models.log import ActionLog, ErrorLog
 
 PATH_ACTION_LIST = {
@@ -43,18 +44,25 @@ PATH_ERROR_LIST = {
 
 
 class Logger:
+    """Handles passing success and failure logs to the correct models"""
     @staticmethod
     def success(request_path):
+        """Success logs are saved in the ActionLog"""
         leading_path = request_path.split("/")[1]
-        action_log = ActionLog(route=request_path, action=PATH_ACTION_LIST[leading_path], user_id=current_user.id)
+        action_log = ActionLog(route=request_path,
+                               action=PATH_ACTION_LIST[leading_path],
+                               user_id=current_user.id)
         db.session.add(action_log)
         db.session.commit()
         flash(PATH_ACTION_LIST[leading_path])
 
     @staticmethod
     def fail(request_path, error):
+        """Failure logs are saved in the ErrorLog"""
         leading_path = request_path.split("/")[1]
-        error_log = ErrorLog(route=request_path, error=str(error), user_id=current_user.id)
+        error_log = ErrorLog(route=request_path,
+                             error=str(error),
+                             user_id=current_user.id)
         db.session.add(error_log)
         db.session.commit()
         flash("Error Occurred in "+ PATH_ERROR_LIST[leading_path])
